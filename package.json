@@ -2,11 +2,12 @@
   "name": "IReact-UI",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/lib/index.js",
+  "types": "dist/lib/index",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server",
-    "build": "webpack"
+    "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.3",
     "awesome-typescript-loader": "^5.2.1",
+    "cross-env": "^6.0.3",
     "html-webpack-plugin": "^3.2.0",
     "typescript": "^3.6.4",
     "webpack": "^4.41.2",
