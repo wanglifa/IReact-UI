@@ -16,7 +16,8 @@
         "noImplicitAny": true,
         "importHelpers": true,
         "strictNullChecks": true,
-        "allowSyntheticDefaultImports": true,
+        // "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
         "noUnusedLocals": true
     },
     "include": [
