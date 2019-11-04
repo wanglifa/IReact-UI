@@ -44,15 +44,14 @@ jobs:
       - run: yarn ci
       - store_test_results:
           path: test-results
+
   publish:
     <<: *defaults
-    steps:
-      - attach_workspace:
-          at: .
-      - run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
-      - run: npm publish
-
-
+      steps:
+        - checkout
+        - attach_workspace:
+            at: .
+        - run: npm publish
 
 workflows:
   version: 2
@@ -65,3 +64,7 @@ workflows:
       - test:
           requires:
             - prepare
+
+      - publish:
+          requires:
+            - build
