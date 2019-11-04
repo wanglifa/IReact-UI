@@ -9,13 +9,3 @@ exports[`Icon render successfully 1`] = `
   />
 </svg>
 `;
-
-exports[`Icon 是个svg 1`] = `
-<svg
-  className="ireact-icon qq"
->
-  <use
-    xlinkHref="#alipay"
-  />
-</svg>
-`;
