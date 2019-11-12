@@ -7,7 +7,7 @@ interface Props {
   visible: boolean;
   title?: string;
   onClose: React.MouseEventHandler;
-  buttons: ReactElement[];
+  buttons?: ReactElement[];
   closeOnClickMask?: boolean;
 }
 const scopedClass = scopedClassMaker('ireact-dialog')
@@ -31,7 +31,7 @@ const Dialog: React.FunctionComponent<Props> = (props) => {
           {props.children}
         </main>
         <footer className={sc('footer')}>
-          {props.buttons.map((button, index) => {
+          {props.buttons && props.buttons.map((button, index) => {
             return React.cloneElement(button, {key: index})
           })}
         </footer>
@@ -46,4 +46,18 @@ const Dialog: React.FunctionComponent<Props> = (props) => {
 Dialog.defaultProps = {
   closeOnClickMask: false
 }
+const alert = (content: string) => {
+  const component = <Dialog visible={true} onClose={() => {
+    // 关闭的时候重新克隆一个componet组件，并且把克隆的这个visble设置为false，挂载到div上
+    ReactDOM.render(React.cloneElement(component, {visible: false}), div)
+    // 把div从页面上卸载
+    ReactDOM.unmountComponentAtNode(div)
+    // 删除div
+    div.remove()
+  }} title="提示">{content}</Dialog>
+  const div = document.createElement('div')
+  document.body.append(div)
+  ReactDOM.render(component, div)
+}
+export {alert};
 export default Dialog

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Dialog from './dialog';
+import Dialog, {alert} from './dialog';
 import Button from '../button/button'
 
 export default function () {
@@ -15,6 +15,7 @@ export default function () {
       } onClose={() => setX(false)}>
         小改改！
       </Dialog>
+      <Button onClick={() => alert('1') }>提示</Button>
     </div>
   );
 }
