@@ -4,7 +4,8 @@ import {scopedClassMaker} from '../classes';
 import './dialog.scss'
 interface Props {
   visible: boolean;
-  title?: string
+  title?: string;
+  onClick: React.MouseEventHandler
 }
 const scopedClass = scopedClassMaker('ireact-dialog')
 const sc = scopedClass
@@ -15,7 +16,7 @@ const Dialog: React.FunctionComponent<Props> = (props) => {
         <div className={sc('mask')}/>
         <div className={sc()}>
           <div className={sc('close')}>
-            <Icon name="close"/>
+            <Icon name="close" size="mini" onClick={() => props.onClick}/>
           </div>
           <header className={sc('header')}>
             {props.title ? props.title : '提示'}
