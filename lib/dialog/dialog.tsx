@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import {Icon} from '../index'
 import {scopedClassMaker} from '../classes';
 import './dialog.scss'
+import Button from '../button/button'
 interface Props {
   visible: boolean;
   title?: string;
@@ -25,8 +26,8 @@ const Dialog: React.FunctionComponent<Props> = (props) => {
             {props.children}
           </main>
           <footer className={sc('footer')}>
-            <button>ok</button>
-            <button>cancel</button>
+            <Button type="primary" size="mini">ok</Button>
+            <Button size="mini">cancel</Button>
           </footer>
         </div>
       </Fragment>

@@ -33,4 +33,10 @@
     padding: 12px 0;
     color: #666;
   }
+  &-footer {
+    text-align: right;
+    .ireact-button {
+      margin: 0 4px;
+    }
+  }
 }
