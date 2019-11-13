@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Dialog, {alert} from './dialog';
+import Dialog, {alert, confirm} from './dialog';
 import Button from '../button/button'
 
 export default function () {
@@ -16,6 +16,7 @@ export default function () {
         小改改！
       </Dialog>
       <Button onClick={() => alert('1') }>提示</Button>
+      <Button onClick={() => confirm('1',() => {console.log('success')}, () => {console.log('fail')}) }>提示</Button>
     </div>
   );
 }
