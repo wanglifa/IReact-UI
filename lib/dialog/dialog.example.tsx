@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
-import Dialog, {alert, confirm} from './dialog';
+import Dialog, {alert, confirm, modal} from './dialog';
 import Button from '../button/button'
 
 export default function () {
   const [x, setX] = useState(false);
+  const openModal = () => {
+    const close = modal(<h1>小改改<Button onClick={() => close()}>关闭</Button></h1>)
+  }
   return (
     <div>
       <button onClick={() => setX(!x)}>click</button>
@@ -16,6 +19,7 @@ export default function () {
         小改改！
       </Dialog>
       <Button onClick={() => alert('1') }>提示</Button>
+      <Button onClick={() => openModal() }>modal</Button>
       <Button onClick={() => confirm('1',() => {console.log('success')}, () => {console.log('fail')}) }>提示</Button>
     </div>
   );
