@@ -30,12 +30,12 @@ const LayoutExample: React.FunctionComponent = () => {
       <div>
         <h1>第三个例子</h1>
         <Layout style={{height: 500}} className="hi">
-          <Header>header</Header>
+          <Aside>aside</Aside>
           <Layout>
+            <Header>header</Header>
             <Content>content</Content>
-            <Aside>aside</Aside>
+            <Footer>footer</Footer>
           </Layout>
-          <Footer>footer</Footer>
         </Layout>
       </div>
     </div>

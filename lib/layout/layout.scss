@@ -2,6 +2,12 @@
   display: flex;
   border: 1px solid red;
   flex-direction: column;
+  &.hasAside {
+    flex-direction: row;
+    .ireact-layout {
+      flex-direction: column;
+    }
+  }
   &-content {
     flex-grow: 1;
     border: 1px solid green;
