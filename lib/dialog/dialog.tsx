@@ -1,7 +1,7 @@
 import React, {Fragment, ReactElement, ReactNode} from 'react';
 import ReactDOM from 'react-dom'
 import {Icon} from '../index'
-import {scopedClassMaker} from '../classes';
+import {scopedClassMaker} from '../helpers/classes';
 import Button from '../button/button'
 import './dialog.scss'
 interface Props {
@@ -21,7 +21,7 @@ const Dialog: React.FunctionComponent<Props> = (props) => {
           props.onClose(e)
         }
       }}/>
-      <div className={sc()}>
+      <div className={sc({'': true})}>
         <div className={sc('close')}>
           <Icon name="close" size="mini" onClick={props.onClose}/>
         </div>
