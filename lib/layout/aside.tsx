@@ -1,9 +1,13 @@
 import React from 'react'
 import {scopedClassMaker} from '../helpers/classes';
 const sc = scopedClassMaker('ireact-layout')
-const Aside: React.FunctionComponent = () => {
+interface Props extends React.HTMLAttributes<HTMLElement>{
+
+}
+const Aside: React.FunctionComponent<Props> = (props) => {
+  const { className } = props
   return (
-    <div className={sc('aside')}>aside</div>
+    <div className={sc('aside', {extra: className})}>aside</div>
   )
 }
 

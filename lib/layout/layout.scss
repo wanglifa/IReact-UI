@@ -1,20 +1,32 @@
 .ireact-layout {
   display: flex;
-  border: 1px solid red;
   flex-direction: column;
-  &.hasAside {
+  text-align: center;
+  color: #fff;
+  &-header {
+    line-height: 56px;
+    background: #56cdff;
+  }
+  &-content {
+    flex-grow: 1;
+    line-height: 120px;
+    background: #78d7ff;
+  }
+  &-footer {
+    line-height: 56px;
+    background: #56cdff;
+  }
+  &-aside {
+    background: #34c3ff;
+  }
+  & & {
+    flex-grow: 1;
+    flex-direction: row;
+  }
+  &-hasAside {
     flex-direction: row;
     .ireact-layout {
       flex-direction: column;
     }
-  }
-  &-content {
-    flex-grow: 1;
-    border: 1px solid green;
-  }
-  & & {
-    flex-grow: 1;
-    border: 1px solid blue;
-    flex-direction: row;
   }
 }
