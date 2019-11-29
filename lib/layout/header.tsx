@@ -3,9 +3,16 @@ import {scopedClassMaker} from '../helpers/classes';
 
 const sc = scopedClassMaker('ireact-layout')
 
-const Header: React.FunctionComponent = () => {
+interface Props extends React.HTMLAttributes<HTMLElement>{
+
+}
+
+const Header: React.FunctionComponent<Props> = (props) => {
+  const { className, ...rest } = props
   return (
-    <div className={sc('header')}>header</div>
+    <div className={sc('header', {extra: className})} {...rest}>
+      {props.children}
+    </div>
   )
 }
 
