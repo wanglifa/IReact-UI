@@ -5,17 +5,21 @@ import IconExample from './lib/icon/icon.example';
 import DialogExample from './lib/dialog/dialog.example'
 import ButtonExample from './lib/button/button.example';
 import LayoutExample from './lib/layout/layout.example';
+import './example.scss'
+import {Layout, Aside, Header, Content, Footer} from './lib/layout/layout'
+const logo = require('./logo.png')
 
 ReactDOM.render(
   <Router>
-    <div>
-      <header>
+    <Layout className="page">
+      <Header>
         <div className="logo">
+          <img src={logo} alt=""/>
           IReact-UI
         </div>
-      </header>
-      <div>
-        <aside>
+      </Header>
+      <Layout>
+        <Aside style={{border: '1px solid green'}}>
           <h2>组件</h2>
           <ul>
             <li>
@@ -31,15 +35,18 @@ ReactDOM.render(
               <Link to="/layout">layout</Link>
             </li>
           </ul>
-        </aside>
-        <main>
+        </Aside>
+        <Content>
           <Route path="/icon" component={IconExample}></Route>
           <Route path="/button" component={ButtonExample}></Route>
           <Route path="/dialog" component={DialogExample}></Route>
           <Route path="/layout" component={LayoutExample}></Route>
-        </main>
-      </div>
-    </div>
+        </Content>
+      </Layout>
+      <Footer style={{border: '1px solid black'}}>
+        footer
+      </Footer>
+    </Layout>
   </Router>,
   document.querySelector('#root')
 );
