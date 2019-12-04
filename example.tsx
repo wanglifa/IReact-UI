@@ -23,16 +23,16 @@ ReactDOM.render(
           <h2>组件</h2>
           <ul>
             <li>
-              <NavLink to="/icon">Icon</NavLink>
+              <NavLink to="/icon">Icon 图标</NavLink>
             </li>
             <li>
-              <NavLink to="/button">Button</NavLink>
+              <NavLink to="/button">Button 按钮</NavLink>
             </li>
             <li>
-              <NavLink to="/dialog">对话框</NavLink>
+              <NavLink to="/dialog">dialog 对话框</NavLink>
             </li>
             <li>
-              <NavLink to="/layout">布局</NavLink>
+              <NavLink to="/layout">layout 布局</NavLink>
             </li>
           </ul>
         </Aside>
