@@ -4,13 +4,13 @@
   &-content {
     flex-grow: 1;
   }
-  & & {
+  >.ireact-layout {
     flex-grow: 1;
     flex-direction: row;
   }
   &-hasAside {
     flex-direction: row;
-    .ireact-layout {
+    >.ireact-layout {
       flex-direction: column;
     }
   }
