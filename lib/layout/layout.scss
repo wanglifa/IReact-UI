@@ -1,23 +1,8 @@
 .ireact-layout {
   display: flex;
   flex-direction: column;
-  text-align: center;
-  color: #fff;
-  &-header {
-    line-height: 56px;
-    background: #56cdff;
-  }
   &-content {
     flex-grow: 1;
-    line-height: 120px;
-    background: #78d7ff;
-  }
-  &-footer {
-    line-height: 56px;
-    background: #56cdff;
-  }
-  &-aside {
-    background: #34c3ff;
   }
   & & {
     flex-grow: 1;

@@ -12,30 +12,41 @@ const LayoutExample: React.FunctionComponent = () => {
       <div>
         <h1>第一个例子</h1>
         <Layout className="hi">
-          <Header>header</Header>
-          <Content>content</Content>
-          <Footer>footer</Footer>
+          <Header className="x">header</Header>
+          <Content className="y">content</Content>
+          <Footer className="x">footer</Footer>
         </Layout>
       </div>
       <div>
         <h1>第二个例子</h1>
         <Layout className="hi">
-          <Header>header</Header>
+          <Header className="x">header</Header>
           <Layout>
-            <Aside className="other">aside</Aside>
-            <Content>content</Content>
+            <Aside className="z">aside</Aside>
+            <Content className="y">content</Content>
           </Layout>
-          <Footer>footer</Footer>
+          <Footer className="x">footer</Footer>
         </Layout>
       </div>
       <div>
         <h1>第三个例子</h1>
-        <Layout className="hi">
-          <Aside className="other2">aside</Aside>
+        <Layout>
+          <Header className="x">header</Header>
           <Layout>
-            <Header>header</Header>
-            <Content>content</Content>
-            <Footer>footer</Footer>
+            <Content className="y">content</Content>
+            <Aside className="z">aside</Aside>
+          </Layout>
+          <Footer className="x">footer</Footer>
+        </Layout>
+      </div>
+      <div>
+        <h1>第四个例子</h1>
+        <Layout className="hi">
+          <Aside className="z">aside</Aside>
+          <Layout>
+            <Header className="x">header</Header>
+            <Content className="y">content</Content>
+            <Footer className="x">footer</Footer>
           </Layout>
         </Layout>
       </div>

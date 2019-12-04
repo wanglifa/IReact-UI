@@ -11,42 +11,41 @@ const logo = require('./logo.png')
 
 ReactDOM.render(
   <Router>
-    <Layout className="page">
-      <Header>
+    <Layout className="site-page">
+      <Header className="site-header">
         <div className="logo">
-          <img src={logo} alt=""/>
-          IReact-UI
+          <img src={logo.default} width="30" alt=""/>
+          <span>IReact-UI</span>
         </div>
       </Header>
       <Layout>
-        <Aside style={{border: '1px solid green'}}>
+        <Aside className="site-aside">
           <h2>组件</h2>
           <ul>
             <li>
               <Link to="/icon">Icon</Link>
             </li>
             <li>
-              <Link to="/button">button</Link>
+              <Link to="/button">Button</Link>
             </li>
             <li>
-              <Link to="/dialog">dialog</Link>
+              <Link to="/dialog">对话框</Link>
             </li>
             <li>
-              <Link to="/layout">layout</Link>
+              <Link to="/layout">布局</Link>
             </li>
           </ul>
         </Aside>
-        <Content>
-          <Route path="/icon" component={IconExample}></Route>
-          <Route path="/button" component={ButtonExample}></Route>
-          <Route path="/dialog" component={DialogExample}></Route>
-          <Route path="/layout" component={LayoutExample}></Route>
+        <Content className="site-main">
+          <Route path="/icon" component={IconExample}/>
+          <Route path="/button" component={ButtonExample}/>
+          <Route path="/dialog" component={DialogExample}/>
+          <Route path="/layout" component={LayoutExample}/>
         </Content>
       </Layout>
-      <Footer style={{border: '1px solid black'}}>
-        footer
+      <Footer className="site-footer">
+        &copy; 王立发
       </Footer>
     </Layout>
-  </Router>,
-  document.querySelector('#root')
-);
+  </Router>
+  , document.querySelector('#root'));

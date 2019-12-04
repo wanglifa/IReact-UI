@@ -1,8 +1,76 @@
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+* {margin: 0;padding: 0; box-sizing: border-box;}
+*::before {box-sizing: border-box;}
+*::after {box-sizing: border-box;}
+ul, ol {list-style: none;}
+h1, h2, h3, h4, h5, h6 {font-weight: normal;}
+a { text-decoration: none; color: inherit; }
+pre {
+  font-family: "Fira Code Medium", Consolas, monospace;
 }
-*::after{box-sizing: border-box}
-*::before{box-sizing: border-box}
-h1,h2,h3,h4,h5,h6 {font-weight: normal;}
+$padding: 16px;
+$main-color: #34c3ff;
+$border-color: #eee;
+$font-one: #999;
+body {
+  font-size: 16px;
+}
+.site-page {
+  background: #ffffff;
+  min-height: 100vh;
+}
+.site-main {
+  padding-top: 16px;
+}
+.site-header {
+  background: #202225;
+  padding: 8px 0;
+  .logo {
+    padding: 0 $padding;
+    display: flex;
+    align-items: center;
+    > img {margin-right: 8px;}
+    > span {
+      color: #fff;
+      font-size: 32px;
+    }
+  }
+}
+.site-aside {
+  background: #2f3136;
+  margin-right: 16px;
+  h2 {
+    padding: $padding;
+    font-size: 18px;
+    color: $font-one;
+  }
+  ul {
+    min-width: 16em;
+    padding-left: 1em;
+    > li {
+      margin-top: 6px;
+      a {
+        color: #fff;
+        display: block;
+        padding: 8px 12px;
+        font-size: 14px;
+        &:hover {
+          background: #42464e!important;
+        }
+        &.active {
+          color: $main-color;
+          background: $main-color;
+        }
+      }
+    }
+  }
+}
+.site-footer {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  padding: 16px 0;
+  border-top: 1px solid $border-color;
+}
+.example {
+  padding: 16px 0;
+}
