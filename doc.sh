@@ -4,5 +4,5 @@ git checkout gh-pages
 mv -f dco/* ./
 git add .
 git commit -m 'update'
-git push
+git push origin gh-pages
 git checkout master
