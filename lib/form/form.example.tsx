@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Form from './form'
-import {useState} from "react";
+import {Fragment, useState} from "react";
 
 const FormExample:React.FunctionComponent = () => {
   const [formData] = useState({
@@ -13,7 +13,14 @@ const FormExample:React.FunctionComponent = () => {
   ])
   return (
     <div>
-      <Form value={formData} fields={fields}></Form>
+      <Form value={formData} fields={fields}
+        buttons={
+          <Fragment>
+            <button type="submit">提交</button>
+            <button>返回</button>
+          </Fragment>
+        }
+      ></Form>
     </div>
   )
 }
