@@ -1,5 +1,9 @@
 import * as React from 'react'
+import './form.scss'
 import {ReactFragment} from "react";
+import {scopedClassMaker} from '../helpers/classes';
+const scopedClass = scopedClassMaker('ireact-form')
+const sc = scopedClass
 export interface FormValue {
   [k: string]: any
 }
@@ -9,6 +13,7 @@ interface Props {
   buttons: ReactFragment;
   onSubmit: React.FormEventHandler;
   onChange: (value: FormValue) => void;
+  errors: {[k: string]: string[]}
 }
 const Form:React.FunctionComponent<Props> = (props) => {
   const formData = props.value
@@ -23,11 +28,16 @@ const Form:React.FunctionComponent<Props> = (props) => {
   return (
     <form onSubmit={onSubmit}>
       {props.fields.map(f =>
-        <div key={f.name}>
-          {f.label}
-          <input type={f.input.type} value={formData[f.name]}
-            onChange={(e) => onInputChange(f.name, e.target.value)}
-          />
+        <div key={f.name} className={sc('item')}>
+          <div className={sc('label')}>{f.label}</div>
+          <div className={sc('inputMain')}>
+            <input type={f.input.type} value={formData[f.name]}
+                   onChange={(e) => onInputChange(f.name, e.target.value)}
+            />
+            <div className={sc('error')}>
+              {props.errors[f.name]}
+            </div>
+          </div>
         </div>
       )}
       <div>

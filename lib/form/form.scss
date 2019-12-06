@@ -1,0 +1,25 @@
+@import "../index";
+.ireact-form {
+  &-item {
+    display: flex;
+    align-items: flex-start;
+  }
+  &-label {
+    text-align: right;
+    width: 60px;
+  }
+  &-error {
+    height: 24px;
+    line-height: 24px;
+    color: red;
+    font-size: 12px;
+  }
+  &-inputMain {
+    input {
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      line-height: 24px;
+      outline: none;
+    }
+  }
+}
