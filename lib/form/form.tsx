@@ -2,6 +2,7 @@ import * as React from 'react'
 import './form.scss'
 import {ReactFragment} from "react";
 import {scopedClassMaker} from '../helpers/classes';
+import Input from "../input/input";
 const scopedClass = scopedClassMaker('ireact-form')
 const sc = scopedClass
 export interface FormValue {
@@ -31,7 +32,7 @@ const Form:React.FunctionComponent<Props> = (props) => {
         <div key={f.name} className={sc('item')}>
           <div className={sc('label')}>{f.label}</div>
           <div className={sc('inputMain')}>
-            <input type={f.input.type} value={formData[f.name]}
+            <Input type={f.input.type} value={formData[f.name]}
                    onChange={(e) => onInputChange(f.name, e.target.value)}
             />
             <div className={sc('error')}>

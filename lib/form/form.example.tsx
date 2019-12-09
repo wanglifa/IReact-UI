@@ -20,7 +20,6 @@ const FormExample:React.FunctionComponent = () => {
       {key: 'username', pattern: /[A-za-z0-9]/}
     ]
     const errors = Validator(formData, rules)
-    console.log(errors)
     setErrors(errors)
   }
   return (
