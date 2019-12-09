@@ -1,25 +1,16 @@
 @import "../index";
 .ireact-form {
-  &-item {
-    display: flex;
-    align-items: flex-start;
+  &-row {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    &:first-child {
+      margin-top: 0;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
   &-label {
     text-align: right;
-    width: 60px;
-  }
-  &-error {
-    height: 24px;
-    line-height: 24px;
-    color: red;
-    font-size: 12px;
-  }
-  &-inputMain {
-    input {
-      border: 1px solid #ddd;
-      border-radius: 3px;
-      line-height: 24px;
-      outline: none;
-    }
   }
 }
