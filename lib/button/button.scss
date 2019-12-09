@@ -1,10 +1,13 @@
 .ireact-button {
+  + .ireact-button {
+    margin-left: 12px;
+  }
   color: #575757;
   background: #f7f7fa;
   cursor: pointer;
   outline: 0!important;
   white-space: nowrap;
-  border: none;
+  border: 1px solid #f7f7fa;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -26,12 +29,15 @@
   &:hover {
     color: #575757;
     background-color: #e5e5ea;
+    border-color: #e5e5ea;
   }
   &-primary {
     background: #34c3ff;
     color: #fff;
+    border: 1px solid #34c3ff;
     &:hover {
       background-color: #2eabdf;
+      border-color: #2eabdf;
       color: #fff;
     }
   }
@@ -49,6 +55,7 @@
   &-success {
     background: #4caf50;
     color: #fff;
+    border: 1px solid #4caf50;
     &:hover {
       background-color: #4caf50;
       color: #fff;
@@ -57,6 +64,7 @@
   &-warning {
     background: #ff9800;
     color: #fff;
+    border-color: #ff9800;
     &:hover {
       background: #ff9800;
       color: #fff;
@@ -65,6 +73,7 @@
   &-danger {
     background: #f44336;
     color: #fff;
+    border-color: #f44336;
     &:hover {
       background: #f44336;
       color: #fff;
