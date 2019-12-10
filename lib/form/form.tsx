@@ -34,8 +34,7 @@ const Form:React.FunctionComponent<Props> = (props) => {
       maxLength: '字符长度过长',
       pattern: '格式不正确'
     }
-    console.log(error, 'error')
-    return props.transformError!(error) || map[error]
+    return props.transformError && props.transformError(error) || map[error]
   }
   return (
     <form onSubmit={onSubmit}>

@@ -69,7 +69,6 @@ const Validator = (formValue: FormValue, rules: FormRules, callback: (errors: Fo
   const promiseList = flat(Object.values(errors))
     .filter(item => item.promise)
     .map(item => item.promise)
-  console.log(promiseList)
   Promise.all(promiseList).then(() => {
     const newErrors = fromEntries(Object.keys(errors).map(key =>
       [key, errors[key].map((item: OneError) => item.message)]
