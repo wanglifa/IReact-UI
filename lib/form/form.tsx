@@ -14,7 +14,8 @@ interface Props {
   buttons: ReactFragment;
   onSubmit: React.FormEventHandler;
   onChange: (value: FormValue) => void;
-  errors: {[k: string]: string[]}
+  errors: {[k: string]: string[]};
+  transformError?: (error: string) => string;
 }
 const Form:React.FunctionComponent<Props> = (props) => {
   const formData = props.value
@@ -25,6 +26,16 @@ const Form:React.FunctionComponent<Props> = (props) => {
   const onInputChange = (name: string, value: string) => {
     const newFormData = {...props.value, [name]: value}
     props.onChange(newFormData)
+  }
+  const transformError = (error: string): string => {
+    const map: {[key: string]: string} = {
+      required: '必填',
+      minLength: '字符长度过短',
+      maxLength: '字符长度过长',
+      pattern: '格式不正确'
+    }
+    console.log(error, 'error')
+    return props.transformError!(error) || map[error]
   }
   return (
     <form onSubmit={onSubmit}>
@@ -44,7 +55,7 @@ const Form:React.FunctionComponent<Props> = (props) => {
               <div className={sc('error')}>
                 {
                   props.errors[f.name] ?
-                  props.errors[f.name][0] :
+                  transformError!(props.errors[f.name][0]) :
                   <span>&nbsp;</span>
                 }
               </div>
@@ -60,4 +71,5 @@ const Form:React.FunctionComponent<Props> = (props) => {
     </form>
   )
 }
+
 export default Form

@@ -29,13 +29,11 @@ const FormExample:React.FunctionComponent = () => {
     console.log('aaa')
     const rules = [
       {key: 'username', required: true},
-      {key: 'username', minLength: 8, maxLength: 16},
       {
         key: 'username',
         validator: {
-          name: 'username',
+          name: 'unique',
           validate(username: string): Promise<void> {
-            console.log(1)
             return new Promise((resolve, reject) => {
               checkUserName(username, resolve, reject)
             })
@@ -51,6 +49,12 @@ const FormExample:React.FunctionComponent = () => {
     })
     // setErrors(errors)
   }
+  const tranformError = (message: string) => {
+    const map: {[key: string]: string} = {
+      unique: '用户名已存在'
+    }
+    return map[message]
+  }
   return (
     <div>
       <Form value={formData} fields={fields}
@@ -61,6 +65,7 @@ const FormExample:React.FunctionComponent = () => {
           </Fragment>
         }
         onSubmit={onSubmit}
+        transformError={tranformError}
         onChange={(value) => setFormData(value)}
         errors={errors}
       />
