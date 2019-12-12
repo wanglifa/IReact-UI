@@ -7,7 +7,9 @@
   &-panel {
     &-active {
       .ireact-collapse-panel-content {
-        animation: myOne 1s forwards;
+        height: auto;
+        transition: all .3s;
+        padding: 16px;
       }
       .ireact-collapse-panel-icon {
         transform: rotate(90deg);
@@ -51,22 +53,12 @@
       color: rgba(0,0,0,0.65);
       background-color: #fff;
       border: 1px solid #d9d9d9;
-      padding: 16px;
-      display: none;
-      transition: display .3s, height .3s;
+      padding: 0 16px;
+      transition: all .3s;
       height: 0;
       p {
         font-size: 14px;
       }
     }
-  }
-}
-@keyframes myOne {
-  0% {
-    display: none;
-  }
-  100% {
-    height: auto;
-    display: block;
   }
 }
