@@ -8,7 +8,7 @@ function callback(key: string[]) {
 const CollapseExample: React.FunctionComponent = () => {
   return (
     <div>
-      <Collapse activeName={['1']} onChange={callback}>
+      <Collapse activeName={['1']} onChange={callback} multiple>
         <Panel header="我爱美女" name="1">
           {text}
         </Panel>
