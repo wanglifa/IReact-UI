@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {HashRouter as Router, Route, NavLink} from 'react-router-dom';
-import IconDemo from './lib/icon/icon.demo';
-import DialogExample from './lib/dialog/dialog.example'
-import ButtonExample from './lib/button/button.example';
+import IconDemo from './lib/icon/demo/icon.demo';
+import ButtonDemo from './lib/button/demo/button.demo';
 import LayoutExample from './lib/layout/layout.example';
 import './example.scss'
 import {Layout, Aside, Header, Content, Footer} from './lib/layout/layout'
 import FormExample from "./lib/form/form.example";
 import CollapseExample from "./lib/collapse/collapse.example";
+import DialogDemo from "./lib/dialog/demo/dialog.demo";
 const logo = require('./logo.png')
 
 ReactDOM.render(
@@ -46,8 +46,8 @@ ReactDOM.render(
         </Aside>
         <Content className="site-main">
           <Route path="/icon" component={IconDemo}/>
-          <Route path="/button" component={ButtonExample}/>
-          <Route path="/dialog" component={DialogExample}/>
+          <Route path="/button" component={ButtonDemo}/>
+          <Route path="/dialog" component={DialogDemo}/>
           <Route path="/layout" component={LayoutExample}/>
           <Route path="/form" component={FormExample}/>
           <Route path="/collapse" component={CollapseExample}/>

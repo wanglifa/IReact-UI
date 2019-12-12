@@ -1,0 +1,84 @@
+.example {
+  margin: 20px auto;
+  > .container {
+    padding: 40px 32px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-bottom: none;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    .xxx .ireact-icon {
+      margin-right: 8px;
+    }
+    .row {
+      margin-bottom: 8px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+.code-example-box {
+  &.code-example-active {
+    .code-example {
+      padding-top: 18px;
+      padding-bottom: 18px;
+      height: 100%;
+      transition: all .3s linear;
+    }
+  }
+  position: relative;
+  > .code-title {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #fff;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.85);
+    position: absolute;
+    top: -11px;
+    left: 32px;
+    line-height: 22px;
+    z-index: 1;
+    padding: 0 8px;
+    cursor: default;
+    border-radius: 4px;
+  }
+  > .code-description {
+    padding: 18px 42px 18px 32px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    color: rgba(0, 0, 0, 0.65);
+    position: relative;
+    font-size: 14px;
+    line-height: 22px;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    .icon-wrapper {
+      color: rgba(0, 0, 0, 0.45);
+      display: inline-flex;
+      justify-content: center;
+      align-content: center;
+      cursor: pointer;
+      position: absolute;
+      bottom: 18px;
+      right: 12px;
+      font-size: .8em;
+    }
+  }
+  .code-example {
+    background-color: #282828;
+    color: #d4d4d4;
+    font-size: 16px;
+    line-height: 30px;
+    font-weight: 500;
+    padding: 0 32px;
+    height: 0;
+    overflow: hidden;
+    transition: all .3s linear;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+}

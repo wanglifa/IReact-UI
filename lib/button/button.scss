@@ -23,8 +23,8 @@
   .ireact-icon {
     width: 1.4em;
     height: 1.4em;
-    margin-right: 6px;
     fill: #fff;
+    margin-right: 4px;
   }
   &:hover {
     color: #575757;
@@ -46,6 +46,9 @@
     background-color: transparent;
     transition: color .2s linear,background-color .3s linear;
     border: 1px solid #34c3ff;
+    .ireact-icon {
+      fill: #34c3ff;
+    }
     &:hover {
       color: #2eabdf;
       border-color: #2eabdf;
@@ -87,5 +90,9 @@
   }
   &-mini {
     padding: 4px 8px;
+    .ireact-icon {
+      width: .8em;
+      height: .8em;
+    }
   }
 }

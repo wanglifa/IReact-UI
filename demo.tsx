@@ -1,9 +1,15 @@
 import * as React from 'react';
 import Highlight, {defaultProps} from "prism-react-renderer";
 import {useState} from "react";
-import Button from './lib/button/button'
+import {scopedClassMaker} from './lib/helpers/classes';
+const scopedClass = scopedClassMaker('code-example')
+const sc = scopedClass
+import Icon from "./lib/icon/icon";
+import './demo.scss';
 interface Props {
-  code: string
+  code: string;
+  title: string;
+  description: string;
 }
 const Demo: React.FunctionComponent<Props> = (props) => {
   const [codeVisible, setCodeVisible] = useState(false)
@@ -23,11 +29,21 @@ const Demo: React.FunctionComponent<Props> = (props) => {
   return (
     <div>
       <div className="example">
-        {props.children}
-      </div>
-      <div>
-        <Button onClick={() => setCodeVisible(!codeVisible)} type="primary" size="mini">查看代码</Button>
-        {codeVisible && code}
+        <div className="container">
+          {props.children}
+        </div>
+        <div className={sc({'box': true, 'active': codeVisible})}>
+          <div className="code-title">{props.title}</div>
+          <div className="code-description">
+            {props.description}
+            <span className="icon-wrapper" onClick={() => setCodeVisible(!codeVisible)}>
+              <Icon name="code" size="mini"/>
+            </span>
+          </div>
+          <div className="code-example">
+            {codeVisible && code}
+          </div>
+        </div>
       </div>
     </div>
   )
