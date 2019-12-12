@@ -7,10 +7,7 @@
   &-panel {
     &-active {
       .ireact-collapse-panel-content {
-        display: block;
-        height: 100%;
         animation: myOne 1s forwards;
-
       }
       .ireact-collapse-panel-icon {
         transform: rotate(90deg);
