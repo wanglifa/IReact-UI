@@ -19,25 +19,31 @@ body {
   min-height: 100vh;
 }
 .site-main {
-  padding-top: 16px;
+  padding: 40px;
 }
 .site-header {
-  background: #202225;
-  padding: 8px 0;
+  padding: 12px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   .logo {
     padding: 0 $padding;
     display: flex;
     align-items: center;
     > img {margin-right: 8px;}
     > span {
-      color: #fff;
-      font-size: 24px;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 28px;
+      color: rgba(0, 0, 0, 0.65);
     }
   }
 }
 .site-aside {
-  background: #2f3136;
-  margin-right: 16px;
+  width: 275px;
+  flex-shrink: 0;
+  margin-top: 40px;
+  position: relative;
+  padding-bottom: 200px;
+  border-right: 1px solid rgba(0, 0, 0, 0.15);;
   h2 {
     padding: $padding;
     font-size: 18px;
@@ -49,12 +55,13 @@ body {
     > li {
       margin-top: 6px;
       a {
-        color: #fff;
+        color: rgba(0, 0, 0, 0.65);
         display: block;
         padding: 8px 12px;
         font-size: 14px;
         &:hover {
-          background: #42464e!important;
+          background-color: #e6f7ff;
+          color: $main-color;
         }
         &.active {
           color: $main-color;
@@ -66,9 +73,9 @@ body {
 .site-footer {
   text-align: center;
   font-size: 12px;
-  color: #666;
+  background-color: #34383b;
+  color: #fff;
   padding: 16px 0;
-  border-top: 1px solid $border-color;
 }
 .example {
   padding: 16px 0;

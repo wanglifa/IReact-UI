@@ -12,7 +12,6 @@ const FormExample:React.FunctionComponent = () => {
   const userName = ['lifa', 'yitong', 'meinv']
   const checkUserName = (username: string, success: () => void, fail: () => void) => {
     setTimeout(() => {
-      console.log(2)
       if (userName.indexOf(username) >= 0) {
         success()
       } else {

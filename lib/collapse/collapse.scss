@@ -1,0 +1,44 @@
+.ireact-collapse {
+  &-wrapper {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  &-panel {
+    &-active {
+      .ireact-collapse-panel-content {
+        display: block;
+      }
+    }
+    &-header {
+      background-color: #fafafa;
+      border: 1px solid #d9d9d9;
+      border-bottom: 0;
+      border-radius: 4px 4px 0 0;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: 12px 18px;
+      font-size: 14px;
+      color: rgba(0,0,0,0.85);
+      .ireact-icon {
+        width: 0.8em;
+      }
+      &-text {
+        padding-left: 12px;
+      }
+    }
+    &-content {
+      overflow: hidden;
+      color: rgba(0,0,0,0.65);
+      background-color: #fff;
+      border: 1px solid #d9d9d9;
+      padding: 16px;
+      display: none;
+      p {
+        font-size: 14px;
+      }
+    }
+  }
+
+}

@@ -8,6 +8,7 @@ import LayoutExample from './lib/layout/layout.example';
 import './example.scss'
 import {Layout, Aside, Header, Content, Footer} from './lib/layout/layout'
 import FormExample from "./lib/form/form.example";
+import CollapseExample from "./lib/collapse/collapse.example";
 const logo = require('./logo.png')
 
 ReactDOM.render(
@@ -15,7 +16,7 @@ ReactDOM.render(
     <Layout className="site-page">
       <Header className="site-header">
         <div className="logo">
-          <img src={logo.default} width="30" alt=""/>
+          <img src={logo.default} width="26" alt=""/>
           <span>IReact-UI</span>
         </div>
       </Header>
@@ -38,6 +39,9 @@ ReactDOM.render(
             <li>
               <NavLink to="/form">form 表单</NavLink>
             </li>
+            <li>
+              <NavLink to="/collapse">collapse 折叠面板</NavLink>
+            </li>
           </ul>
         </Aside>
         <Content className="site-main">
@@ -46,6 +50,7 @@ ReactDOM.render(
           <Route path="/dialog" component={DialogExample}/>
           <Route path="/layout" component={LayoutExample}/>
           <Route path="/form" component={FormExample}/>
+          <Route path="/collapse" component={CollapseExample}/>
         </Content>
       </Layout>
       <Footer className="site-footer">
