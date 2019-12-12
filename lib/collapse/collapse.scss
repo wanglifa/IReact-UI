@@ -9,7 +9,8 @@
       .ireact-collapse-panel-content {
         display: block;
         height: 100%;
-        transition: display .3s, height .3s;
+        animation: myOne 1s forwards;
+
       }
       .ireact-collapse-panel-icon {
         transform: rotate(90deg);
@@ -17,8 +18,10 @@
       }
     }
     &-disabled {
-      cursor: not-allowed;
       .ireact-collapse-panel {
+        &-header {
+          cursor: not-allowed;
+        }
         &-header-text {
           color: rgba(0,0,0,0.25);
         }
@@ -38,6 +41,7 @@
       padding: 12px 18px;
       font-size: 14px;
       color: rgba(0,0,0,0.85);
+      cursor: pointer;
       .ireact-icon {
         width: 0.8em;
       }
@@ -65,6 +69,7 @@
     display: none;
   }
   100% {
+    height: auto;
     display: block;
   }
 }
