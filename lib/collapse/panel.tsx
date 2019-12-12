@@ -9,15 +9,18 @@ export interface PanelProp {
   name: string;
   active?: boolean;
   onClick?: (name: string) => void;
+  disabled?: boolean;
 }
 const Panel: React.FunctionComponent<PanelProp> = (props) => {
   const onClick = () => {
-    props.onClick!(props.name)
+    if (!props.disabled) {
+      props.onClick!(props.name)
+    }
   }
   return (
-    <div className={sc({'active': props.active!}, {extra: 'wrapper'})}>
+    <div className={sc({'active': props.active!, 'disabled': props.disabled!}, {extra: 'wrapper'})}>
       <div className={sc('header')} onClick={onClick}>
-        {props.active ? <Icon name="bottom" size="mini"/> : <Icon name="right" size="mini"/>}
+        <Icon name="right" size="mini" className={sc('icon')}/>
         <div className={sc('header-text')}>
           {props.header}
         </div>
@@ -29,5 +32,8 @@ const Panel: React.FunctionComponent<PanelProp> = (props) => {
       </div>
     </div>
   );
+}
+Panel.defaultProps = {
+  disabled: false
 }
 export default Panel;

@@ -8,6 +8,23 @@
     &-active {
       .ireact-collapse-panel-content {
         display: block;
+        height: 100%;
+        transition: display .3s, height .3s;
+      }
+      .ireact-collapse-panel-icon {
+        transform: rotate(90deg);
+        transition: all .3s linear;
+      }
+    }
+    &-disabled {
+      cursor: not-allowed;
+      .ireact-collapse-panel {
+        &-header-text {
+          color: rgba(0,0,0,0.25);
+        }
+        &-icon {
+          fill: rgba(0,0,0,0.25);
+        }
       }
     }
     &-header {
@@ -35,10 +52,19 @@
       border: 1px solid #d9d9d9;
       padding: 16px;
       display: none;
+      transition: display .3s, height .3s;
+      height: 0;
       p {
         font-size: 14px;
       }
     }
   }
-
+}
+@keyframes myOne {
+  0% {
+    display: none;
+  }
+  100% {
+    display: block;
+  }
 }

@@ -15,7 +15,7 @@ const CollapseExample: React.FunctionComponent = () => {
         <Panel header="我爱美女" name="2">
           {text}
         </Panel>
-        <Panel header="我爱美女" name="3">
+        <Panel header="我爱美女" name="3" disabled>
           {text}
         </Panel>
       </Collapse>
