@@ -17,8 +17,7 @@ $ yarn add ireact-ui
 ```javascript
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { Button } from 'xue-react'
-import 'xue-react/lib/xue-react.css'
+import { Button } from 'ireact-ui'
 
 ReactDOM.render(
   <div>
