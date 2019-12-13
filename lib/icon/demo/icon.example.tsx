@@ -1,5 +1,5 @@
 import React from 'react'
-import Icon from '../icon'
+import {Icon} from 'ireact-ui'
 const IconExample: React.FunctionComponent = () => {
     return (
         <div className="xxx">

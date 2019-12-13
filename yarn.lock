@@ -4191,6 +4191,17 @@ ipaddr.js@^1.9.0:
   resolved "https://registry.npm.taobao.org/ipaddr.js/download/ipaddr.js-1.9.1.tgz#bff38543eeb8984825079ff3a2a8e6cbd46781b3"
   integrity sha1-v/OFQ+64mEglB5/zoqjmy9RngbM=
 
+ireact-ui@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ireact-ui/-/ireact-ui-0.1.1.tgz#029bd7a128bab46b5301c9271c163ee5751b1a49"
+  integrity sha512-nSLbIe3zLiFV5WhxUCy4iqTUONpRoZwIr+6XwBSOtH5BgmTomlgN/8gtMdTC9imibA6NXkc52nn4QWx4dxPKmQ==
+  dependencies:
+    "@types/jest" "^24.0.20"
+    node-sass "^4.13.0"
+    react "^16.11.0"
+    react-dom "^16.11.0"
+    react-router-dom "^5.1.2"
+
 is-absolute-url@^3.0.3:
   version "3.0.3"
   resolved "https://registry.npm.taobao.org/is-absolute-url/download/is-absolute-url-3.0.3.tgz?cache=0&sync_timestamp=1569736493122&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fis-absolute-url%2Fdownload%2Fis-absolute-url-3.0.3.tgz#96c6a22b6a23929b11ea0afb1836c36ad4a5d698"

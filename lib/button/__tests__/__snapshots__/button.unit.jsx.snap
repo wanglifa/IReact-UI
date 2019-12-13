@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Button render successfully 1`] = `
-<div
+<button
   className="ireact-button ireact-button-info ireact-button-mini"
 >
   小改改
-</div>
+</button>
 `;

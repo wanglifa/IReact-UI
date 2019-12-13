@@ -1,8 +1,6 @@
 import * as React from 'react'
-import Form, {FormValue} from '../form'
+import {FormValue, Form, Button, Validator} from 'ireact-ui'
 import {Fragment, useState} from "react";
-import Validator from "../validator";
-import Button from "../../button/button";
 
 const FormExample:React.FunctionComponent = () => {
   const [formData, setFormData] = useState<FormValue>({
@@ -38,8 +36,6 @@ const FormExample:React.FunctionComponent = () => {
           }
         }
       },
-      {key: 'username', pattern: /[A-za-z0-9]/},
-      {key: 'password', required: true},
       {key: 'password', minLength: 8, maxLength: 16},
     ]
     Validator(formData, rules, (errors) => {

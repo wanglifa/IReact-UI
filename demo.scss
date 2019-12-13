@@ -9,6 +9,9 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    > .ireact-layout {
+      width: 100%;
+    }
     .xxx .ireact-icon {
       margin-right: 8px;
     }

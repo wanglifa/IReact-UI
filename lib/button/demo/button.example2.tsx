@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from '../button'
+import { Button } from 'ireact-ui'
 const ButtonExample2: React.FunctionComponent = () => {
   return (
     <div>

@@ -1,6 +1,5 @@
 import React from 'react';
-import {modal} from '../dialog';
-import Button from '../../button/button'
+import {modal, Button} from 'ireact-ui';
 
 export default function () {
   const openModal = () => {

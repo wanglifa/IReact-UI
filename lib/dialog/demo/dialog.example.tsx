@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import Dialog from '../dialog';
-import Button from '../../button/button'
+import {Dialog, Button} from 'ireact-ui';
 
 export default function () {
   const [x, setX] = useState(false);

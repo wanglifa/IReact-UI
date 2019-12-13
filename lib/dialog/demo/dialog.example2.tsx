@@ -1,6 +1,5 @@
 import React from 'react';
-import {alert, confirm} from '../dialog';
-import Button from '../../button/button'
+import {alert, confirm, Button} from 'ireact-ui';
 
 export default function () {
   return (
