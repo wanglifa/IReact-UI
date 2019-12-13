@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="10" failures="0" time="11.556">
-  <testsuite name="add(1,2)等于3" errors="0" failures="0" skipped="0" timestamp="2019-12-13T08:49:46" time="1.498" tests="1">
-    <testcase classname="add(1,2)等于3 等于3" name="add(1,2)等于3 等于3" time="0.004">
+<testsuites name="jest tests" tests="10" failures="0" time="15.346">
+  <testsuite name="add(1,2)等于3" errors="0" failures="0" skipped="0" timestamp="2019-12-13T09:30:52" time="4.44" tests="1">
+    <testcase classname="add(1,2)等于3 等于3" name="add(1,2)等于3 等于3" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="classes" errors="0" failures="0" skipped="0" timestamp="2019-12-13T08:49:46" time="1.893" tests="5">
-    <testcase classname="classes 接受 1 个className" name="classes 接受 1 个className" time="0.006">
+  <testsuite name="classes" errors="0" failures="0" skipped="0" timestamp="2019-12-13T09:30:52" time="5.137" tests="5">
+    <testcase classname="classes 接受 1 个className" name="classes 接受 1 个className" time="0.005">
     </testcase>
-    <testcase classname="classes 接受 2 个className" name="classes 接受 2 个className" time="0.001">
+    <testcase classname="classes 接受 2 个className" name="classes 接受 2 个className" time="0">
     </testcase>
     <testcase classname="classes 接受 undefined 结果不会出现 undefined" name="classes 接受 undefined 结果不会出现 undefined" time="0.001">
     </testcase>
     <testcase classname="classes 接受 0 个参数" name="classes 接受 0 个参数" time="0">
     </testcase>
-    <testcase classname="scopedClassMaker 接受字符串或对象" name="scopedClassMaker 接受字符串或对象" time="0.003">
+    <testcase classname="scopedClassMaker 接受字符串或对象" name="scopedClassMaker 接受字符串或对象" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="Button" errors="0" failures="0" skipped="0" timestamp="2019-12-13T08:49:46" time="2.103" tests="2">
-    <testcase classname="Button render successfully" name="Button render successfully" time="0.019">
+  <testsuite name="Icon" errors="0" failures="0" skipped="0" timestamp="2019-12-13T09:30:52" time="5.287" tests="2">
+    <testcase classname="Icon render successfully" name="Icon render successfully" time="0.019">
     </testcase>
-    <testcase classname="Button onClick" name="Button onClick" time="0.043">
+    <testcase classname="Icon onClick" name="Icon onClick" time="0.051">
     </testcase>
   </testsuite>
-  <testsuite name="Icon" errors="0" failures="0" skipped="0" timestamp="2019-12-13T08:49:46" time="2.119" tests="2">
-    <testcase classname="Icon render successfully" name="Icon render successfully" time="0.018">
+  <testsuite name="Button" errors="0" failures="0" skipped="0" timestamp="2019-12-13T09:30:52" time="5.315" tests="2">
+    <testcase classname="Button render successfully" name="Button render successfully" time="0.021">
     </testcase>
-    <testcase classname="Icon onClick" name="Icon onClick" time="0.044">
+    <testcase classname="Button onClick" name="Button onClick" time="0.047">
     </testcase>
   </testsuite>
 </testsuites>
