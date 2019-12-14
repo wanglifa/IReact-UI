@@ -1,8 +1,8 @@
 import * as React from 'react'
 import './form.scss'
 import {ReactFragment} from "react";
-import {scopedClassMaker} from '../helpers/classes';
 import Input from "../input/input";
+import {scopedClassMaker} from '../helpers/classes';
 const scopedClass = scopedClassMaker('ireact-form')
 const sc = scopedClass
 export interface FormValue {
