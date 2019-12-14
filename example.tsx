@@ -9,6 +9,7 @@ import DialogDemo from "./lib/dialog/demo/dialog.demo";
 import LayoutDemo from "./lib/layout/demo/layout.demo";
 import FormDemo from "./lib/form/demo/form.demo";
 import CollapseDemo from "./lib/collapse/demo/collapse.demo";
+import SlidesExample from "./lib/slides/slides.example";
 const logo = require('./logo.png')
 
 ReactDOM.render(
@@ -31,16 +32,19 @@ ReactDOM.render(
               <NavLink to="/button">Button 按钮</NavLink>
             </li>
             <li>
-              <NavLink to="/dialog">dialog 对话框</NavLink>
+              <NavLink to="/dialog">Dialog 对话框</NavLink>
             </li>
             <li>
-              <NavLink to="/layout">layout 布局</NavLink>
+              <NavLink to="/layout">Layout 布局</NavLink>
             </li>
             <li>
-              <NavLink to="/form">form 表单</NavLink>
+              <NavLink to="/form">Form 表单</NavLink>
             </li>
             <li>
-              <NavLink to="/collapse">collapse 折叠面板</NavLink>
+              <NavLink to="/collapse">Collapse 折叠面板</NavLink>
+            </li>
+            <li>
+              <NavLink to="/slides">Slides 走马灯</NavLink>
             </li>
           </ul>
         </Aside>
@@ -51,6 +55,7 @@ ReactDOM.render(
           <Route path="/layout" component={LayoutDemo}/>
           <Route path="/form" component={FormDemo}/>
           <Route path="/collapse" component={CollapseDemo}/>
+          <Route path="/slides" component={SlidesExample}/>
         </Content>
       </Layout>
       <Footer className="site-footer">
