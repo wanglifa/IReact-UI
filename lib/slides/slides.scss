@@ -1,20 +1,35 @@
 .ireact-slides {
-  display: inline-block;
-  border: 1px solid black;
-  width: 100%;
-  &-wrapper {
-    position: relative;
-    display: flex;
-  }
-  &-item {
+  &-window {
     width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  &-wrapper {
+    display: flex;
+    transition: all .3s linear;
     .box {
-      width: 100%;
-      height: 300px;
-      background: gray;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      height: 200px;
+      background: red;
     }
   }
+  &-btn-wrapper {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  &-dot {
+    width: 24px;
+    height: 4px;
+    background: white;
+    display: inline-block;
+    border-radius: 4px;
+    margin: 0 6px;
+  }
+  &-active {
+    background: black;
+  }
+}
+.ireact-hidden {
+  display: none;
 }
