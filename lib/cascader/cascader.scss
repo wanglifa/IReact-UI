@@ -1,0 +1,51 @@
+.ireact-cascader {
+  position: relative;
+  &-menus {
+    position: absolute;
+    top: 32px;
+    left: 0;
+    z-index: 1050;
+    font-size: 14px;
+    white-space: nowrap;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    height: 0;
+    overflow: hidden;
+    transition: height .3s linear;
+    &.ireact-cascader-visible {
+      height: auto;
+      transition: height .3s linear;
+    }
+  }
+  &-menu {
+    display: inline-block;
+    min-width: 111px;
+    height: 180px;
+    margin: 0;
+    padding: 4px 0;
+    overflow: auto;
+    vertical-align: top;
+    list-style: none;
+    border-right: 1px solid #e8e8e8;
+    &-item {
+      padding: 5px 12px;
+      line-height: 22px;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all .3s;
+      display: flex;
+      align-items: center;
+      &-icon {
+        width: .8rem;
+        margin-left: auto;
+        height: 1em;
+      }
+    }
+    &:last-child {
+      margin-right: -1px;
+      border-right-color: transparent;
+      border-radius: 0 4px 4px 0;
+    }
+  }
+}

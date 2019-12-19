@@ -10,6 +10,7 @@ import LayoutDemo from "./lib/layout/demo/layout.demo";
 import FormDemo from "./lib/form/demo/form.demo";
 import CollapseDemo from "./lib/collapse/demo/collapse.demo";
 import SlidesExample from "./lib/slides/slides.example";
+import CascaderExample from "./lib/cascader/cascader.example";
 const logo = require('./logo.png')
 
 ReactDOM.render(
@@ -46,6 +47,9 @@ ReactDOM.render(
             <li>
               <NavLink to="/slides">Slides 走马灯</NavLink>
             </li>
+            <li>
+              <NavLink to="/cascader">Cascader 级联选择器</NavLink>
+            </li>
           </ul>
         </Aside>
         <Content className="site-main">
@@ -56,6 +60,7 @@ ReactDOM.render(
           <Route path="/form" component={FormDemo}/>
           <Route path="/collapse" component={CollapseDemo}/>
           <Route path="/slides" component={SlidesExample}/>
+          <Route path="/cascader" component={CascaderExample}/>
         </Content>
       </Layout>
       <Footer className="site-footer">
