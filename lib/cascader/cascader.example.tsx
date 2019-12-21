@@ -31,11 +31,21 @@ const options = [
           },
         ],
       },
+      {
+        value: 'suzhou',
+        label: 'Suzhou',
+        children: [
+          {
+            value: 'zhonghuamen',
+            label: 'Zhong Hua Men',
+          },
+        ],
+      },
     ],
   },
 ];
 const onChange = (val: Array<string>) => {
-  console.log(val)
+  //console.log(val)
 }
 const CascaderExample: React.FunctionComponent = () => {
   return (
