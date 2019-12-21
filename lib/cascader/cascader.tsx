@@ -123,20 +123,26 @@ const Cascader: React.FunctionComponent<cascaderOptions> = (props) => {
   const onClickMenus: React.MouseEventHandler = (e) => {
     e.stopPropagation()
   }
+  const onClickDocument = () => {
+    setVisible(false)
+  }
   useEffect(() => {
-    window.addEventListener('click', () => {
-      console.log('ducment被点击了')
-      setVisible(false)
-    }, false)
+    window.addEventListener('click', onClickDocument, false)
     if (props.options && props.options.length > 0) {
       (!defaultValue || defaultValue.length === 0) && setList([[...props.options]])
     }
     props.defaultValue && setInputValue(props.defaultValue.join('/'))
+    return () => window.removeEventListener('click', onClickDocument)
   }, [])
   return (
     <C.Provider value={{list, setList, initOptions, onChange, setInputValue, setVisible, defaultValue}}>
       <div className={sc('')}>
-        <Input onClick={(e) => onClick(e)} onChange={onInputChange} value={inputValue} readOnly placeholder={props.placeholder}/>
+        <div className={sc('wrapper')}>
+          <Input onClick={(e) => onClick(e)} onChange={onInputChange} value={inputValue} readOnly placeholder={props.placeholder}
+            style={{width: '300px'}}
+          />
+          <Icon name="bottom" className={sc({'icon-active': visible})}/>
+        </div>
         <div className={sc({'menus': true, 'visible': visible})} onClick={(e) => onClickMenus(e)}>
           <Menus options={list}/>
         </div>

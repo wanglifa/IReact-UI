@@ -1,5 +1,21 @@
 .ireact-cascader {
   position: relative;
+  &-wrapper {
+    display: inline-block;
+    align-items: center;
+    position: relative;
+    .ireact-icon {
+      position: absolute;
+      width: .6em;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: all .3s linear;
+      &.ireact-cascader-icon-active {
+        transform: translateY(-50%) rotate(180deg);
+      }
+    }
+  }
   &-menus {
     position: absolute;
     top: 32px;
