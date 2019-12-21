@@ -39,7 +39,7 @@ const onChange = (val: Array<string>) => {
 }
 const CascaderExample: React.FunctionComponent = () => {
   return (
-    <Cascader options={options} onChange={onChange}></Cascader>
+    <Cascader options={options} onChange={onChange} defaultValue={['zhejiang', 'hangzhou', 'xihu']}/>
   )
 }
 export default CascaderExample;

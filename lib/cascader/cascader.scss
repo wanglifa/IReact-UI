@@ -48,4 +48,11 @@
       border-radius: 0 4px 4px 0;
     }
   }
+  &-active {
+    color: #34c3ff;
+    font-weight: 600;
+    .ireact-icon {
+      fill: #34c3ff;
+    }
+  }
 }
