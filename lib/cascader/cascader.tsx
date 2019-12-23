@@ -106,11 +106,11 @@ const Menus: React.FunctionComponent<cascaderOptions> = ({options}) => {
 const Cascader: React.FunctionComponent<cascaderOptions> = (props) => {
   const [visible, setVisible] = useState(false)
   const [list, setList] = useState<doubleArrOptions | any>([])
+  const [visibleClose, setVisibleClose] = useState<boolean>(false)
   const [inputValue, setInputValue] = useState('')
   const initOptions: Options | doubleArrOptions = props.options
   const defaultValue: Array<string> = props.defaultValue!
   const onClick: React.MouseEventHandler = (e) => {
-    console.log('风好大好')
     e.stopPropagation()
     setVisible(!visible)
   }
@@ -126,10 +126,17 @@ const Cascader: React.FunctionComponent<cascaderOptions> = (props) => {
   const onClickDocument = () => {
     setVisible(false)
   }
+  const selectInit = () => {
+    setInputValue('')
+    initOptionList()
+  }
+  const initOptionList = () => {
+    setList([[...props.options]])
+  }
   useEffect(() => {
     window.addEventListener('click', onClickDocument, false)
     if (props.options && props.options.length > 0) {
-      (!defaultValue || defaultValue.length === 0) && setList([[...props.options]])
+      (!defaultValue || defaultValue.length === 0) && initOptionList()
     }
     props.defaultValue && setInputValue(props.defaultValue.join('/'))
     return () => window.removeEventListener('click', onClickDocument)
@@ -137,11 +144,17 @@ const Cascader: React.FunctionComponent<cascaderOptions> = (props) => {
   return (
     <C.Provider value={{list, setList, initOptions, onChange, setInputValue, setVisible, defaultValue}}>
       <div className={sc('')}>
-        <div className={sc('wrapper')}>
+        <div className={sc('wrapper')} onMouseEnter={() => setVisibleClose(true)}
+          onMouseLeave={() => setVisibleClose(false)}
+        >
           <Input onClick={(e) => onClick(e)} onChange={onInputChange} value={inputValue} readOnly placeholder={props.placeholder}
             style={{width: '300px'}}
           />
-          <Icon name="bottom" className={sc({'icon-active': visible})}/>
+          {
+            inputValue && visibleClose ?
+              <Icon name="close" onClick={selectInit}/> :
+              <Icon name="bottom" className={sc({'icon-active': visible})}/>
+          }
         </div>
         <div className={sc({'menus': true, 'visible': visible})} onClick={(e) => onClickMenus(e)}>
           <Menus options={list}/>
