@@ -18,7 +18,8 @@
         "strictNullChecks": true,
         // "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
-        "noUnusedLocals": true
+        "noUnusedLocals": true,
+        "suppressImplicitAnyIndexErrors": true
     },
     "include": [
       "lib/**/*"

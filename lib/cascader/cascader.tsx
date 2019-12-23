@@ -6,39 +6,43 @@ import './cascader.scss'
 import Icon from "../icon/icon";
 import {createContext, Fragment, useContext, useEffect, useState} from "react";
 interface cascaderProp {
-  value: string;
-  label: string;
-  children?: Options;
-  active?: boolean;
+  [key: string]: any;
 }
 interface cascaderOptions {
   options: Options | doubleArrOptions;
   onChange?: (val: Array<string>) => void;
   placeholder?: string;
   defaultValue?: string[];
+  fieldNames?: cascaderFieldNames
 }
+interface cascaderFieldNames {
+  label: string;
+  value: string;
+  children: string
+}
+
 type Options = Array<cascaderProp>
 type doubleArrOptions = Array<Options>
 const C = createContext<any>(null)
 const Menus: React.FunctionComponent<cascaderOptions> = ({options}) => {
-  const {list, setList, initOptions, onChange, setInputValue, setVisible, defaultValue} = useContext(C)
+  const {list, setList, initOptions, onChange, setInputValue, setVisible, defaultValue, fieldNames} = useContext(C)
   const [selectArr, setSelectArr] = useState<Options>([])
   const [isOnchange, setIsOnChange] = useState<boolean>(false)
   let copyList = JSON.parse(JSON.stringify(list))
   const defaultValueArr: doubleArrOptions = []
   const deepList = (arr: Options) => {
     const newArr: Options = []
-    const isDisplayCategory: boolean = arr.every((node) => {
-      return !defaultValue.includes(node.value)
+    const isDisplayCategory: boolean = arr.every((node: cascaderProp) => {
+      return !defaultValue.includes(node[fieldNames.value])
     })
     if (!isDisplayCategory) {
       arr.map((node) => {
-        if (defaultValue.includes(node.value)) {
+        if (defaultValue.includes(node[fieldNames.value])) {
           newArr.push({...node, active: true})
         } else {
           newArr.push(node)
         }
-        node.children && deepList(node.children)
+        node[fieldNames.children] && deepList(node[fieldNames.children])
       })
     }
     newArr.length > 0 && defaultValueArr.unshift(newArr)
@@ -49,8 +53,8 @@ const Menus: React.FunctionComponent<cascaderOptions> = ({options}) => {
     copyList = index === 0 ? [[...initOptions]] : copyList.slice(0, index + 1)
     copySelectArr = copySelectArr.slice(0, index)
     setSelectArr([...copySelectArr, {...item}])
-    if (item.children && item.children.length > 0) {
-      copyList.push(item.children)
+    if (item[fieldNames.children] && item[fieldNames.children].length > 0) {
+      copyList.push(item[fieldNames.children])
       isOnChange = false
     } else {
       isOnChange = true
@@ -62,7 +66,7 @@ const Menus: React.FunctionComponent<cascaderOptions> = ({options}) => {
     copyList = copyList.map((arr: Options) => {
       return arr.map((arrItem: cascaderProp) => {
         for (let i = 0; i < selectArr.length; i++) {
-          if (selectArr[i].label === arrItem.label && selectArr[i].value === arrItem.value) {
+          if (selectArr[i][fieldNames.label] === arrItem[fieldNames.label] && selectArr[i][fieldNames.value] === arrItem[fieldNames.value]) {
             arrItem.active = true
             break
           } else {
@@ -77,8 +81,8 @@ const Menus: React.FunctionComponent<cascaderOptions> = ({options}) => {
   useEffect(() => {
     setSelectStatus()
     if (isOnchange) {
-      const arr: Array<string> = selectArr.map((item: cascaderProp): string => item.value)
-      const arr1: string = selectArr.map((item: cascaderProp): string => item.label).join('/')
+      const arr: Array<string> = selectArr.map((item: cascaderProp): string => item[fieldNames.value])
+      const arr1: string = selectArr.map((item: cascaderProp): string => item[fieldNames.label]).join('/')
       onChange(arr)
       setInputValue(arr1)
       setVisible(false)
@@ -93,9 +97,9 @@ const Menus: React.FunctionComponent<cascaderOptions> = ({options}) => {
       {list.map((node: Options, index: number) =>
         <ul className={sc('menu')} key={index}>
           {node.map((menu: cascaderProp) =>
-            <li className={sc({'menu-item': true, 'active': menu.active === true})} key={menu.label} onClick={() => onClickList(menu, index)}>
-              {menu.label}
-              {menu.children && menu.children.length > 0 ? <Icon name="right" className={sc('menu-item-icon')}/> : null}
+            <li className={sc({'menu-item': true, 'active': menu.active === true})} key={menu[fieldNames.label]} onClick={() => onClickList(menu, index)}>
+              {menu[fieldNames.label]}
+              {menu[fieldNames.children] && menu[fieldNames.children].length > 0 ? <Icon name="right" className={sc('menu-item-icon')}/> : null}
             </li>
           )}
         </ul>
@@ -108,6 +112,7 @@ const Cascader: React.FunctionComponent<cascaderOptions> = (props) => {
   const [list, setList] = useState<doubleArrOptions | any>([])
   const [visibleClose, setVisibleClose] = useState<boolean>(false)
   const [inputValue, setInputValue] = useState('')
+  const fieldNames: cascaderFieldNames = props.fieldNames!
   const initOptions: Options | doubleArrOptions = props.options
   const defaultValue: Array<string> = props.defaultValue!
   const onClick: React.MouseEventHandler = (e) => {
@@ -142,7 +147,7 @@ const Cascader: React.FunctionComponent<cascaderOptions> = (props) => {
     return () => window.removeEventListener('click', onClickDocument)
   }, [])
   return (
-    <C.Provider value={{list, setList, initOptions, onChange, setInputValue, setVisible, defaultValue}}>
+    <C.Provider value={{list, setList, initOptions, onChange, setInputValue, setVisible, defaultValue, fieldNames}}>
       <div className={sc('')}>
         <div className={sc('wrapper')} onMouseEnter={() => setVisibleClose(true)}
           onMouseLeave={() => setVisibleClose(false)}
@@ -164,6 +169,7 @@ const Cascader: React.FunctionComponent<cascaderOptions> = (props) => {
   )
 }
 Cascader.defaultProps = {
-  placeholder: '请选择'
+  placeholder: '请选择',
+  fieldNames: {label: 'label', value: 'value', children: 'children'}
 }
 export default Cascader;

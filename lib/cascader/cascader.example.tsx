@@ -2,42 +2,32 @@ import * as React from "react";
 import Cascader from "./cascader";
 const options = [
   {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
+    code: 'zhejiang',
+    name: 'Zhejiang',
+    items: [
       {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
+        code: 'hangzhou',
+        name: 'Hangzhou',
+        items: [
           {
-            value: 'xihu',
-            label: 'West Lake',
+            code: 'xihu',
+            name: 'West Lake',
           },
         ],
       },
     ],
   },
   {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
+    code: 'jiangsu',
+    name: 'Jiangsu',
+    items: [
       {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
+        code: 'nanjing',
+        name: 'Nanjing',
+        items: [
           {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-      {
-        value: 'suzhou',
-        label: 'Suzhou',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
+            code: 'zhonghuamen',
+            name: 'Zhong Hua Men',
           },
         ],
       },
@@ -49,7 +39,9 @@ const onChange = (val: Array<string>) => {
 }
 const CascaderExample: React.FunctionComponent = () => {
   return (
-    <Cascader options={options} onChange={onChange} defaultValue={['zhejiang', 'hangzhou', 'xihu']}/>
+    <Cascader options={options} onChange={onChange} defaultValue={['zhejiang', 'hangzhou', 'xihu']}
+              fieldNames={{label: 'name', value: 'code', children: 'items'}}
+    />
   )
 }
 export default CascaderExample;
