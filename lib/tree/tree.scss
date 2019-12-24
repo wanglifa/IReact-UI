@@ -1,0 +1,18 @@
+.ireact-tree {
+  &-content {
+    display: flex;
+    align-items: center;
+  }
+  &-icon {
+    .ireact-icon {
+      width: .5em;
+      fill: #c0c4cc;
+      height: .5em;
+    }
+    margin-right: 8px;
+  }
+  &-label {
+    font-size: 14px;
+    color: rgb(96, 98, 102);
+  }
+}
