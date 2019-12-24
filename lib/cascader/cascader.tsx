@@ -4,7 +4,7 @@ import {scopedClassMaker} from '../helpers/classes';
 const sc = scopedClassMaker('ireact-cascader')
 import './cascader.scss'
 import Icon from "../icon/icon";
-import {createContext, Fragment, useContext, useEffect, useState} from "react";
+import {createContext, Fragment, useContext, useEffect, useRef, useState} from "react";
 interface cascaderProp {
   [key: string]: any;
 }
@@ -115,8 +115,8 @@ const Cascader: React.FunctionComponent<cascaderOptions> = (props) => {
   const fieldNames: cascaderFieldNames = props.fieldNames!
   const initOptions: Options | doubleArrOptions = props.options
   const defaultValue: Array<string> = props.defaultValue!
+  const wrapperRef = useRef<HTMLDivElement | null>(null)
   const onClick: React.MouseEventHandler = (e) => {
-    e.stopPropagation()
     setVisible(!visible)
   }
   const onInputChange = () => {
@@ -125,10 +125,10 @@ const Cascader: React.FunctionComponent<cascaderOptions> = (props) => {
   const onChange = (arr: Array<string>) => {
     props.onChange && props.onChange(arr)
   }
-  const onClickMenus: React.MouseEventHandler = (e) => {
-    e.stopPropagation()
-  }
-  const onClickDocument = () => {
+  const onClickDocument: React.EventHandler<any> = (e) => {
+    if (wrapperRef.current === e.target || wrapperRef.current!.contains(e.target as Node)) {
+      return
+    }
     setVisible(false)
   }
   const selectInit = () => {
@@ -148,7 +148,7 @@ const Cascader: React.FunctionComponent<cascaderOptions> = (props) => {
   }, [])
   return (
     <C.Provider value={{list, setList, initOptions, onChange, setInputValue, setVisible, defaultValue, fieldNames}}>
-      <div className={sc('')}>
+      <div className={sc('')} ref={wrapperRef}>
         <div className={sc('wrapper')} onMouseEnter={() => setVisibleClose(true)}
           onMouseLeave={() => setVisibleClose(false)}
         >
@@ -161,7 +161,8 @@ const Cascader: React.FunctionComponent<cascaderOptions> = (props) => {
               <Icon name="bottom" className={sc({'icon-active': visible})}/>
           }
         </div>
-        <div className={sc({'menus': true, 'visible': visible})} onClick={(e) => onClickMenus(e)}>
+        <div className={sc({'menus': true, 'visible': visible})}
+        >
           <Menus options={list}/>
         </div>
       </div>
