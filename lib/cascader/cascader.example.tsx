@@ -34,40 +34,6 @@ const options = [
     ],
   },
 ];
-const options1 = [
-  {
-    code: 'zhejiang',
-    name: 'Zhejiang',
-    items: [
-      {
-        code: 'hangzhou',
-        name: 'Hangzhou',
-        items: [
-          {
-            code: 'xihu',
-            name: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    code: 'jiangsu',
-    name: 'Jiangsu',
-    items: [
-      {
-        code: 'nanjing',
-        name: 'Nanjing',
-        items: [
-          {
-            code: 'zhonghuamen',
-            name: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-];
 const onChange = (val: Array<string>) => {
   //console.log(val)
 }
@@ -77,11 +43,6 @@ const CascaderExample: React.FunctionComponent = () => {
      <Cascader options={options} onChange={onChange} defaultValue={['zhejiang', 'hangzhou', 'xihu']}
                fieldNames={{label: 'name', value: 'code', children: 'items'}}
      />
-     <div style={{margin: '200px'}}>
-       <Cascader options={options1} onChange={onChange} defaultValue={['zhejiang', 'hangzhou', 'xihu']}
-                 fieldNames={{label: 'name', value: 'code', children: 'items'}}
-       />
-     </div>
    </div>
   )
 }

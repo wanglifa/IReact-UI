@@ -2,8 +2,10 @@
   &-content {
     display: flex;
     align-items: center;
+    cursor: pointer;
   }
   &-icon {
+    width: .5em;
     .ireact-icon {
       width: .5em;
       fill: #c0c4cc;
