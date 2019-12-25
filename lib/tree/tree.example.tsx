@@ -40,7 +40,7 @@ const onChange = (val: DataProp) => {
 }
 const TreeExample: React.FunctionComponent = () => {
   return (
-    <Tree data={data} onChange={onChange}/>
+    <Tree data={data} onChange={onChange} treeDefaultExpandedKeys={['一级 1', '二级 1-1', '三级 1-1-1']}/>
   )
 }
 export default TreeExample;

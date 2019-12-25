@@ -15,6 +15,7 @@ interface Prop extends Context{
   data: Options;
   index?: number;
   treeDefaultExpandAll?: boolean;
+  treeDefaultExpandedKeys?: string[];
 }
 interface Context {
   onChange?: (val: DataProp) => void;
@@ -24,11 +25,11 @@ const C = createContext<Context>({})
 const TreeChildren: React.FunctionComponent<Prop> = (props) => {
   let deepIndex: number = props.index || 0
   const { onChange } = useContext(C)
-  const [n, setN] = useState(0)
+  const update = useState<number>(-1)[1]
   const onClick = (node: DataProp) => {
     node.visible = !node.visible
     onChange && onChange(node)
-    setN(Math.random())
+    update(Math.random())
   }
   deepIndex += 1
   return (
@@ -61,9 +62,14 @@ const TreeChildren: React.FunctionComponent<Prop> = (props) => {
 }
 const Tree: React.FunctionComponent<Prop> = (props) => {
   const [newData, setNewData] = useState<Options>([])
+  const copyDefaultExpandedKey = JSON.parse(JSON.stringify(props.treeDefaultExpandedKeys)) || []
+  copyDefaultExpandedKey.length > 0 && copyDefaultExpandedKey.splice(copyDefaultExpandedKey.length-1, 1)
   const treeDataExchange = (arr: Options) => {
     for (let i = 0; i < arr.length; i++) {
-      arr[i]['visible'] = props.treeDefaultExpandAll
+      arr[i].visible = props.treeDefaultExpandAll
+      if (copyDefaultExpandedKey.includes(arr[i].label)) {
+        arr[i].visible = true
+      }
       if (arr[i].children && arr[i].children!.length > 0) {
         treeDataExchange(arr[i].children!)
       }
