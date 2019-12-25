@@ -14,6 +14,7 @@ export interface DataProp {
 interface Prop extends Context{
   data: Options;
   index?: number;
+  treeDefaultExpandAll?: boolean;
 }
 interface Context {
   onChange?: (val: DataProp) => void;
@@ -47,7 +48,7 @@ const TreeChildren: React.FunctionComponent<Prop> = (props) => {
             <div className={sc('label')}>{node.label}</div>
           </div>
           {
-            node.children && node.children.length > 0 && node.visible && n ?
+            node.children && node.children.length > 0 && node.visible ?
               <div className={sc('children')}>
                 <TreeChildren data={node.children} index={deepIndex}/>
               </div>:
@@ -62,7 +63,7 @@ const Tree: React.FunctionComponent<Prop> = (props) => {
   const [newData, setNewData] = useState<Options>([])
   const treeDataExchange = (arr: Options) => {
     for (let i = 0; i < arr.length; i++) {
-      arr[i]['visible'] = false
+      arr[i]['visible'] = props.treeDefaultExpandAll
       if (arr[i].children && arr[i].children!.length > 0) {
         treeDataExchange(arr[i].children!)
       }
@@ -79,5 +80,8 @@ const Tree: React.FunctionComponent<Prop> = (props) => {
       </div>
     </C.Provider>
   )
+}
+Tree.defaultProps = {
+  treeDefaultExpandAll: false
 }
 export default Tree;
