@@ -9,7 +9,11 @@
     .ireact-icon {
       width: .5em;
       fill: #c0c4cc;
-      height: .5em;
+      height: .8em;
+      transition: all .3s linear;
+      &.ireact-tree-active-icon {
+        transform: rotate(90deg);
+      }
     }
     margin-right: 8px;
   }

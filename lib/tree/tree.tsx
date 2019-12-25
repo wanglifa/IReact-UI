@@ -1,6 +1,6 @@
 import * as React from "react";
 import {scopedClassMaker} from '../helpers/classes';
-import {Fragment, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import Icon from "../icon/icon";
 import './tree.scss'
 const sc = scopedClassMaker('ireact-tree')
@@ -33,7 +33,7 @@ const TreeChildren: React.FunctionComponent<Prop> = (props) => {
             <div className={sc('icon')}>
               {
                 node.children && node.children.length > 0 ?
-                  <Icon name="smallBottom"/> :
+                  <Icon name="rightArrow" className={sc({'active-icon': node.visible!})}/> :
                   null
               }
             </div>
@@ -52,9 +52,22 @@ const TreeChildren: React.FunctionComponent<Prop> = (props) => {
   )
 }
 const Tree: React.FunctionComponent<Prop> = (props) => {
+  const [newData, setNewData] = useState<Options>([])
+  const treeDataExchange = (arr: Options) => {
+    for (let i = 0; i < arr.length; i++) {
+      arr[i]['visible'] = false
+      if (arr[i].children && arr[i].children!.length > 0) {
+        treeDataExchange(arr[i].children!)
+      }
+    }
+  }
+  useEffect(() => {
+    treeDataExchange(props.data)
+    setNewData(props.data)
+  }, [])
   return (
     <div className={sc('wrapper')}>
-      <TreeChildren data={props.data}/>
+      <TreeChildren data={newData}/>
     </div>
   )
 }
