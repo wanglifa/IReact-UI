@@ -1,25 +1,32 @@
 import * as React from "react";
 import {scopedClassMaker} from '../helpers/classes';
-import {Fragment, useEffect, useState} from "react";
+import {createContext, Fragment, useEffect, useState} from "react";
 import Icon from "../icon/icon";
 import './tree.scss'
+import {useContext} from "react";
 const sc = scopedClassMaker('ireact-tree')
-interface DataProp {
+export interface DataProp {
   label: string;
   children?: Options;
   level?: number;
   visible?: boolean;
 }
-interface Prop {
+interface Prop extends Context{
   data: Options;
   index?: number;
 }
+interface Context {
+  onChange?: (val: DataProp) => void;
+}
 type Options = Array<DataProp>
+const C = createContext<Context>({})
 const TreeChildren: React.FunctionComponent<Prop> = (props) => {
   let deepIndex: number = props.index || 0
+  const { onChange } = useContext(C)
   const [n, setN] = useState(0)
   const onClick = (node: DataProp) => {
     node.visible = !node.visible
+    onChange && onChange(node)
     setN(Math.random())
   }
   deepIndex += 1
@@ -66,9 +73,11 @@ const Tree: React.FunctionComponent<Prop> = (props) => {
     setNewData(props.data)
   }, [])
   return (
-    <div className={sc('wrapper')}>
-      <TreeChildren data={newData}/>
-    </div>
+    <C.Provider value={{onChange: props.onChange}}>
+      <div className={sc('wrapper')}>
+        <TreeChildren data={newData}/>
+      </div>
+    </C.Provider>
   )
 }
 export default Tree;

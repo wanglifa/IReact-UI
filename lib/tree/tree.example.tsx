@@ -1,5 +1,5 @@
 import * as React from "react";
-import Tree from './tree'
+import Tree, {DataProp} from './tree'
 const data = [{
   label: '一级 1',
   children: [{
@@ -35,9 +35,12 @@ const data = [{
     }]
   }]
 }]
+const onChange = (val: DataProp) => {
+  console.log(val)
+}
 const TreeExample: React.FunctionComponent = () => {
   return (
-    <Tree data={data}/>
+    <Tree data={data} onChange={onChange}/>
   )
 }
 export default TreeExample;
