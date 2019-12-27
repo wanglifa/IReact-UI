@@ -100,7 +100,6 @@ const TreeChildren: React.FunctionComponent<Prop> = (props) => {
       } else {
         obj._checked = '2'
       }
-      console.log(obj, 'obj')
     } else {
       const children = obj.children!
       for (let i = 0; i < children!.length; i++) {
