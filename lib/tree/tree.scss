@@ -86,4 +86,21 @@
       }
     }
   }
+  &-is-indeterminate {
+    .ireact-tree-checkbox-inner {
+      background-color: #34c3ff;
+      border-color: #34c3ff;
+      &:before {
+        content: "";
+        position: absolute;
+        display: block;
+        background-color: #fff;
+        height: 2px;
+        transform: scale(.5);
+        left: 0;
+        right: 0;
+        top: 5px;
+      }
+    }
+  }
 }
