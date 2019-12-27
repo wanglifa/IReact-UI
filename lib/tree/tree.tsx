@@ -25,12 +25,13 @@ interface Context {
   showCheckBox?: boolean;
   newData?: Options;
   setNewData?: (val: Options) => void;
+  updateParent?: (val: number) => void;
 }
 type Options = Array<DataProp>
 const C = createContext<Context>({})
 const TreeChildren: React.FunctionComponent<Prop> = (props) => {
   let deepIndex: number = props.index || 0
-  const { onChange, showCheckBox, newData, setNewData } = useContext(C)
+  const { onChange, showCheckBox, newData, updateParent } = useContext(C)
   let currentIndex: number = -1
   let currentChecked: '1' | '2' | '3' = '1'
   let currentLevel: number = -1
@@ -44,16 +45,17 @@ const TreeChildren: React.FunctionComponent<Prop> = (props) => {
   const onClickCheckBox = (e: React.MouseEvent, node: DataProp) => {
     e.preventDefault()
     e.stopPropagation()
-    if (node._checked === '1') {
-      node._checked = '3'
-    } else if (node._checked === '3') {
+    if (node._checked === '3') {
       node._checked = '1'
+    } else {
+      node._checked = '3'
     }
     currentIndex = node._index!
     currentChecked = node._checked!
     currentLevel = node._level!
     deepCheckedLists(node)
-    update(Math.random())
+    updateParent!(Math.random())
+    console.log(newData, 'newData')
   }
   const deepCheckedLists = (node: DataProp) => {
     node.children && node.children.length > 0 && deepChildrenChecked(node.children)
@@ -73,8 +75,6 @@ const TreeChildren: React.FunctionComponent<Prop> = (props) => {
   }
   const deepSiblingChecked = (arr: Options) => {
     for (let i = 0; i < arr.length; i++) {
-      console.log(arr[i]._level, '_level')
-      console.log(currentLevel, 'currentLevel')
       if (arr[i]._level === currentLevel) {
         child = arr
         break
@@ -152,6 +152,7 @@ const TreeChildren: React.FunctionComponent<Prop> = (props) => {
 }
 const Tree: React.FunctionComponent<Prop> = (props) => {
   const [newData, setNewData] = useState<Options>([])
+  const updateParent = useState<number>(-1)[1]
   const copyDefaultExpandedKey = JSON.parse(JSON.stringify(props.treeDefaultExpandedKeys)) || []
   copyDefaultExpandedKey.length > 0 && copyDefaultExpandedKey.splice(copyDefaultExpandedKey.length-1, 1)
   const treeDataExchange = (arr: Options, sIndex?: number) => {
@@ -169,11 +170,10 @@ const Tree: React.FunctionComponent<Prop> = (props) => {
   }
   useEffect(() => {
     treeDataExchange(props.data)
-    console.log(props.data, 'props.data')
     setNewData(props.data)
   }, [])
   return (
-    <C.Provider value={{onChange: props.onChange, showCheckBox: props.showCheckBox, newData, setNewData}}>
+    <C.Provider value={{onChange: props.onChange, showCheckBox: props.showCheckBox, newData, setNewData, updateParent}}>
       <div className={sc('wrapper')}>
         <TreeChildren data={newData}/>
       </div>
