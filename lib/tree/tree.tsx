@@ -11,7 +11,7 @@ export interface DataProp {
   _level?: number;
   _visible?: boolean;
   _checked?: '1' | '2' | '3'; //1未选中， 2半选，3选中
-  _index?: number;
+  _index?: string;
 }
 interface Prop extends Context{
   data: Options;
@@ -32,7 +32,7 @@ const C = createContext<Context>({})
 const TreeChildren: React.FunctionComponent<Prop> = (props) => {
   let deepIndex: number = props.index || 0
   const { onChange, showCheckBox, newData, updateParent } = useContext(C)
-  let currentIndex: number = -1
+  let currentIndex: string = ''
   let currentChecked: '1' | '2' | '3' = '1'
   let currentLevel: number = -1
   let child: Options = []
@@ -59,6 +59,7 @@ const TreeChildren: React.FunctionComponent<Prop> = (props) => {
   }
   const deepCheckedLists = (node: DataProp) => {
     node.children && node.children.length > 0 && deepChildrenChecked(node.children)
+    console.log(currentIndex)
     const currentDataObj = newData![currentIndex]
     if (currentDataObj.children && currentDataObj.children.length > 0) {
       deepSiblingChecked(currentDataObj.children!)
@@ -154,11 +155,11 @@ const Tree: React.FunctionComponent<Prop> = (props) => {
   const updateParent = useState<number>(-1)[1]
   const copyDefaultExpandedKey = JSON.parse(JSON.stringify(props.treeDefaultExpandedKeys)) || []
   copyDefaultExpandedKey.length > 0 && copyDefaultExpandedKey.splice(copyDefaultExpandedKey.length-1, 1)
-  const treeDataExchange = (arr: Options, sIndex?: number) => {
+  const treeDataExchange = (arr: Options, sIndex?: string | undefined) => {
     for (let i = 0; i < arr.length; i++) {
       arr[i]._visible = props.treeDefaultExpandAll
       arr[i]._checked = '1'
-      arr[i]._index = sIndex || i
+      arr[i]._index = sIndex || String(i)
       if (copyDefaultExpandedKey.includes(arr[i].label)) {
         arr[i]._visible = true
       }
@@ -168,7 +169,7 @@ const Tree: React.FunctionComponent<Prop> = (props) => {
     }
   }
   useEffect(() => {
-    treeDataExchange(props.data)
+    treeDataExchange(props.data, undefined)
     setNewData(props.data)
   }, [])
   return (
