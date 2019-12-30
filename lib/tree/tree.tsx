@@ -59,7 +59,6 @@ const TreeChildren: React.FunctionComponent<Prop> = (props) => {
   }
   const deepCheckedLists = (node: DataProp) => {
     node.children && node.children.length > 0 && deepChildrenChecked(node.children)
-    console.log(currentIndex)
     const currentDataObj = newData![currentIndex]
     if (currentDataObj.children && currentDataObj.children.length > 0) {
       deepSiblingChecked(currentDataObj.children!)
