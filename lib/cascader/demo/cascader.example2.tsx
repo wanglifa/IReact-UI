@@ -1,5 +1,5 @@
 import * as React from "react";
-import Cascader from "./cascader";
+import Cascader from "../cascader";
 const options = [
   {
     code: 'zhejiang',

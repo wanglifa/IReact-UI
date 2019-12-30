@@ -10,8 +10,8 @@ import LayoutDemo from "./lib/layout/demo/layout.demo";
 import FormDemo from "./lib/form/demo/form.demo";
 import CollapseDemo from "./lib/collapse/demo/collapse.demo";
 import SlidesExample from "./lib/slides/slides.example";
-import CascaderExample from "./lib/cascader/cascader.example";
 import TreeExample from "./lib/tree/tree.example";
+import CascaderDemo from "./lib/cascader/demo/cascader.demo";
 const logo = require('./logo.png')
 
 ReactDOM.render(
@@ -64,7 +64,7 @@ ReactDOM.render(
           <Route path="/form" component={FormDemo}/>
           <Route path="/collapse" component={CollapseDemo}/>
           <Route path="/slides" component={SlidesExample}/>
-          <Route path="/cascader" component={CascaderExample}/>
+          <Route path="/cascader" component={CascaderDemo}/>
           <Route path="/tree" component={TreeExample}/>
         </Content>
       </Layout>

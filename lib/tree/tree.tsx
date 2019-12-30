@@ -55,7 +55,6 @@ const TreeChildren: React.FunctionComponent<Prop> = (props) => {
     currentLevel = node._level!
     deepCheckedLists(node)
     updateParent!(Math.random())
-    console.log(newData, 'newData')
   }
   const deepCheckedLists = (node: DataProp) => {
     node.children && node.children.length > 0 && deepChildrenChecked(node.children)
