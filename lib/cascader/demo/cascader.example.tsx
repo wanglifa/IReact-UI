@@ -1,33 +1,33 @@
 import * as React from "react";
-import Cascader from "ireact-ui";
+import Cascader from "../cascader";
 const options = [
   {
-    label: 'zhejiang',
-    value: 'Zhejiang',
+    value: 'zhejiang',
+    label: 'Zhejiang',
     children: [
       {
-        label: 'hangzhou',
-        value: 'Hangzhou',
+        value: 'hangzhou',
+        label: 'Hangzhou',
         children: [
           {
-            label: 'xihu',
-            value: 'West Lake',
+            value: 'xihu',
+            label: 'West Lake',
           },
         ],
       },
     ],
   },
   {
-    label: 'jiangsu',
-    value: 'Jiangsu',
+    value: 'jiangsu',
+    label: 'Jiangsu',
     children: [
       {
-        label: 'nanjing',
-        value: 'Nanjing',
+        value: 'nanjing',
+        label: 'Nanjing',
         children: [
           {
-            label: 'zhonghuamen',
-            value: 'Zhong Hua Men',
+            value: 'zhonghuamen',
+            label: 'Zhong Hua Men',
           },
         ],
       },
@@ -35,7 +35,7 @@ const options = [
   },
 ];
 const onChange = (val: Array<string>) => {
-  //console.log(val)
+  console.log(val)
 }
 const CascaderExample: React.FunctionComponent = () => {
   return (

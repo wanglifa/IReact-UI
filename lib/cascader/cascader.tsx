@@ -89,7 +89,8 @@ const Menus: React.FunctionComponent<cascaderOptions> = ({options}) => {
     }
   }, [selectArr])
   useEffect(() => {
-    deepList(initOptions)
+    defaultValue && deepList(initOptions)
+    console.log(defaultValueArr, 'defaultValue')
     setList(defaultValueArr)
   }, [])
   return (
@@ -117,6 +118,7 @@ const Cascader: React.FunctionComponent<cascaderOptions> = (props) => {
   const defaultValue: Array<string> = props.defaultValue!
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const onClick: React.MouseEventHandler = (e) => {
+    console.log(list, 'list')
     setVisible(!visible)
   }
   const onInputChange = () => {
