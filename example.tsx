@@ -11,6 +11,8 @@ import FormDemo from "./lib/form/demo/form.demo";
 import CollapseDemo from "./lib/collapse/demo/collapse.demo";
 import CascaderDemo from "./lib/cascader/demo/cascader.demo";
 import TreeDemo from "./lib/tree/demo/tree.demo";
+import DatePickerExample from "./lib/datepicker/datepicker.example";
+import InputExample from "./lib/input/demo/input.example";
 const logo = require('./logo.png')
 
 ReactDOM.render(
@@ -33,6 +35,9 @@ ReactDOM.render(
               <NavLink to="/button">Button 按钮</NavLink>
             </li>
             <li>
+              <NavLink to="/input">Input 输入框</NavLink>
+            </li>
+            <li>
               <NavLink to="/dialog">Dialog 对话框</NavLink>
             </li>
             <li>
@@ -50,17 +55,22 @@ ReactDOM.render(
             <li>
               <NavLink to="/tree">Tree 树形组件</NavLink>
             </li>
+            <li>
+              <NavLink to="/datepicker">DatePicker 日期选择框</NavLink>
+            </li>
           </ul>
         </Aside>
         <Content className="site-main">
           <Route path="/icon" component={IconDemo}/>
           <Route path="/button" component={ButtonDemo}/>
+          <Route path="/input" component={InputExample}/>
           <Route path="/dialog" component={DialogDemo}/>
           <Route path="/layout" component={LayoutDemo}/>
           <Route path="/form" component={FormDemo}/>
           <Route path="/collapse" component={CollapseDemo}/>
           <Route path="/cascader" component={CascaderDemo}/>
           <Route path="/tree" component={TreeDemo}/>
+          <Route path="/datepicker" component={DatePickerExample}/>
         </Content>
       </Layout>
       <Footer className="site-footer">

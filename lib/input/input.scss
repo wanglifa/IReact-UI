@@ -1,14 +1,43 @@
 $main-color: #34c3ff;
 .ireact-input {
-  border: 1px solid #ddd;
-  line-height: 22px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  box-shadow: 0 0 0 1px fade_out($main-color, 1);
-  transition: box-shadow .5s;
-  &:focus {
+  padding: 0;
+  position: relative;
+  &-content {
     outline: none;
-    border-color: $main-color;
-    box-shadow: 0 0 0 1px fade_out($main-color, .5);
+    width: 100%;
+    height: 32px;
+    padding: 4px 11px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px fade_out($main-color, 1);
+    transition: box-shadow .5s;
+    display: flex;
+    align-items: center;
+    &:focus {
+      outline: none;
+      border-color: $main-color;
+      box-shadow: 0 0 0 1px fade_out($main-color, .5);
+    }
+  }
+  .ireact-icon {
+    width: .8em;
+    height: .8em;
+  }
+  &-leftIcon, &-rightIcon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  &-leftIcon {
+    left: 12px;
+  }
+  &-rightIcon {
+    right: 12px;
+    display: inline-flex;
+  }
+  &.hasLeftIcon {
+    .ireact-input-content {
+      padding-left: 30px;
+    }
   }
 }
