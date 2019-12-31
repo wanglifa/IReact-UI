@@ -1,5 +1,5 @@
 import * as React from "react";
-import Cascader from "../cascader";
+import {Cascader} from "ireact-ui";
 const options = [
   {
     value: 'zhejiang',
