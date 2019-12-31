@@ -1,5 +1,5 @@
 import * as React from "react";
-import Tree, {DataProp} from './tree'
+import Tree, {DataProp} from '../tree'
 const data = [{
   label: '一级 1',
   children: [{

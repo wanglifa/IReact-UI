@@ -27,6 +27,7 @@ interface Context {
   setNewData?: (val: Options) => void;
   updateParent?: (val: number) => void;
 }
+
 type Options = Array<DataProp>
 const C = createContext<Context>({})
 const TreeChildren: React.FunctionComponent<Prop> = (props) => {
@@ -151,7 +152,7 @@ const TreeChildren: React.FunctionComponent<Prop> = (props) => {
 const Tree: React.FunctionComponent<Prop> = (props) => {
   const [newData, setNewData] = useState<Options>([])
   const updateParent = useState<number>(-1)[1]
-  const copyDefaultExpandedKey = JSON.parse(JSON.stringify(props.treeDefaultExpandedKeys)) || []
+  const copyDefaultExpandedKey = props.treeDefaultExpandedKeys ? JSON.parse(JSON.stringify(props.treeDefaultExpandedKeys)) : []
   copyDefaultExpandedKey.length > 0 && copyDefaultExpandedKey.splice(copyDefaultExpandedKey.length-1, 1)
   const treeDataExchange = (arr: Options, sIndex?: string | undefined) => {
     for (let i = 0; i < arr.length; i++) {

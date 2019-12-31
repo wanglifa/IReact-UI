@@ -9,9 +9,8 @@ import DialogDemo from "./lib/dialog/demo/dialog.demo";
 import LayoutDemo from "./lib/layout/demo/layout.demo";
 import FormDemo from "./lib/form/demo/form.demo";
 import CollapseDemo from "./lib/collapse/demo/collapse.demo";
-import SlidesExample from "./lib/slides/slides.example";
-import TreeExample from "./lib/tree/tree.example";
 import CascaderDemo from "./lib/cascader/demo/cascader.demo";
+import TreeDemo from "./lib/tree/demo/tree.demo";
 const logo = require('./logo.png')
 
 ReactDOM.render(
@@ -46,9 +45,6 @@ ReactDOM.render(
               <NavLink to="/collapse">Collapse 折叠面板</NavLink>
             </li>
             <li>
-              <NavLink to="/slides">Slides 走马灯</NavLink>
-            </li>
-            <li>
               <NavLink to="/cascader">Cascader 级联选择器</NavLink>
             </li>
             <li>
@@ -63,9 +59,8 @@ ReactDOM.render(
           <Route path="/layout" component={LayoutDemo}/>
           <Route path="/form" component={FormDemo}/>
           <Route path="/collapse" component={CollapseDemo}/>
-          <Route path="/slides" component={SlidesExample}/>
           <Route path="/cascader" component={CascaderDemo}/>
-          <Route path="/tree" component={TreeExample}/>
+          <Route path="/tree" component={TreeDemo}/>
         </Content>
       </Layout>
       <Footer className="site-footer">
