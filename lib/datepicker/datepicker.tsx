@@ -1,20 +1,117 @@
 import * as React from "react";
 import {scopedClassMaker} from '../helpers/classes';
+import Input from "../input/input";
+import Icon from "../icon/icon";
+import './datepicker.scss'
+import {useEffect, useState} from "react";
+import Button from "../button/button";
 const sc = scopedClassMaker('ireact-datepicker')
 interface Prop {
   onChange?: (date: string) => void;
   placeholder?: string;
+  defaultValue?: Date;
 }
 const DatePicker: React.FunctionComponent<Prop> = (props) => {
+  const [date, setDate] = useState<Date>(new Date())
+  const [displayDays, setDisplayDays] = useState<Date[]>([])
+  const [visible, setVisible] = useState(false)
+  const weeks: string[] = ['一', '二', '三', '四', '五', '六', '日']
   const getYearMonthDate = (date: Date): number[] => {
     let year = date.getFullYear()
     let month = date.getMonth()
     let day = date.getDate()
     return [year, month, day]
   }
+  const firstDayOfMonth = (date: Date): Date => {
+    const [year, month] = getYearMonthDate(date)
+    return new Date(year, month, 1)
+  }
+  const filterValue = (defaultValue: Date): string => {
+    const [year, month, day] = getYearMonthDate(defaultValue)
+    return `${year}-${month+1}-${day}`
+  }
+  const isCurrentMonth = (day: Date): boolean => {
+    const [year1, month1] = getYearMonthDate(day)
+    const [year2, month2] = getYearMonthDate(date)
+    return year1 === year2 && month1 === month2
+  }
+  const isCurrentDay = (day: Date): boolean => {
+    const [year1, month1, day1] = getYearMonthDate(day)
+    const [year2, month2, day2] = getYearMonthDate(date)
+    return year1 === year2 && month1 === month2 && day1 === day2
+  }
+  const visibleDays = () => {
+    const firstDay: any = firstDayOfMonth(date)
+    const n: number = firstDay.getDay()
+    const arr = []
+    const x = firstDay - (n === 0 ? 6 : n-1) * 3600 * 24 * 1000
+    for (let i = 0; i < 42; i++) {
+      arr.push(new Date(x + i * 3600 * 24 * 1000))
+    }
+    return arr
+  }
+  const onChange = () => {
+    console.log('aaa')
+  }
+  const onClickDay = (day: Date) => {
+    setDate(n => day)
+  }
+  const onClickToday = () => {
+    setDate(new Date())
+  }
+  const onClickInput = () => {
+    setVisible(true)
+  }
+  useEffect(() => {
+    const currentDate = props.defaultValue || new Date()
+    setDate(n => currentDate)
+  }, [])
+  useEffect(() => {
+    setDisplayDays(visibleDays())
+  }, [date])
   return (
     <div className={sc('')}>
-      <input type="text" placeholder={props.placeholder} value="2019-2-2"/>
+      <Input afterIcon={<Icon name={"calendar"}/>}  value={filterValue(date)}
+             onChange={onChange} onClick={onClickInput}/>
+      <div className={sc({'panel-wrapper': true, 'active': visible})}>
+        <div className={sc({'panel': true})}>
+          <div className={sc('panel-header')}>
+            <Icon name={"doubleleft"} style={{marginRight: '8px'}}/>
+            <Icon name={"left"}/>
+            <span className={sc('panel-header-title')}>{date.getFullYear()}年{date.getMonth()+1}月</span>
+            <Icon name={"doubleright"} style={{marginRight: '8px'}}/>
+            <Icon name={"right"}/>
+          </div>
+          <div className={sc('panel-body')}>
+            <table>
+              <thead>
+              <tr className={"row"}>
+                {weeks.map((week: string) =>
+                  <th className={sc('column-header')} key={week}>
+                    <span className={sc('column-header-inner')}>{week}</span>
+                  </th>
+                )}
+              </tr>
+              </thead>
+              <tbody className={sc('tbody')}>
+              {weeks.map((week: string, index: number) =>
+                <tr className={sc('row')} key={week}>
+                  {displayDays.slice(index*7, index*7 + 7).map((day: Date) =>
+                    <td key={day.getDate()} className={sc({'currentMonth': isCurrentMonth(day),
+                      'currentDay': isCurrentDay(day)})} onClick={() => onClickDay(day)}>
+                      {day.getDate()}
+                    </td>
+                  )}
+                </tr>
+              )}
+              </tbody>
+            </table>
+          </div>
+          <div className={sc("footer")}>
+            <Button onClick={onClickToday}>今天</Button>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

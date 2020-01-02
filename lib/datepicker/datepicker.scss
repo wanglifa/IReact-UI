@@ -1,0 +1,69 @@
+.ireact-datepicker {
+  max-width: 240px;
+  position: relative;
+  &-panel-wrapper {
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    transition: all .3s linear;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+    &.ireact-datepicker-active {
+      height: auto;
+    }
+  }
+  &-panel {
+    background: #fff;
+    border-radius: 4px;
+    outline: none;
+    font-size: 14px;
+    &-header {
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      border-bottom: 1px solid #e8e8e8;
+      .ireact-icon {
+        width: .8em;
+        fill: #ababab;
+      }
+      &-title {
+        flex: 1;
+        text-align: center;
+      }
+    }
+    &-body {
+      table {
+        width: 100%;
+        max-width: 100%;
+        background-color: transparent;
+        border-collapse: collapse;
+      }
+      table, td, th{
+        text-align: center;
+      }
+      td, th {
+        height: 30px;
+      }
+      td {
+        color: #ababab;
+        cursor: pointer;
+      }
+      th {
+        color: #333;
+        font-weight: normal;
+      }
+    }
+  }
+  &-currentMonth {
+    color: #333!important;
+  }
+  &-footer {
+    text-align: center;
+    padding: 6px 0;
+  }
+  &-currentDay {
+    background: #e6f7ff;
+    color: #34c3ff!important;
+  }
+}

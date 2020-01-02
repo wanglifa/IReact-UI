@@ -7,9 +7,9 @@ interface Props extends InputHTMLAttributes<HTMLInputElement>{
   beforeIcon?: ReactElement;
   afterIcon?: ReactElement;
 }
-const Input: React.FunctionComponent<Props> = ({className, beforeIcon, afterIcon, ...rest}) => {
+const Input: React.FunctionComponent<Props> = ({className, beforeIcon, afterIcon, style, ...rest}) => {
   return (
-    <div className={sc({'': true }, {extra: beforeIcon ? 'hasLeftIcon' : ''})}>
+    <div className={sc({'': true }, {extra: beforeIcon ? 'hasLeftIcon' : ''})} style={style}>
       {
         beforeIcon ?
         <div className={sc('leftIcon')}>{beforeIcon}</div>

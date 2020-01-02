@@ -7,7 +7,7 @@ const InputExample: React.FunctionComponent = () => {
       <Icon name="add"/>
     } afterIcon={
       <Icon name={"close"}/>
-    }/>
+    } style={{width: '260px'}}/>
   )
 }
 export default InputExample;

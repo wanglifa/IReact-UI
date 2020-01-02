@@ -2,6 +2,7 @@ $main-color: #34c3ff;
 .ireact-input {
   padding: 0;
   position: relative;
+  border: none;
   &-content {
     outline: none;
     width: 100%;
@@ -22,6 +23,7 @@ $main-color: #34c3ff;
   .ireact-icon {
     width: .8em;
     height: .8em;
+    fill: rgba(0, 0, 0, 0.25);
   }
   &-leftIcon, &-rightIcon {
     position: absolute;
