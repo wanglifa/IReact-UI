@@ -18,6 +18,9 @@
     border-radius: 4px;
     outline: none;
     font-size: 14px;
+    -webkit-user-select: none;
+    -moz-user-select:none;
+    -ms-user-select:none;
     &-header {
       display: flex;
       align-items: center;
@@ -65,5 +68,8 @@
   &-currentDay {
     background: #e6f7ff;
     color: #34c3ff!important;
+  }
+  &-isToday {
+    border: 1px solid #34c3ff;
   }
 }

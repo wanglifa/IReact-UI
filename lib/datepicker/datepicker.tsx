@@ -3,7 +3,7 @@ import {scopedClassMaker} from '../helpers/classes';
 import Input from "../input/input";
 import Icon from "../icon/icon";
 import './datepicker.scss'
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Button from "../button/button";
 const sc = scopedClassMaker('ireact-datepicker')
 interface Prop {
@@ -15,6 +15,10 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
   const [date, setDate] = useState<Date>(new Date())
   const [displayDays, setDisplayDays] = useState<Date[]>([])
   const [visible, setVisible] = useState(false)
+  const wrapperRef = useRef<HTMLDivElement | null>(null)
+  const [yearRange, setYearRange] = useState<number[]>([])
+  const [displayAllYear, setDisplayAllYear] = useState<number[]>([])
+  const _displayYearTrNumber: number[] = [1,2,3,4]
   const weeks: string[] = ['一', '二', '三', '四', '五', '六', '日']
   const getYearMonthDate = (date: Date): number[] => {
     let year = date.getFullYear()
@@ -56,8 +60,13 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
   const onChange = () => {
     console.log('aaa')
   }
+  const isCurrentYear = (everyYear: number) => {
+    const {year} = getCompareDate(date)
+    return year === everyYear
+  }
   const onClickDay = (day: Date) => {
     setDate(n => day)
+    setVisible(false)
   }
   const onClickToday = () => {
     setDate(new Date())
@@ -65,25 +74,51 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
   const onClickInput = () => {
     setVisible(true)
   }
+  const toggleYearOrMonth = (e: React.MouseEvent<SVGElement>, type: number, time: number) => {
+    e.preventDefault()
+    setDate(new Date((date as any) - (time*24*60*60*1000) * type))
+  }
+  const onClickDocument: React.EventHandler<any> = (e) => {
+    if (wrapperRef.current === e.target || wrapperRef.current!.contains(e.target as Node)) {
+      return
+    }
+    setVisible(false)
+  }
+  const displayYear = () => {
+    const arr = []
+    for (let i = yearRange[0]; i <= yearRange[1]; i++) {
+      arr.push(i)
+    }
+    return arr
+  }
   useEffect(() => {
+    window.addEventListener('click', onClickDocument, false)
     const currentDate = props.defaultValue || new Date()
     setDate(n => currentDate)
+    return () => window.removeEventListener('click', onClickDocument)
   }, [])
   useEffect(() => {
     setDisplayDays(visibleDays())
+    const yearStart = String(date.getFullYear()).slice(0, 3) + '0'
+    const yearEnd = String(date.getFullYear()).slice(0, 3) + '9'
+    setYearRange([Number(yearStart), Number(yearEnd)])
+    setDisplayAllYear(displayYear())
   }, [date])
   return (
-    <div className={sc('')}>
+    <div className={sc('')} ref={wrapperRef}>
       <Input afterIcon={<Icon name={"calendar"}/>}  value={filterValue(date)}
              onChange={onChange} onClick={onClickInput}/>
       <div className={sc({'panel-wrapper': true, 'active': visible})}>
-        <div className={sc({'panel': true})}>
+        <div className={sc({'panel': true})} style={{display: 'none'}}>
           <div className={sc('panel-header')}>
-            <Icon name={"doubleleft"} style={{marginRight: '8px'}}/>
-            <Icon name={"left"}/>
-            <span className={sc('panel-header-title')}>{date.getFullYear()}年{date.getMonth()+1}月</span>
-            <Icon name={"doubleright"} style={{marginRight: '8px'}}/>
-            <Icon name={"right"}/>
+            <Icon name={"doubleleft"} style={{marginRight: '8px'}} onClick={(e) => toggleYearOrMonth(e, 1, 365)}/>
+            <Icon name={"left"} onClick={(e) => toggleYearOrMonth(e, 1, 30)}/>
+            <span className={sc('panel-header-title')}>
+              <span>{date.getFullYear()}年</span>
+              <span>{date.getMonth()+1}月</span>
+            </span>
+            <Icon name={"right"} style={{marginRight: '8px'}} onClick={(e) => toggleYearOrMonth(e, -1, 30)}/>
+            <Icon name={"doubleright"} onClick={(e) => toggleYearOrMonth(e, -1, 365)}/>
           </div>
           <div className={sc('panel-body')}>
             <table>
@@ -112,6 +147,23 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
           </div>
           <div className={sc("footer")}>
             <Button onClick={onClickToday}>今天</Button>
+          </div>
+        </div>
+        <div className={sc({'panel': true})}>
+          <div className={sc('panel-body')}>
+            <table>
+              <thead>
+              </thead>
+              <tbody className={sc('tbody')}>
+              {_displayYearTrNumber.map((num: number, index: number) =>
+                <tr key={num}>
+                  {displayAllYear.slice(index*4, index*4+4).map((year: number) =>
+                    <td key={year} className={sc({'currentDay': isCurrentYear(year)})}>{year}</td>
+                  )}
+                </tr>
+              )}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
