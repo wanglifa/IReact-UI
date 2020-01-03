@@ -22,23 +22,26 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
     let day = date.getDate()
     return [year, month, day]
   }
+  const getCompareDate = (everyDay: Date, date: Date | undefined = undefined) => {
+    const [year, month, day] = getYearMonthDate(everyDay)
+    const [year1, month1, day1] = date && getYearMonthDate(date) || []
+    return {year, month, day, year1, month1, day1}
+  }
   const firstDayOfMonth = (date: Date): Date => {
-    const [year, month] = getYearMonthDate(date)
+    const {year, month} = getCompareDate(date)
     return new Date(year, month, 1)
   }
   const filterValue = (defaultValue: Date): string => {
-    const [year, month, day] = getYearMonthDate(defaultValue)
+    const {year, month, day} = getCompareDate(defaultValue)
     return `${year}-${month+1}-${day}`
   }
   const isCurrentMonth = (day: Date): boolean => {
-    const [year1, month1] = getYearMonthDate(day)
-    const [year2, month2] = getYearMonthDate(date)
-    return year1 === year2 && month1 === month2
+    const {year, year1, month, month1} = getCompareDate(day, date)
+    return year === year1 && month === month1
   }
-  const isCurrentDay = (day: Date): boolean => {
-    const [year1, month1, day1] = getYearMonthDate(day)
-    const [year2, month2, day2] = getYearMonthDate(date)
-    return year1 === year2 && month1 === month2 && day1 === day2
+  const isCurrentDayOrToday = (everyDay: Date, date: Date): boolean => {
+    const {year, month, day, year1, month1, day1} = getCompareDate(everyDay, date)
+    return year === year1 && month === month1 && day === day1
   }
   const visibleDays = () => {
     const firstDay: any = firstDayOfMonth(date)
@@ -98,7 +101,7 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
                 <tr className={sc('row')} key={week}>
                   {displayDays.slice(index*7, index*7 + 7).map((day: Date) =>
                     <td key={day.getDate()} className={sc({'currentMonth': isCurrentMonth(day),
-                      'currentDay': isCurrentDay(day)})} onClick={() => onClickDay(day)}>
+                      'currentDay': isCurrentDayOrToday(day, date), 'isToday': isCurrentDayOrToday(new Date(), day)})} onClick={() => onClickDay(day)}>
                       {day.getDate()}
                     </td>
                   )}
