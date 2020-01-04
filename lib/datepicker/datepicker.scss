@@ -1,5 +1,5 @@
 .ireact-datepicker {
-  max-width: 240px;
+  max-width: 280px;
   position: relative;
   &-panel-wrapper {
     height: 0;
@@ -33,6 +33,12 @@
       &-title {
         flex: 1;
         text-align: center;
+        span {
+          cursor: pointer;
+          &:hover {
+            color: #34c3ff;
+          }
+        }
       }
     }
     &-body {
@@ -55,6 +61,15 @@
       th {
         color: #333;
         font-weight: normal;
+      }
+      &-year {
+        td {
+          padding: 20px 0;
+          color: #333;
+          div {
+            padding: 8px;
+          }
+        }
       }
     }
   }

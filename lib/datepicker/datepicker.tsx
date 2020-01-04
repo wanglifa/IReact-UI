@@ -17,6 +17,7 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
   const [visible, setVisible] = useState(false)
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const [yearRange, setYearRange] = useState<number[]>([])
+  const [defaultDiplay, setDefaultDisplay] = useState<'day' | 'month' | 'year'>('day')
   const [displayAllYear, setDisplayAllYear] = useState<number[]>([])
   const _displayYearTrNumber: number[] = [1,2,3,4]
   const weeks: string[] = ['一', '二', '三', '四', '五', '六', '日']
@@ -76,13 +77,15 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
   }
   const toggleYearOrMonth = (e: React.MouseEvent<SVGElement>, type: number, time: number) => {
     e.preventDefault()
-    setDate(new Date((date as any) - (time*24*60*60*1000) * type))
+    defaultDiplay === 'day' && setDate(new Date((date as any) - (time*24*60*60*1000) * type))
+    defaultDiplay === 'year' && setYearRange(prevRange => [prevRange[0]-(10*type), prevRange[1]-(10*type)])
   }
   const onClickDocument: React.EventHandler<any> = (e) => {
     if (wrapperRef.current === e.target || wrapperRef.current!.contains(e.target as Node)) {
       return
     }
     setVisible(false)
+    setDefaultDisplay('day')
   }
   const displayYear = () => {
     const arr = []
@@ -90,6 +93,13 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
       arr.push(i)
     }
     return arr
+  }
+  const onClickDisplayYearOrMonthOrDay = (displayDate: 'day' | 'month' | 'year') => {
+    setDefaultDisplay(displayDate)
+  }
+  const onClickToggleYear = (year: number): void => {
+    setDate(new Date(date.setFullYear(year)))
+    setDefaultDisplay('day')
   }
   useEffect(() => {
     window.addEventListener('click', onClickDocument, false)
@@ -102,25 +112,33 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
     const yearStart = String(date.getFullYear()).slice(0, 3) + '0'
     const yearEnd = String(date.getFullYear()).slice(0, 3) + '9'
     setYearRange([Number(yearStart), Number(yearEnd)])
-    setDisplayAllYear(displayYear())
   }, [date])
+  useEffect(() => {
+    setDisplayAllYear(displayYear())
+  }, [yearRange])
   return (
     <div className={sc('')} ref={wrapperRef}>
       <Input afterIcon={<Icon name={"calendar"}/>}  value={filterValue(date)}
              onChange={onChange} onClick={onClickInput}/>
       <div className={sc({'panel-wrapper': true, 'active': visible})}>
-        <div className={sc({'panel': true})} style={{display: 'none'}}>
+        <div className={sc({'panel': true})}>
           <div className={sc('panel-header')}>
             <Icon name={"doubleleft"} style={{marginRight: '8px'}} onClick={(e) => toggleYearOrMonth(e, 1, 365)}/>
-            <Icon name={"left"} onClick={(e) => toggleYearOrMonth(e, 1, 30)}/>
-            <span className={sc('panel-header-title')}>
-              <span>{date.getFullYear()}年</span>
-              <span>{date.getMonth()+1}月</span>
+            <Icon name={"left"} onClick={(e) => toggleYearOrMonth(e, 1, 30)}
+                  style={{display: defaultDiplay === 'day' ? 'block' : 'none'}}/>
+            <span className={sc('panel-header-title')} style={{display: defaultDiplay === 'day' ? 'block' : 'none'}}>
+              <span onClick={() => onClickDisplayYearOrMonthOrDay('year')}>{date.getFullYear()}年</span>
+              <span onClick={() => onClickDisplayYearOrMonthOrDay('month')}>{date.getMonth()+1}月</span>
             </span>
-            <Icon name={"right"} style={{marginRight: '8px'}} onClick={(e) => toggleYearOrMonth(e, -1, 30)}/>
+            <span className={sc('panel-header-title')} style={{display: defaultDiplay === 'year' ? 'block' : 'none'}}>
+              <span>{`${yearRange[0]}-${yearRange[1]}`}</span>
+            </span>
+            <Icon name={"right"} style={{marginRight: '8px', display: defaultDiplay === 'day' ? 'block' : 'none'}}
+                  onClick={(e) => toggleYearOrMonth(e, -1, 30)}
+            />
             <Icon name={"doubleright"} onClick={(e) => toggleYearOrMonth(e, -1, 365)}/>
           </div>
-          <div className={sc('panel-body')}>
+          <div className={sc({'panel-body': true, 'panel-body-day': true})} style={{display: defaultDiplay === 'day' ? 'block' : 'none'}}>
             <table>
               <thead>
               <tr className={"row"}>
@@ -145,12 +163,7 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
               </tbody>
             </table>
           </div>
-          <div className={sc("footer")}>
-            <Button onClick={onClickToday}>今天</Button>
-          </div>
-        </div>
-        <div className={sc({'panel': true})}>
-          <div className={sc('panel-body')}>
+          <div className={sc({'panel-body': true, 'panel-body-year': true})} style={{display: defaultDiplay === 'year' ? 'block' : 'none'}}>
             <table>
               <thead>
               </thead>
@@ -158,12 +171,19 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
               {_displayYearTrNumber.map((num: number, index: number) =>
                 <tr key={num}>
                   {displayAllYear.slice(index*4, index*4+4).map((year: number) =>
-                    <td key={year} className={sc({'currentDay': isCurrentYear(year)})}>{year}</td>
+                    <td key={year}>
+                      <div className={sc({'currentDay': isCurrentYear(year)})}
+                        onClick={() => onClickToggleYear(year)}
+                      >{year}</div>
+                    </td>
                   )}
                 </tr>
               )}
               </tbody>
             </table>
+          </div>
+          <div className={sc("footer")} style={{display: defaultDiplay === 'day' ? 'block' : 'none'}}>
+            <Button onClick={onClickToday}>今天</Button>
           </div>
         </div>
       </div>
