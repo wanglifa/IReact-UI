@@ -5,7 +5,7 @@ const onChange = (date: string) => {
 }
 const DatePickerExample: React.FunctionComponent = () => {
   return (
-    <DatePicker onChange={onChange} defaultValue={new Date()}/>
+    <DatePicker onChange={onChange} defaultValue={new Date('2019-09-06')}/>
   )
 }
 export default DatePickerExample;

@@ -13,7 +13,7 @@ interface Prop {
 }
 const DatePicker: React.FunctionComponent<Prop> = (props) => {
   const [date, setDate] = useState<Date>(new Date())
-  const [copyDate, setCopyDate] = useState(new Date())
+  const [copyDate, setCopyDate] = useState<Date | string>('')
   const [displayDays, setDisplayDays] = useState<Date[]>([])
   const [visible, setVisible] = useState(false)
   const wrapperRef = useRef<HTMLDivElement | null>(null)
@@ -38,15 +38,22 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
     const {year, month} = getCompareDate(date)
     return new Date(year, month, 1)
   }
-  const filterValue = (defaultValue: Date): string => {
-    console.log(2)
-    console.log(defaultValue, 'Date')
-    const {year, month, day} = getCompareDate(defaultValue)
-    return `${year}-${month+1}-${day}`
+  const filterValue = (defaultValue: Date | string): string => {
+    if (typeof defaultValue !== "string") {
+      const {year, month, day} = getCompareDate(defaultValue)
+      return `${year}-${pad2(month+1)}-${pad2(day)}`
+    } else {
+      return ''
+    }
   }
   const isCurrentMonth = (day: Date): boolean => {
     const {year, year1, month, month1} = getCompareDate(day, date)
     return year === year1 && month === month1
+  }
+  const isCurrentSelectMonth = (num: number): boolean => {
+    const date1 = typeof copyDate !== "string" ? copyDate : new Date()
+    const {year, month, year1} = getCompareDate(date1, date)
+    return year === year1 && month === num
   }
   const isCurrentDayOrToday = (everyDay: Date, date: Date): boolean => {
     const {year, month, day, year1, month1, day1} = getCompareDate(everyDay, date)
@@ -62,19 +69,27 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
     }
     return arr
   }
-  const onChange = () => {
-    console.log('aaa')
+  const pad2 = (num: number) => {
+    return (num >= 10 ? '' : '0') + num
+  }
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //
   }
   const isCurrentYear = (everyYear: number) => {
     const {year} = getCompareDate(date)
     return year === everyYear
   }
+  const selectDisplayDate = (date: Date = new Date()) => {
+    setDate(n => date)
+    setCopyDate(n => date)
+  }
   const onClickDay = (day: Date) => {
-    setDate(n => day)
+    selectDisplayDate(day)
     setVisible(false)
   }
   const onClickToday = () => {
-    setDate(new Date())
+    selectDisplayDate()
+    setVisible(false)
   }
   const onClickInput = () => {
     setVisible(true)
@@ -112,11 +127,16 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
     setDate(new Date(date.setMonth(val)))
     setDefaultDisplay('day')
   }
+  const onClickDeleteSelectDate = () => {
+    setCopyDate('')
+    setDate(new Date())
+  }
   useEffect(() => {
     window.addEventListener('click', onClickDocument, false)
     const currentDate = props.defaultValue || new Date()
     setDate(n => currentDate)
-    setCopyDate(date)
+    const inistDisplayDate = props.defaultValue || ''
+    setCopyDate(inistDisplayDate)
     return () => window.removeEventListener('click', onClickDocument)
   }, [])
   useEffect(() => {
@@ -130,8 +150,14 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
   }, [yearRange])
   return (
     <div className={sc('')} ref={wrapperRef}>
-      <Input afterIcon={<Icon name={"calendar"}/>}  value={filterValue(copyDate)}
-             onChange={onChange} onClick={onClickInput}/>
+      <Input afterIcon={
+        <div>
+          <Icon name={"calendar"}/>
+          <Icon name={"close"} onClick={onClickDeleteSelectDate}/>
+        </div>
+      }  value={filterValue(copyDate)}
+             onChange={(e) => onChange(e)} onClick={onClickInput} readOnly
+      />
       <div className={sc({'panel-wrapper': true, 'active': visible})}>
         <div className={sc({'panel': true})}>
           <div className={sc('panel-header')}>
@@ -168,7 +194,9 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
                 <tr className={sc('row')} key={week}>
                   {displayDays.slice(index*7, index*7 + 7).map((day: Date) =>
                     <td key={day.getDate()} className={sc({'currentMonth': isCurrentMonth(day),
-                      'currentDay': isCurrentDayOrToday(day, date), 'isToday': isCurrentDayOrToday(new Date(), day)})} onClick={() => onClickDay(day)}>
+                      'currentDay': isCurrentDayOrToday(day, date), 'isToday': isCurrentDayOrToday(new Date(), day)})}
+                        onClick={() => onClickDay(day)}
+                    >
                       {day.getDate()}
                     </td>
                   )}
@@ -205,7 +233,7 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
                 <tr key={num}>
                   {displayMonths.slice(index*4, index*4+4).map((month: string, index1: number) =>
                     <td key={month}>
-                      <div className={sc({'currentDay': isCurrentYear('')})}
+                      <div className={sc({'currentDay': isCurrentSelectMonth(index*4+index1)})}
                            onClick={() => onClickToggleMonth(index*4+index1)}
                       >{month}</div>
                     </td>

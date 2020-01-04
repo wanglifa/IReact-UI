@@ -88,4 +88,30 @@
   &-isToday {
     border: 1px solid #34c3ff;
   }
+  .ireact-input {
+    .ireact-input-rightIcon {
+      div {
+        svg {
+          &:last-child {
+            display: none;
+          }
+        }
+      }
+    }
+    &:hover {
+      .ireact-input-rightIcon {
+        div {
+          svg {
+            cursor: pointer;
+            &:nth-child(1) {
+              display: none;
+            }
+            &:last-child {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+  }
 }
