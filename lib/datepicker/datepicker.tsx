@@ -18,6 +18,7 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
   const [visible, setVisible] = useState(false)
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const [yearRange, setYearRange] = useState<number[]>([])
+  const [initDisplayDate, setInitDisplayDate] = useState<string>('')
   const [defaultDiplay, setDefaultDisplay] = useState<'day' | 'month' | 'year'>('day')
   const [displayAllYear, setDisplayAllYear] = useState<number[]>([])
   const _displayYearTrNumber: number[] = [1,2,3,4]
@@ -148,6 +149,9 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
   useEffect(() => {
     setDisplayAllYear(displayYear())
   }, [yearRange])
+  useEffect(() => {
+    setInitDisplayDate(filterValue(copyDate))
+  }, [copyDate])
   return (
     <div className={sc('')} ref={wrapperRef}>
       <Input afterIcon={
@@ -155,7 +159,7 @@ const DatePicker: React.FunctionComponent<Prop> = (props) => {
           <Icon name={"calendar"}/>
           <Icon name={"close"} onClick={onClickDeleteSelectDate}/>
         </div>
-      }  value={filterValue(copyDate)}
+      }  value={initDisplayDate}
              onChange={(e) => onChange(e)} onClick={onClickInput} readOnly
       />
       <div className={sc({'panel-wrapper': true, 'active': visible})}>

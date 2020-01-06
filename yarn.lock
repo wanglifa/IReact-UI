@@ -4289,6 +4289,19 @@ ireact-ui@^0.1.6:
     react-router-dom "^5.1.2"
     react-transition-group "^4.3.0"
 
+ireact-ui@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/ireact-ui/-/ireact-ui-0.1.7.tgz#d8d17ea053cff0597be723483bb9249c3dcd69dd"
+  integrity sha512-bvmuGSUWmo3Sz/1QY77wEf/VcZU4V4aUPAVuVr9WMcH51sbh/I3cNUzUUBLJ1WUNr6mZ2X+LHTeVC71SGtgPqA==
+  dependencies:
+    "@types/jest" "^24.0.20"
+    ireact-ui "^0.1.6"
+    node-sass "^4.13.0"
+    react "^16.11.0"
+    react-dom "^16.11.0"
+    react-router-dom "^5.1.2"
+    react-transition-group "^4.3.0"
+
 is-absolute-url@^3.0.3:
   version "3.0.3"
   resolved "https://registry.npm.taobao.org/is-absolute-url/download/is-absolute-url-3.0.3.tgz?cache=0&sync_timestamp=1569736493122&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fis-absolute-url%2Fdownload%2Fis-absolute-url-3.0.3.tgz#96c6a22b6a23929b11ea0afb1836c36ad4a5d698"
