@@ -3,29 +3,31 @@ import {createContext, Fragment, ReactElement, useContext, useEffect, useRef, us
 import {scopedClassMaker} from '../helpers/classes';
 const scopedClass = scopedClassMaker('ireact-menu')
 import './menu.scss'
+import Icon from "../icon/icon";
 const sc = scopedClass
 const C = createContext<any | null>(null)
-interface menuProp {
+interface menuProp extends React.HTMLAttributes<ReactElement>{
   onClick?: (val: any) => void;
-  selectedName: string;
-  mode?: 'vertical' | 'horizontal';
+  selectedName: string | string[];
+  mode?: 'vertical' | 'horizontal' | 'inline';
   children: Array<ReactElement>;
+  defaultOpenKeys?: string[];
 }
 interface ItemProp {
   name: string;
   disabled?: boolean;
-  mode1?: 'vertical' | 'horizontal';
+  mode1?: 'vertical' | 'horizontal' | 'inline';
 }
 interface SubMenuProp {
   name?: string;
-  title: ReactElement;
-  mode1?: 'vertical' | 'horizontal';
+  title: ReactElement | string;
+  mode1?: 'vertical' | 'horizontal' | 'inline';
   children: Array<ReactElement>;
 }
 interface ItemGroupProp {
   name?: string;
   title: string;
-  mode1?: 'vertical' | 'horizontal';
+  mode1?: 'vertical' | 'horizontal' | 'inline';
   children: Array<ReactElement>;
 }
 interface cloneParams {
@@ -37,16 +39,20 @@ interface Prop extends React.FunctionComponent<menuProp>{
   ItemGroup: React.FunctionComponent<ItemGroupProp>;
 }
 const Menu: Prop = (prop) => {
+  const [openSubMenu, setOpenSubMenu] = useState<string[]>([])
   const cloneElement = (child: ReactElement, cloneParams: cloneParams): ReactElement => {
     return React.cloneElement(child, cloneParams)
   }
   const [selectName, setSelectName] = useState<string>('')
   useEffect(() => {
-    setSelectName(prop.selectedName)
+    setSelectName(prop.selectedName as string)
+    setOpenSubMenu(prop.defaultOpenKeys!)
   }, [])
   return (
-    <C.Provider value={{ selectName, setSelectName, onClick: prop.onClick }}>
-      <div className={sc({'': true, 'horizontal': prop.mode === 'horizontal'})}>
+    <C.Provider value={{ selectName, setSelectName, onClick: prop.onClick, openSubMenu, setOpenSubMenu }}>
+      <div className={sc({'': true, [`${prop.mode}`]: true, 'root': prop.mode !== 'horizontal'})}
+       style={prop.style}
+      >
         {prop.children!.map((node: ReactElement, index: number) =>
           <Fragment key={index}>
             {cloneElement(node, {mode1: prop.mode!})}
@@ -78,7 +84,7 @@ const SubMenu: React.FunctionComponent<SubMenuProp> = (prop) => {
   const [popMinWidth, setPopMinWidth] = useState<number>(0)
   const titleRef = useRef<HTMLDivElement | null>(null)
   const [navVisible, setNavVisible] = useState<boolean>(false)
-  const {selectName} = useContext(C)
+  const {selectName, openSubMenu, setOpenSubMenu} = useContext(C)
   const [SubMenuLists, setSubMenuLists] = useState<string[]>([])
   const arr: string[] = []
   const deepGetItemList = (obj: any) => {
@@ -88,6 +94,19 @@ const SubMenu: React.FunctionComponent<SubMenuProp> = (prop) => {
       obj.children.map((node: ReactElement) => {
         deepGetItemList(node.props)
       })
+    }
+  }
+  const onClickSubMenu = (name: string, mode: string) => {
+    if (mode !== 'horizontal') {
+      let copyOpenSubMenu = JSON.parse(JSON.stringify(openSubMenu))
+      if (copyOpenSubMenu.includes(name)) {
+        copyOpenSubMenu.splice(copyOpenSubMenu.indexOf(name), 1)
+      } else {
+        copyOpenSubMenu.push(name)
+      }
+      setOpenSubMenu(copyOpenSubMenu)
+    } else {
+      return
     }
   }
   useEffect(() => {
@@ -101,19 +120,24 @@ const SubMenu: React.FunctionComponent<SubMenuProp> = (prop) => {
   }, [selectName])
   return (
     <Fragment>
-      <div className={sc({'submenu': true, [`submenu-${prop.mode1}`]: true, 'item-selected': SubMenuLists.includes(selectName)})}
+      <div className={sc({'submenu': true, [`submenu-${prop.mode1}`]: true, 'submenu-selected': SubMenuLists.includes(selectName)})}
         onMouseEnter={() => setNavVisible(true)}
            onMouseLeave={() => setNavVisible(false)}
       >
         {
           prop.title ?
-            <div className={sc('submenu-title')} ref={titleRef}>
+            <div className={sc('submenu-title')} ref={titleRef} onClick={() => onClickSubMenu(prop.name!, prop.mode1!)}>
               {prop.title}
+              {prop.mode1 === 'inline' ? <Icon name={openSubMenu.includes(prop.name) ? 'toparrow' : 'bottom'} className={sc('inline-icon')}/> : null}
             </div> : null
         }
-        <div className={sc('submenu-popup')} style={{display: navVisible ? 'block' : 'none'}}>
-          <div className={sc({'': true, 'vertical': true})} style={{minWidth: `${popMinWidth}px`}}>{prop.children}</div>
-        </div>
+        {
+          prop.mode1 === 'horizontal' ?
+            <div className={sc('submenu-popup')} style={{display: navVisible ? 'block' : 'none'}}>
+              <div className={sc({'': true, 'vertical': true})} style={{minWidth: `${popMinWidth}px`}}>{prop.children}</div>
+            </div> :
+            <div className={sc({'': true, 'sub': true, [`${prop.mode1}`]: true, 'sub-display': openSubMenu.includes(prop.name)})}>{prop.children}</div>
+        }
       </div>
     </Fragment>
   )

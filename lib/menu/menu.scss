@@ -110,6 +110,25 @@
       }
     }
   }
+  &-inline {
+    &-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    &.ireact-menu-sub {
+      height: 0;
+      overflow: hidden;
+      transition: all .3s linear;
+      .ireact-menu-item {
+        padding-left: 42px;
+      }
+      &.ireact-menu-sub-display {
+        height: auto;
+      }
+    }
+  }
 }
 .ireact-menu-horizontal > .ireact-menu-item:hover, .ireact-menu-horizontal > .ireact-menu-submenu:hover, .ireact-menu-horizontal > .ireact-menu-item-active, .ireact-menu-horizontal > .ireact-menu-submenu-active, .ireact-menu-horizontal > .ireact-menu-item-open, .ireact-menu-horizontal > .ireact-menu-submenu-open, .ireact-menu-horizontal > .ireact-menu-item-selected, .ireact-menu-horizontal > .ireact-menu-submenu-selected {
   color: #34c3ff;
@@ -118,7 +137,95 @@
 }
 .ireact-menu-item:hover, .ireact-menu-item-active, .ireact-menu:not(.ireact-menu-inline) .ireact-menu-submenu-open, .ireact-menu-submenu-active, .ireact-menu-submenu-title:hover {
   color: #34c3ff;
+  fill: #34c3ff;
 }
 .ireact-menu-item-selected {
   color: #34c3ff;
 }
+.ireact-menu-root.ireact-menu-vertical, .ireact-menu-root.ireact-menu-vertical-left,
+.ireact-menu-root.ireact-menu-vertical-right, .ireact-menu-root.ireact-menu-inline {
+  box-shadow: none;
+}
+.ireact-menu-inline, .ireact-menu-vertical, .ireact-menu-vertical-left {
+  border-right: 1px solid #e8e8e8;
+}
+.ireact-menu-vertical .ireact-menu-submenu, .ireact-menu-vertical-left .ireact-menu-submenu, .ireact-menu-vertical-right .ireact-menu-submenu, .ireact-menu-inline .ireact-menu-submenu {
+  padding-bottom: 0.02px;
+}
+.ireact-menu-inline .ireact-menu-submenu-title {
+  padding-right: 34px;
+}
+.ireact-menu-inline .ireact-menu-item, .ireact-menu-inline .ireact-menu-submenu-title {
+  width: calc(100% + 1px);
+}
+.ireact-menu-vertical > .ireact-menu-item, .ireact-menu-vertical-left > .ireact-menu-item, .ireact-menu-vertical-right > .ireact-menu-item, .ireact-menu-inline > .ireact-menu-item, .ireact-menu-vertical > .ireact-menu-submenu > .ireact-menu-submenu-title, .ireact-menu-vertical-left > .ireact-menu-submenu > .ireact-menu-submenu-title, .ireact-menu-vertical-right > .ireact-menu-submenu > .ireact-menu-submenu-title, .ireact-menu-inline > .ireact-menu-submenu > .ireact-menu-submenu-title {
+  height: 40px;
+  line-height: 40px;
+}
+.ireact-menu-vertical .ireact-menu-item, .ireact-menu-vertical-left .ireact-menu-item, .ireact-menu-vertical-right .ireact-menu-item, .ireact-menu-inline .ireact-menu-item, .ireact-menu-vertical .ireact-menu-submenu-title, .ireact-menu-vertical-left .ireact-menu-submenu-title, .ireact-menu-vertical-right .ireact-menu-submenu-title, .ireact-menu-inline .ireact-menu-submenu-title {
+  height: 40px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding: 0 16px;
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 40px;
+  text-overflow: ellipsis;
+}
+.ireact-menu-sub.ireact-menu-inline {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.ireact-menu-inline {
+  width: 100%;
+}
+.ireact-menu-sub.ireact-menu-inline .ireact-menu-item-group-title {
+  padding-left: 32px;
+}
+.ireact-menu-vertical .ireact-menu-item:not(:last-child), .ireact-menu-vertical-left .ireact-menu-item:not(:last-child), .ireact-menu-vertical-right .ireact-menu-item:not(:last-child), .ireact-menu-inline .ireact-menu-item:not(:last-child) {
+  margin-bottom: 8px;
+}
+.ireact-menu-inline .ireact-menu-selected::after, .ireact-menu-inline .ireact-menu-item-selected::after {
+  -webkit-transform: scaleY(1);
+  -ms-transform: scaleY(1);
+  transform: scaleY(1);
+  opacity: 1;
+  -webkit-transition: opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1), -webkit-transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1), -webkit-transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1), -webkit-transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+.ireact-menu-vertical .ireact-menu-item::after, .ireact-menu-vertical-left .ireact-menu-item::after, .ireact-menu-vertical-right .ireact-menu-item::after, .ireact-menu-inline .ireact-menu-item::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  border-right: 3px solid #1890ff;
+  -webkit-transform: scaleY(0.0001);
+  -ms-transform: scaleY(0.0001);
+  transform: scaleY(0.0001);
+  opacity: 0;
+  -webkit-transition: opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1), -webkit-transform 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+  transition: opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1), -webkit-transform 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+  transition: transform 0.15s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+  transition: transform 0.15s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1), -webkit-transform 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+  content: '';
+}
+.ireact-menu-inline .ireact-menu-selected::after, .ireact-menu-inline .ireact-menu-item-selected::after {
+  -webkit-transform: scaleY(1);
+  -ms-transform: scaleY(1);
+  transform: scaleY(1);
+  opacity: 1;
+  -webkit-transition: opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1), -webkit-transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1), -webkit-transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1), -webkit-transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+.ireact-menu-submenu-selected {
+  color: #34c3ff;
+  fill: #34c3ff;
+}
+

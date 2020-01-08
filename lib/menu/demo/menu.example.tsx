@@ -1,7 +1,7 @@
 import * as React from "react";
-import Menu from "./menu";
+import Menu from "../menu";
 const {SubMenu}  = Menu
-import Icon from "../icon/icon";
+import Icon from "../../icon/icon";
 const onClick = (val: any) => {
   console.log(val)
 }
