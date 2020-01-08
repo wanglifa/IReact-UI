@@ -11,7 +11,7 @@ const MenuExample: React.FunctionComponent = () => {
       onClick={onClick}
       style={{ width: 256 }}
       selectedName={'1'}
-      defaultOpenKeys={['sub1']}
+      defaultOpenNames={['sub1']}
       mode="inline"
     >
       <SubMenu

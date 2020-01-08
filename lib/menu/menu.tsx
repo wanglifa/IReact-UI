@@ -8,10 +8,10 @@ const sc = scopedClass
 const C = createContext<any | null>(null)
 interface menuProp extends React.HTMLAttributes<ReactElement>{
   onClick?: (val: any) => void;
-  selectedName: string | string[];
+  selectedName: string;
   mode?: 'vertical' | 'horizontal' | 'inline';
   children: Array<ReactElement>;
-  defaultOpenKeys?: string[];
+  defaultOpenNames?: string[];
 }
 interface ItemProp {
   name: string;
@@ -46,7 +46,7 @@ const Menu: Prop = (prop) => {
   const [selectName, setSelectName] = useState<string>('')
   useEffect(() => {
     setSelectName(prop.selectedName as string)
-    setOpenSubMenu(prop.defaultOpenKeys!)
+    setOpenSubMenu(prop.defaultOpenNames!)
   }, [])
   return (
     <C.Provider value={{ selectName, setSelectName, onClick: prop.onClick, openSubMenu, setOpenSubMenu }}>

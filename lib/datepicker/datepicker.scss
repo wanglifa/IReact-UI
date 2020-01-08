@@ -1,5 +1,5 @@
 .ireact-datepicker {
-  max-width: 280px;
+  min-width: 280px;
   position: relative;
   &-panel-wrapper {
     height: 0;
@@ -9,6 +9,7 @@
     transition: all .3s linear;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     box-sizing: border-box;
+    z-index: 10;
     &.ireact-datepicker-active {
       height: auto;
     }
