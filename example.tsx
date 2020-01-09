@@ -14,6 +14,7 @@ import TreeDemo from "./lib/tree/demo/tree.demo";
 import MenuDemo from "./lib/menu/demo/menu.demo";
 import DatePickerDemo from "./lib/datepicker/demo/datepicker.demo";
 import InputDemo from "./lib/input/demo/input.demo";
+import TableDemo from "./lib/table/demo/table.demo";
 const logo = require('./logo.png')
 
 ReactDOM.render(
@@ -62,6 +63,9 @@ ReactDOM.render(
             <li>
               <NavLink to="/menu">Menu 导航菜单</NavLink>
             </li>
+            <li>
+              <NavLink to="/table">Table 表格</NavLink>
+            </li>
           </ul>
         </Aside>
         <Content className="site-main">
@@ -76,6 +80,7 @@ ReactDOM.render(
           <Route path="/tree" component={TreeDemo}/>
           <Route path="/datepicker" component={DatePickerDemo}/>
           <Route path="/menu" component={MenuDemo}/>
+          <Route path="/table" component={TableDemo}/>
         </Content>
       </Layout>
       <Footer className="site-footer">

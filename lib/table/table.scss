@@ -1,0 +1,170 @@
+input[type='checkbox'] {
+  box-sizing: border-box;
+  padding: 0;
+}
+.ireact-table {
+  width: 100%;
+  &-selection {
+    white-space: nowrap;
+  }
+  table {
+    width: 100%;
+    text-align: left;
+    border-radius: 4px 4px 0 0;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  &-thead {
+    > tr:first-child {
+      > th:first-child {
+        border-top-left-radius: 4px;
+      }
+    }
+    > tr {
+      > th {
+        padding: 16px;
+        overflow-wrap: break-word;
+        color: rgba(0, 0, 0, 0.85);
+        font-weight: 500;
+        text-align: left;
+        background: #fafafa;
+        border-bottom: 1px solid #e8e8e8;
+        -webkit-transition: background 0.3s ease;
+        transition: background 0.3s ease;
+        &.ireact-table-selection-column {
+          text-align: center;
+        }
+        .ireact-table-header-column {
+          display: inline-block;
+          max-width: 100%;
+          vertical-align: top;
+        }
+        .ireact-table-column-sorter {
+          display: table-cell;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+  &-tbody {
+    > tr {
+      > td {
+        padding: 16px;
+        overflow-wrap: break-word;
+        border-bottom: 1px solid #e8e8e8;
+        transition: all 0.3s, border 0s;
+        &.ireact-table-selection-column {
+          text-align: center;
+        }
+      }
+    }
+  }
+  &-checkbox {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: rgba(0, 0, 0, 0.65);
+    font-size: 14px;
+    font-variant: tabular-nums;
+    line-height: 1.5;
+    list-style: none;
+    font-feature-settings: 'tnum';
+    position: relative;
+    top: -0.09em;
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    vertical-align: middle;
+    outline: none;
+    cursor: pointer;
+    &-input {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      opacity: 0;
+    }
+    &-wrapper {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      color: rgba(0, 0, 0, 0.65);
+      font-size: 14px;
+      font-variant: tabular-nums;
+      line-height: 1.5;
+      list-style: none;
+      font-feature-settings: 'tnum';
+      display: inline-block;
+      line-height: unset;
+      cursor: pointer;
+    }
+    &-inner {
+      position: relative;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 16px;
+      height: 16px;
+      background-color: #fff;
+      border: 1px solid #d9d9d9;
+      border-radius: 2px;
+      border-collapse: separate;
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s;
+      &::after {
+        position: absolute;
+        top: 50%;
+        left: 22%;
+        display: table;
+        width: 5.71428571px;
+        height: 9.14285714px;
+        border: 2px solid #fff;
+        border-top: 0;
+        border-left: 0;
+        transform: rotate(45deg) scale(0) translate(-50%, -50%);
+        opacity: 0;
+        transition: all 0.1s cubic-bezier(0.71, -0.46, 0.88, 0.6), opacity 0.1s;
+        content: ' ';
+      }
+    }
+    &-checked {
+      .ireact-table-checkbox-inner {
+        background: #34c3ff;
+        border-color: #34c3ff;
+        &::after {
+          position: absolute;
+          display: table;
+          border: 2px solid #fff;
+          border-top: 0;
+          border-left: 0;
+          transform: rotate(45deg) scale(1) translate(-50%, -50%);
+          opacity: 1;
+          transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
+          content: ' ';
+        }
+      }
+    }
+    &-indeterminate {
+      .ireact-table-checkbox-inner {
+        background-color: #fff;
+        border-color: #d9d9d9;
+        &::after {
+          top: 50%;
+          left: 50%;
+          width: 8px;
+          height: 8px;
+          background-color: #34c3ff;
+          border: 0;
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 1;
+          content: ' ';
+        }
+      }
+    }
+  }
+}
