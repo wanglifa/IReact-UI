@@ -5,34 +5,38 @@ import {useEffect, useState} from "react";
 const scopedClass = scopedClassMaker('ireact-table')
 const sc = scopedClass
 interface TableProp {
-  columns: Array<ColumnProp>;
+  columns: Array<ColumnProp<any>>;
   dataSource: any[];
   rowSelection?: boolean;
   onChange?: (val: any) => void;
 }
-interface ColumnProp {
+interface ColumnProp<T> {
   title?: string;
   dataIndex?: string;
   key?: string;
+  render?: (text: any, row?: T, index?: number) => React.ReactNode;
 }
 const Table: React.FunctionComponent<TableProp> = (prop) => {
   const [allSelect, setAllSelect] = useState<string>('0') // 0未选中 1半选 2全选
   const [selectArr, setSelectArr] = useState<boolean[]>([])
   let selectArrIndex: (number | undefined)[] = []
+  const [isOnChange, setIsOnChange] = useState<boolean>(false)
+  const reveseSelectArr =  (arr: boolean[], status: boolean) => {
+    prop.dataSource.map((row: any) => {
+      arr.push(status)
+    })
+  }
   const onClickSelected = (type: number, val: any, index?: number) => {
+    setIsOnChange(true)
     let copySelectArr: boolean[] = JSON.parse(JSON.stringify(selectArr))
     if (type === 1) {
       const _a = allSelect === '2' ? '0' : '2';
       if (_a === '2') {
         copySelectArr = []
-        prop.dataSource.map((row: any) => {
-          copySelectArr.push(true)
-        })
+        reveseSelectArr(copySelectArr, true)
       } else if (_a === '0') {
         copySelectArr = []
-        prop.dataSource.map((row: any) => {
-          copySelectArr.push(false)
-        })
+        reveseSelectArr(copySelectArr, false)
       }
       setAllSelect(_a)
     } else {
@@ -42,10 +46,9 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
   }
   useEffect(() => {
     const arr: boolean[] = []
-    prop.dataSource.map((row: any) => {
-      arr.push(false)
-    })
+    reveseSelectArr(arr, false)
     setSelectArr(arr)
+    return () => {setIsOnChange(false)}
   }, [])
   useEffect(() => {
     let _a: '0' | '1' | '2' = '0'
@@ -56,7 +59,7 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
     let _b = prop.dataSource.map((data: any, index: number) => {
       return selectArrIndex.includes(index) ? data : undefined;
     }).filter(item => item !== undefined)
-    prop.onChange!(_b)
+    isOnChange && prop.onChange!(_b)
     setAllSelect(_a)
   }, [selectArr])
   return (
@@ -87,7 +90,7 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
                 : null
             }
             {
-              prop.columns.map((col: ColumnProp, index: number) =>
+              prop.columns.map((col: ColumnProp<any>, index: number) =>
                 <th key={index}>{col.title}</th>
               )
             }
@@ -116,11 +119,18 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
                 </td>
                 : null
             }
-            {prop.columns.map((col: ColumnProp, index1: number) =>
+            {prop.columns.map((col: ColumnProp<any>, index1: number) =>
               <td key={index1}>
-                {row[col.dataIndex!]}
+                {
+                  row[col.dataIndex!] && col.render ?
+                    col.render(row[col.dataIndex!], row, index) :
+                    !row[col.dataIndex!] && col.render ?
+                    col.render!('', row, index) :
+                      row[col.dataIndex!]
+                }
               </td>
             )}
+
           </tr>
         )}
         </tbody>

@@ -1,5 +1,6 @@
 import * as React from "react";
 import Table from "../table";
+import Button from "../../button/button";
 const dataSource = [
   {
     key: '1',
@@ -26,6 +27,9 @@ const columns = [
     title: '姓名',
     dataIndex: 'name',
     key: 'name',
+    render: (title: any) => (
+      <a>{title}</a>
+    )
   },
   {
     title: '年龄',
@@ -37,6 +41,17 @@ const columns = [
     dataIndex: 'address',
     key: 'address',
   },
+  {
+    title: '操作',
+    dataIndex: 'operating',
+    key: 'operating',
+    render: (text: any, row: any) => (
+      <span>
+        <Button>{row.name}</Button>
+        <a>Delete</a>
+      </span>
+    )
+  }
 ];
 const onChange = (val: any) => {
   console.log(val)
