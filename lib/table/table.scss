@@ -36,6 +36,7 @@ input[type='checkbox'] {
     > tr {
       > th {
         padding: 16px;
+        position: relative;
         overflow-wrap: break-word;
         color: rgba(0, 0, 0, 0.85);
         font-weight: 500;
@@ -177,6 +178,23 @@ input[type='checkbox'] {
           opacity: 1;
           content: ' ';
         }
+      }
+    }
+  }
+  &-sort-icon {
+    display: inline-flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 6px;
+    cursor: pointer;
+    .ireact-icon {
+      fill: #bfbfbf;
+      width: .6em;
+      height: .6em;
+      &:first-child {
+        margin-bottom: 2px;
       }
     }
   }

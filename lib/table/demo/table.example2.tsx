@@ -3,21 +3,21 @@ import Table from "../table";
 const dataSource = [
   {
     key: '1',
-    name: '王立发',
+    name: 'WangLiFa',
     age: 18,
     address: '人民大会堂',
     tags: ['nice', 'developer']
   },
   {
     key: '2',
-    name: '胡彦祖',
+    name: 'LinZengFa',
     age: 42,
     address: '西湖区湖底公园1号',
     tags: ['loser']
   },
   {
     key: '3',
-    name: '增立发',
+    name: 'WuYiFan',
     age: 24,
     address: '西湖区臭水沟',
     tags: ['cool', 'teacher']
@@ -29,6 +29,7 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
+    sort: true,
     render: (title: any) => (
       <a>{title}</a>
     )
@@ -36,7 +37,8 @@ const columns = [
   {
     title: 'Age',
     dataIndex: 'age',
-    key: 'age'
+    key: 'age',
+    sort: true
   },
   {
     title: 'Address',

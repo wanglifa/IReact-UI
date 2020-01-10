@@ -1,8 +1,10 @@
 import TableExample from "./table.example";
+import TableExample2 from "./table.example2";
 import React from 'react';
 import Demo from '../../../demo'
 
 const x = require('!!raw-loader!./table.example.tsx')
+const y = require('!!raw-loader!./table.example2.tsx')
 
 const TableDemo = () => {
   return (
@@ -14,10 +16,15 @@ const TableDemo = () => {
       <section>
         <h2>代码示例</h2>
       </section>
-      <Demo code={x.default} title="基础图标"
+      <Demo code={x.default} title="基础用法"
             description="使用Icon，指定它的name即可。"
       >
         <TableExample/>
+      </Demo>
+      <Demo code={y.default} title="支持排序"
+            description="使用Icon，指定它的name即可。"
+      >
+        <TableExample2/>
       </Demo>
       <section>
         <h2>API</h2>

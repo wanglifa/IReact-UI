@@ -2,6 +2,7 @@ import * as React from "react";
 import './table.scss'
 import {scopedClassMaker} from '../helpers/classes';
 import {useEffect, useState} from "react";
+import Icon from "../icon/icon";
 const scopedClass = scopedClassMaker('ireact-table')
 const sc = scopedClass
 interface TableProp {
@@ -15,11 +16,15 @@ interface ColumnProp<T> {
   dataIndex?: string;
   key?: string;
   render?: (text: any, row?: T, index?: number) => React.ReactNode;
+  sort?: boolean;
+  sorter?: (rowA: any, rowB: any) => any;
 }
 const Table: React.FunctionComponent<TableProp> = (prop) => {
   const [allSelect, setAllSelect] = useState<string>('0') // 0未选中 1半选 2全选
   const [selectArr, setSelectArr] = useState<boolean[]>([])
+  const [initData, setInitData] = useState<any[]>([])
   let selectArrIndex: (number | undefined)[] = []
+  const [sortStatus, setSortStatus] = useState<string>('0') // 0未开启排序 1升序 2降序
   const [isOnChange, setIsOnChange] = useState<boolean>(false)
   const reveseSelectArr =  (arr: boolean[], status: boolean) => {
     prop.dataSource.map((row: any) => {
@@ -44,9 +49,27 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
     }
     setSelectArr(copySelectArr)
   }
+  const sortTypeJudge = (datasource: any[], key: string | number, type: number) => {
+    return datasource = typeof datasource[0][key] === 'number' ? datasource.sort((a: any, b: any) => type === 1 ? a[key] - b[key] : b[key] - a[key]) : datasource.sort((a: any, b: any) => type === 1 ? b[key].localeCompare(a[key], 'zh-Hans-CN', {sensitivity: 'accent'})
+      : a[key].localeCompare(b[key], 'zh-Hans-CN', {sensitivity: 'accent'})
+    );
+  }
+  const onClickSort = (key: string) => {
+    console.log(key, 'key')
+    let _sort = sortStatus === '0' ? '1' : sortStatus === '1' ? '2' : '0'
+    let copyInitData = JSON.parse(JSON.stringify(initData))
+    if (_sort === '1') {
+      sortTypeJudge(copyInitData, key, 1)
+    } else if (_sort === '2') {
+      sortTypeJudge(copyInitData, key, 2)
+    }
+    setInitData(copyInitData)
+    setSortStatus(_sort)
+  }
   useEffect(() => {
     const arr: boolean[] = []
     reveseSelectArr(arr, false)
+    setInitData(prop.dataSource)
     setSelectArr(arr)
     return () => {setIsOnChange(false)}
   }, [])
@@ -91,13 +114,23 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
             }
             {
               prop.columns.map((col: ColumnProp<any>, index: number) =>
-                <th key={index}>{col.title}</th>
+                <th key={index}>
+                  <span>{col.title}</span>
+                  {
+                    col.sort ?
+                      <span className={sc('sort-icon')} onClick={() => onClickSort(col.key!)}>
+                        <Icon name={"sortTop"} style={{fill: sortStatus === '1' ? '#34c3ff' : '#bfbfbf'}}/>
+                        <Icon name={"sortBottom"} style={{fill: sortStatus === '2' ? '#34c3ff' : '#bfbfbf'}}/>
+                      </span>
+                      : null
+                  }
+                </th>
               )
             }
           </tr>
         </thead>
         <tbody className={sc('tbody')}>
-        {prop.dataSource.map((row: any, index: number) =>
+        {initData.map((row: any, index: number) =>
           <tr key={index}>
             {
               prop.rowSelection ?
