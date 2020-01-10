@@ -1,30 +1,32 @@
 import * as React from "react";
 import Table from "../table";
-import Button from "../../button/button";
 const dataSource = [
   {
     key: '1',
     name: '王立发',
     age: 18,
     address: '人民大会堂',
+    tags: ['nice', 'developer']
   },
   {
     key: '2',
     name: '胡彦祖',
     age: 42,
     address: '西湖区湖底公园1号',
+    tags: ['loser']
   },
   {
     key: '3',
     name: '增立发',
     age: 24,
     address: '西湖区臭水沟',
+    tags: ['cool', 'teacher']
   }
 ];
 
 const columns = [
   {
-    title: '姓名',
+    title: 'Name',
     dataIndex: 'name',
     key: 'name',
     render: (title: any) => (
@@ -32,22 +34,42 @@ const columns = [
     )
   },
   {
-    title: '年龄',
+    title: 'Age',
     dataIndex: 'age',
     key: 'age',
   },
   {
-    title: '住址',
+    title: 'Address',
     dataIndex: 'address',
     key: 'address',
   },
   {
-    title: '操作',
+    title: 'Tags',
+    dataIndex: 'tags',
+    key: 'tags',
+    render: (tags: string[]) => (
+      <span>
+        {tags.map(tag => {
+          let color = tag.length > 5 ? '#2f54eb' : '#52c41a'
+          if (tag === 'loser') {
+            color = '#fa541c'
+          }
+          return (
+            <div style={{color, borderColor: color}} key={tag} className={"ireact-tag"}>
+              {tag.toUpperCase()}
+            </div>
+          )
+        })}
+      </span>
+    )
+  },
+  {
+    title: 'Action',
     dataIndex: 'operating',
     key: 'operating',
     render: (text: any, row: any) => (
       <span>
-        <Button>{row.name}</Button>
+        <a>Invite {row.name}</a>
         <a>Delete</a>
       </span>
     )

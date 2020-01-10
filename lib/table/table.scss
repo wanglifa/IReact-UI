@@ -4,6 +4,19 @@ input[type='checkbox'] {
 }
 .ireact-table {
   width: 100%;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5;
+  list-style: none;
+  font-feature-settings: 'tnum';
+  position: relative;
+  clear: both;
+  a {
+    color: #1890ff;
+  }
   &-selection {
     white-space: nowrap;
   }
