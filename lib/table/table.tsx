@@ -11,6 +11,11 @@ interface TableProp {
   rowSelection?: boolean;
   onChange?: (val: any) => void;
   bordered?: boolean;
+  scroll?: ScrollProp; // 高度或宽度超出显示滚动条
+}
+interface ScrollProp {
+  x?: number;
+  y?: number;
 }
 interface ColumnProp<T> {
   title?: string;
@@ -19,6 +24,7 @@ interface ColumnProp<T> {
   render?: (text: any, row?: T, index?: number) => React.ReactNode;
   sort?: boolean;
   sorter?: (rowA: any, rowB: any) => any;
+  width?: number
 }
 const Table: React.FunctionComponent<TableProp> = (prop) => {
   const [allSelect, setAllSelect] = useState<string>('0') // 0未选中 1半选 2全选
@@ -118,18 +124,22 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
     setAllSelect(_a)
   }, [selectArr])
   return (
-    <div className={sc({'': true, 'bordered': prop.bordered!})}>
-      <table>
-        <thead className={sc('thead')}>
-          <tr>
-            {
-              visibleExpand ?
-                <th className={sc('row-expand-icon-th')}></th>
-                : null
-            }
-            {
-              prop.rowSelection ?
-                <th className={sc('selection-column')}>
+    <div className={sc({'': true, 'bordered': prop.bordered!, 'fixed-header': prop.scroll && prop.scroll.y ? true : false})}>
+      {
+        prop.scroll && prop.scroll.y ?
+          <div>
+            <table>
+              <thead></thead>
+              <tbody className={sc('thead')}>
+              <tr>
+                {
+                  visibleExpand ?
+                    <th className={sc('row-expand-icon-th')}></th>
+                    : null
+                }
+                {
+                  prop.rowSelection ?
+                    <th className={sc('selection-column')}>
                   <span className={sc('header-column')} onClick={() => onClickSelected(1, 'aaa')}>
                     <div>
                       <span className={sc('column-title')}>
@@ -146,45 +156,99 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
                       <span className={sc('column-sorter')}></span>
                     </div>
                   </span>
-                </th>
-                : null
-            }
-            {
-              prop.columns.map((col: ColumnProp<any>, index: number) =>
-                <th key={index}>
-                  <span>{col.title}</span>
-                  {
-                    col.sort ?
-                      <span className={sc('sort-icon')} onClick={() => onClickSort(col.key!, index)}>
+                    </th>
+                    : null
+                }
+                {
+                  prop.columns.map((col: ColumnProp<any>, index: number) =>
+                    <th key={index} style={{width: col.width}}>
+                      <span>{col.title}</span>
+                      {
+                        col.sort ?
+                          <span className={sc('sort-icon')} onClick={() => onClickSort(col.key!, index)}>
                         <Icon name={"sortTop"} style={{fill: defaultSortIndex === index && sortStatus === '1' ? '#34c3ff' : '#bfbfbf'}}/>
                         <Icon name={"sortBottom"} style={{fill: defaultSortIndex === index && sortStatus === '2' ? '#34c3ff' : '#bfbfbf'}}/>
                       </span>
-                      : null
-                  }
-                </th>
-              )
-            }
-          </tr>
-        </thead>
-        <tbody className={sc('tbody')}>
-        {initData.map((row: any, index: number) =>
-          <Fragment key={index}>
+                          : null
+                      }
+                    </th>
+                  )
+                }
+              </tr>
+              </tbody>
+            </table>
+          </div> : null
+      }
+      <div style={{maxHeight: prop.scroll && prop.scroll.y ? `${prop.scroll.y}px` : 'auto', overflowY: prop.scroll && prop.scroll.y ? 'scroll' : 'unset'}}>
+        <table>
+          <thead className={sc('thead')}>
+          {prop.scroll && prop.scroll.y ? null
+            :
             <tr>
               {
-                row.description && visibleExpand ?
-                  <td className={sc('row-expand-icon-cell')} onClick={() => onClickExpand(row.key)}>
-                    <div className={sc({'row-expand-icon': true, 'row-collapsed': expandLists.includes(row.key) === false,
-                      'row-expanded': expandLists.includes(row.key) === true
-                    })}></div>
-                  </td>
-                  : !row.description && visibleExpand ?
-                  <td className={sc('row-expand-icon-cell')}>
-                    <div></div>
-                  </td> : null
+                visibleExpand ?
+                  <th className={sc('row-expand-icon-th')}></th>
+                  : null
               }
               {
                 prop.rowSelection ?
-                  <td className={sc('selection-column')}>
+                  <th className={sc('selection-column')}>
+                  <span className={sc('header-column')} onClick={() => onClickSelected(1, 'aaa')}>
+                    <div>
+                      <span className={sc('column-title')}>
+                        <div className={sc('selection')}>
+                          <label className={sc('checkbox-wrappper')}>
+                            <span className={sc({'checkbox': true, 'checkbox-indeterminate': allSelect === '1',
+                              'checkbox-checked': allSelect === '2'})}>
+                              <input type="checkbox" className={sc('checkbox-input')}/>
+                              <span className={sc('checkbox-inner')}></span>
+                            </span>
+                          </label>
+                        </div>
+                      </span>
+                      <span className={sc('column-sorter')}></span>
+                    </div>
+                  </span>
+                  </th>
+                  : null
+              }
+              {
+                prop.columns.map((col: ColumnProp<any>, index: number) =>
+                  <th key={index}>
+                    <span>{col.title}</span>
+                    {
+                      col.sort ?
+                        <span className={sc('sort-icon')} onClick={() => onClickSort(col.key!, index)}>
+                        <Icon name={"sortTop"} style={{fill: defaultSortIndex === index && sortStatus === '1' ? '#34c3ff' : '#bfbfbf'}}/>
+                        <Icon name={"sortBottom"} style={{fill: defaultSortIndex === index && sortStatus === '2' ? '#34c3ff' : '#bfbfbf'}}/>
+                      </span>
+                        : null
+                    }
+                  </th>
+                )
+              }
+            </tr>
+          }
+          </thead>
+          <tbody className={sc('tbody')}>
+          {initData.map((row: any, index: number) =>
+            <Fragment key={index}>
+              <tr>
+                {
+                  row.description && visibleExpand ?
+                    <td className={sc('row-expand-icon-cell')} onClick={() => onClickExpand(row.key)}>
+                      <div className={sc({'row-expand-icon': true, 'row-collapsed': expandLists.includes(row.key) === false,
+                        'row-expanded': expandLists.includes(row.key) === true
+                      })}></div>
+                    </td>
+                    : !row.description && visibleExpand ?
+                    <td className={sc('row-expand-icon-cell')}>
+                      <div></div>
+                    </td> : null
+                }
+                {
+                  prop.rowSelection ?
+                    <td className={sc('selection-column')}>
                   <span className={sc('header-column')} onClick={() => onClickSelected(2, row, index)}>
                     <div>
                       <span className={sc('column-title')}>
@@ -199,35 +263,36 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
                       </span>
                     </div>
                   </span>
+                    </td>
+                    : null
+                }
+                {prop.columns.map((col: ColumnProp<any>, index1: number) =>
+                  <td key={index1} style={{width: col.width}}>
+                    {
+                      row[col.dataIndex!] && col.render ?
+                        col.render(row[col.dataIndex!], row, index) :
+                        !row[col.dataIndex!] && col.render ?
+                          col.render!('', row, index) :
+                          row[col.dataIndex!]
+                    }
                   </td>
-                  : null
-              }
-              {prop.columns.map((col: ColumnProp<any>, index1: number) =>
-                <td key={index1}>
-                  {
-                    row[col.dataIndex!] && col.render ?
-                      col.render(row[col.dataIndex!], row, index) :
-                      !row[col.dataIndex!] && col.render ?
-                        col.render!('', row, index) :
-                        row[col.dataIndex!]
-                  }
-                </td>
-              )}
-            </tr>
-            {row.description ?
-              <tr className={sc({'expanded-row': true,
-                'default-expanded-row': true, 'expanded-display': expandLists.includes(row.key)})}>
-                <td></td>
-                <td colSpan={prop.columns.length}>
-                  <p>{row.description}</p>
-                </td>
+                )}
               </tr>
-              : null
-            }
-          </Fragment>
-        )}
-        </tbody>
-      </table>
+              {row.description ?
+                <tr className={sc({'expanded-row': true,
+                  'default-expanded-row': true, 'expanded-display': expandLists.includes(row.key)})}>
+                  <td></td>
+                  <td colSpan={prop.columns.length}>
+                    <p>{row.description}</p>
+                  </td>
+                </tr>
+                : null
+              }
+            </Fragment>
+          )}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
