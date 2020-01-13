@@ -1,7 +1,7 @@
 import * as React from "react";
 import './table.scss'
 import {scopedClassMaker} from '../helpers/classes';
-import {useEffect, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import Icon from "../icon/icon";
 const scopedClass = scopedClassMaker('ireact-table')
 const sc = scopedClass
@@ -18,7 +18,6 @@ interface ColumnProp<T> {
   render?: (text: any, row?: T, index?: number) => React.ReactNode;
   sort?: boolean;
   sorter?: (rowA: any, rowB: any) => any;
-  description?: string;
 }
 const Table: React.FunctionComponent<TableProp> = (prop) => {
   const [allSelect, setAllSelect] = useState<string>('0') // 0未选中 1半选 2全选
@@ -65,6 +64,8 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
     }
     return _sort
   }
+  const [visibleExpand, setVisibleExpand] = useState<boolean>(false)
+  const [expandLists, setExpandLists] = useState<string[]>([])
   const onClickSort = (key: string, index: number) => {
     const copyDefaultIndex = defaultSortIndex
     let _sort = isOnClickSameSort(copyDefaultIndex, index)
@@ -78,9 +79,27 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
     setSortStatus(_sort)
     setDefaultSortIndex(index)
   }
+  const onClickExpand = (key: string) => {
+    const copyExpandLists: string[] = JSON.parse(JSON.stringify(expandLists))
+    if (copyExpandLists.includes(key)) {
+      copyExpandLists.splice(copyExpandLists.indexOf(key))
+    } else {
+      copyExpandLists.push(key)
+    }
+    setExpandLists(copyExpandLists)
+  }
+  const getVisibleExpand = () => {
+    for (let i = 0; i < prop.dataSource.length; i++) {
+      if (prop.dataSource[i].description) {
+        setVisibleExpand(true)
+        break
+      }
+    }
+  }
   useEffect(() => {
     const arr: boolean[] = []
     reveseSelectArr(arr, false)
+    getVisibleExpand()
     setInitData(prop.dataSource)
     setSelectArr(arr)
     return () => {setIsOnChange(false)}
@@ -102,6 +121,11 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
       <table>
         <thead className={sc('thead')}>
           <tr>
+            {
+              visibleExpand ?
+                <th className={sc('row-expand-icon-th')}></th>
+                : null
+            }
             {
               prop.rowSelection ?
                 <th className={sc('selection-column')}>
@@ -143,10 +167,23 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
         </thead>
         <tbody className={sc('tbody')}>
         {initData.map((row: any, index: number) =>
-          <tr key={index}>
-            {
-              prop.rowSelection ?
-                <td className={sc('selection-column')}>
+          <Fragment key={index}>
+            <tr>
+              {
+                row.description && visibleExpand ?
+                  <td className={sc('row-expand-icon-cell')} onClick={() => onClickExpand(row.key)}>
+                    <div className={sc({'row-expand-icon': true, 'row-collapsed': expandLists.includes(row.key) === false,
+                      'row-expanded': expandLists.includes(row.key) === true
+                    })}></div>
+                  </td>
+                  : !row.description && visibleExpand ?
+                  <td className={sc('row-expand-icon-cell')}>
+                    <div></div>
+                  </td> : null
+              }
+              {
+                prop.rowSelection ?
+                  <td className={sc('selection-column')}>
                   <span className={sc('header-column')} onClick={() => onClickSelected(2, row, index)}>
                     <div>
                       <span className={sc('column-title')}>
@@ -161,22 +198,32 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
                       </span>
                     </div>
                   </span>
+                  </td>
+                  : null
+              }
+              {prop.columns.map((col: ColumnProp<any>, index1: number) =>
+                <td key={index1}>
+                  {
+                    row[col.dataIndex!] && col.render ?
+                      col.render(row[col.dataIndex!], row, index) :
+                      !row[col.dataIndex!] && col.render ?
+                        col.render!('', row, index) :
+                        row[col.dataIndex!]
+                  }
                 </td>
-                : null
+              )}
+            </tr>
+            {row.description ?
+              <tr className={sc({'expanded-row': true,
+                'default-expanded-row': true, 'expanded-display': expandLists.includes(row.key)})}>
+                <td></td>
+                <td colSpan={prop.columns.length}>
+                  <p>{row.description}</p>
+                </td>
+              </tr>
+              : null
             }
-            {prop.columns.map((col: ColumnProp<any>, index1: number) =>
-              <td key={index1}>
-                {
-                  row[col.dataIndex!] && col.render ?
-                    col.render(row[col.dataIndex!], row, index) :
-                    !row[col.dataIndex!] && col.render ?
-                    col.render!('', row, index) :
-                      row[col.dataIndex!]
-                }
-              </td>
-            )}
-
-          </tr>
+          </Fragment>
         )}
         </tbody>
       </table>

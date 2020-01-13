@@ -198,4 +198,54 @@ input[type='checkbox'] {
       }
     }
   }
+  &-row {
+    &-expand-icon {
+      color: #34c3ff;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-block;
+      width: 17px;
+      height: 17px;
+      color: inherit;
+      line-height: 13px;
+      text-align: center;
+      background: #fff;
+      border: 1px solid #e8e8e8;
+      border-radius: 2px;
+      outline: none;
+      transition: all 0.3s;
+      user-select: none;
+      &-cell, &-th {
+        width: 50px;
+        min-width: 50px;
+        text-align: center;
+      }
+    }
+    &-collapsed {
+      &::after {
+        content: '+';
+      }
+    }
+    &-expanded {
+      &::after {
+        content: '-';
+      }
+    }
+  }
+  tr.ireact-table-expanded-row {
+    background: #fbfbfb;
+    &:hover {
+      background: #fbfbfb;
+    }
+  }
+  &-default-expanded-row {
+    height: 0;
+    overflow: hidden;
+    transition: all .3s linear;
+    display: none;
+  }
+  &-expanded-display {
+    height: auto;
+    display: table-row;
+  }
 }
