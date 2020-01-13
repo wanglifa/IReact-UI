@@ -37,13 +37,13 @@ const columns = [
   {
     title: 'Age',
     dataIndex: 'age',
-    key: 'age',
-    sort: true
+    key: 'age'
   },
   {
     title: 'Address',
     dataIndex: 'address',
     key: 'address',
+    sort: true
   },
   {
     title: 'Tags',

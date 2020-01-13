@@ -18,6 +18,7 @@ interface ColumnProp<T> {
   render?: (text: any, row?: T, index?: number) => React.ReactNode;
   sort?: boolean;
   sorter?: (rowA: any, rowB: any) => any;
+  description?: string;
 }
 const Table: React.FunctionComponent<TableProp> = (prop) => {
   const [allSelect, setAllSelect] = useState<string>('0') // 0未选中 1半选 2全选
@@ -26,6 +27,7 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
   let selectArrIndex: (number | undefined)[] = []
   const [sortStatus, setSortStatus] = useState<string>('0') // 0未开启排序 1升序 2降序
   const [isOnChange, setIsOnChange] = useState<boolean>(false)
+  const [defaultSortIndex, setDefaultSortIndex] = useState<number>(-1)
   const reveseSelectArr =  (arr: boolean[], status: boolean) => {
     prop.dataSource.map((row: any) => {
       arr.push(status)
@@ -54,9 +56,18 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
       : a[key].localeCompare(b[key], 'zh-Hans-CN', {sensitivity: 'accent'})
     );
   }
-  const onClickSort = (key: string) => {
-    console.log(key, 'key')
-    let _sort = sortStatus === '0' ? '1' : sortStatus === '1' ? '2' : '0'
+  const isOnClickSameSort = (copyDefaultIndex: number, index: number) => {
+    let _sort: '0' | '1' | '2' = '0'
+    if (index !== copyDefaultIndex) {
+      _sort = '1'
+    } else {
+      _sort = sortStatus === '0' ? '1' : sortStatus === '1' ? '2' : '0'
+    }
+    return _sort
+  }
+  const onClickSort = (key: string, index: number) => {
+    const copyDefaultIndex = defaultSortIndex
+    let _sort = isOnClickSameSort(copyDefaultIndex, index)
     let copyInitData = JSON.parse(JSON.stringify(initData))
     if (_sort === '1') {
       sortTypeJudge(copyInitData, key, 1)
@@ -65,6 +76,7 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
     }
     setInitData(copyInitData)
     setSortStatus(_sort)
+    setDefaultSortIndex(index)
   }
   useEffect(() => {
     const arr: boolean[] = []
@@ -118,9 +130,9 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
                   <span>{col.title}</span>
                   {
                     col.sort ?
-                      <span className={sc('sort-icon')} onClick={() => onClickSort(col.key!)}>
-                        <Icon name={"sortTop"} style={{fill: sortStatus === '1' ? '#34c3ff' : '#bfbfbf'}}/>
-                        <Icon name={"sortBottom"} style={{fill: sortStatus === '2' ? '#34c3ff' : '#bfbfbf'}}/>
+                      <span className={sc('sort-icon')} onClick={() => onClickSort(col.key!, index)}>
+                        <Icon name={"sortTop"} style={{fill: defaultSortIndex === index && sortStatus === '1' ? '#34c3ff' : '#bfbfbf'}}/>
+                        <Icon name={"sortBottom"} style={{fill: defaultSortIndex === index && sortStatus === '2' ? '#34c3ff' : '#bfbfbf'}}/>
                       </span>
                       : null
                   }
