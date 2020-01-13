@@ -17,6 +17,24 @@ input[type='checkbox'] {
   a {
     color: #1890ff;
   }
+  &-bordered {
+    table {
+      border: 1px solid #e8e8e8;
+      border-right: 0;
+      border-bottom: 0;
+    }
+    .ireact-table-tbody {
+      > tr >td {
+        border-right: 1px solid #e8e8e8;
+      }
+    }
+    .ireact-table-thead {
+      >tr >th {
+        border-right: 1px solid #e8e8e8;
+        border-radius: 0 !important;
+      }
+    }
+  }
   &-selection {
     white-space: nowrap;
   }

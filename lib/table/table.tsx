@@ -10,6 +10,7 @@ interface TableProp {
   dataSource: any[];
   rowSelection?: boolean;
   onChange?: (val: any) => void;
+  bordered?: boolean;
 }
 interface ColumnProp<T> {
   title?: string;
@@ -117,7 +118,7 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
     setAllSelect(_a)
   }, [selectArr])
   return (
-    <div className={sc({'': true})}>
+    <div className={sc({'': true, 'bordered': prop.bordered!})}>
       <table>
         <thead className={sc('thead')}>
           <tr>
@@ -231,6 +232,7 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
   )
 }
 Table.defaultProps = {
-  rowSelection: false
+  rowSelection: false,
+  bordered: false
 }
 export default Table;
