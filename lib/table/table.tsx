@@ -348,7 +348,7 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
                   <tr>
                     {prop.columns.map((col: ColumnProp<any>, index: number) =>
                       col.fixed === 'left' ?
-                        <th className={sc('row-cell-break-word')} key={index}>
+                        <th className={sc('row-cell-break-word')} key={index} style={{width: `${col.width}px`}}>
                           <span className={sc('header-column')}>
                             <div>
                               <span className={sc('column-title')}>
@@ -393,7 +393,7 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
                 <tr>
                   {prop.columns.map((col: ColumnProp<any>, index: number) =>
                     col.fixed === 'right' ?
-                      <th className={sc('row-cell-break-word')} key={index}>
+                      <th className={sc('row-cell-break-word')} key={index} style={{width: `${col.width}px`}}>
                           <span className={sc('header-column')}>
                             <div>
                               <span className={sc('column-title')}>
