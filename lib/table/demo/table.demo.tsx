@@ -3,6 +3,7 @@ import TableExample2 from "./table.example2";
 import TableExample3 from "./table.example3";
 import TableExample4 from "./table.example4";
 import TableExample5 from "./table.example5";
+import TableExample6 from "./table.example6";
 import React from 'react';
 import Demo from '../../../demo'
 
@@ -11,6 +12,7 @@ const y = require('!!raw-loader!./table.example2.tsx')
 const z = require('!!raw-loader!./table.example3.tsx')
 const w = require('!!raw-loader!./table.example4.tsx')
 const g = require('!!raw-loader!./table.example5.tsx')
+const e = require('!!raw-loader!./table.example6.tsx')
 
 const TableDemo = () => {
   return (
@@ -46,6 +48,11 @@ const TableDemo = () => {
             description="使用Icon，指定它的name即可。"
       >
         <TableExample5/>
+      </Demo>
+      <Demo code={e.default} title="固定列"
+            description="使用Icon，指定它的name即可。"
+      >
+        <TableExample6/>
       </Demo>
       <section>
         <h2>API</h2>

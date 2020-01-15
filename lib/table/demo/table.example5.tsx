@@ -77,7 +77,7 @@ const onChange = (val: any) => {
 }
 const TableExample: React.FunctionComponent = () => {
   return (
-    <Table columns={columns} dataSource={dataSource} bordered
+    <Table columns={columns} dataSource={dataSource}
       onChange={onChange} scroll={{y: 240}}
     />
   )

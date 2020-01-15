@@ -85,6 +85,7 @@ input[type='checkbox'] {
         overflow-wrap: break-word;
         border-bottom: 1px solid #e8e8e8;
         transition: all 0.3s, border 0s;
+        background: #fff;
         &.ireact-table-selection-column {
           text-align: center;
         }
@@ -265,5 +266,36 @@ input[type='checkbox'] {
   &-expanded-display {
     height: auto;
     display: table-row;
+  }
+  &-fixed {
+    &-left, &-right {
+      position: absolute;
+      top: 0;
+      z-index: auto;
+      overflow: hidden;
+      border-radius: 0;
+      transition: -webkit-box-shadow 0.3s ease;
+      transition: box-shadow 0.3s ease;
+      transition: box-shadow 0.3s ease, -webkit-box-shadow 0.3s ease;
+    }
+    &-left {
+      left: 0;
+      border-radius: 4px 0 0 0;
+      &.ireact-table-active {
+        box-shadow: 6px 0 6px -4px rgba(0, 0, 0, 0.15);
+      }
+    }
+    &-right {
+      right: 0;
+      border-radius: 0 4px 0 0;
+      &.ireact-table-active {
+        box-shadow: -6px 0 6px -4px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+}
+.example {
+  .ireact-table {
+    max-width: 1218px;
   }
 }

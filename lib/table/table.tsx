@@ -1,7 +1,7 @@
 import * as React from "react";
 import './table.scss'
 import {scopedClassMaker} from '../helpers/classes';
-import {Fragment, useEffect, useState} from "react";
+import {Fragment, useEffect, useRef, useState} from "react";
 import Icon from "../icon/icon";
 const scopedClass = scopedClassMaker('ireact-table')
 const sc = scopedClass
@@ -24,7 +24,8 @@ interface ColumnProp<T> {
   render?: (text: any, row?: T, index?: number) => React.ReactNode;
   sort?: boolean;
   sorter?: (rowA: any, rowB: any) => any;
-  width?: number
+  width?: number;
+  fixed?: 'left' | 'right';
 }
 const Table: React.FunctionComponent<TableProp> = (prop) => {
   const [allSelect, setAllSelect] = useState<string>('0') // 0未选中 1半选 2全选
@@ -73,6 +74,12 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
   }
   const [visibleExpand, setVisibleExpand] = useState<boolean>(false)
   const [expandLists, setExpandLists] = useState<string[]>([])
+  const [isLeftFixed, setIsLeftFixed] = useState<boolean>(false)
+  const [isRightFixed, setIsRightFixed] = useState<boolean>(false)
+  const scrollDom = useRef<HTMLDivElement | null>(null)
+  const tableWrapper = useRef<HTMLDivElement | null>(null)
+  const [fixedLeftStatus, setFixedLeftStatus] = useState<boolean>(false)
+  const [fixedRightStatus, setFixedRightStatus] = useState<boolean>(true)
   const onClickSort = (key: string, index: number) => {
     const copyDefaultIndex = defaultSortIndex
     let _sort = isOnClickSameSort(copyDefaultIndex, index)
@@ -95,6 +102,9 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
     }
     setExpandLists(copyExpandLists)
   }
+  const getTableWidth = () => {
+    return tableWrapper.current!.getBoundingClientRect().width
+  }
   const getVisibleExpand = () => {
     for (let i = 0; i < prop.dataSource.length; i++) {
       if (prop.dataSource[i].description) {
@@ -103,13 +113,45 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
       }
     }
   }
+  const listenerScroll = () => {
+    let _fixedLeftStatus: boolean = fixedLeftStatus
+    let _fixedRightStatus: boolean = fixedRightStatus
+    if (prop.scroll && prop.scroll.x) {
+      if (scrollDom.current!.scrollLeft > 0) {
+        _fixedLeftStatus = true
+      } else {
+        _fixedLeftStatus = false
+      }
+      if (scrollDom.current!.scrollLeft === prop.scroll.x - getTableWidth()) {
+        _fixedRightStatus = false
+      } else {
+        _fixedRightStatus = true
+      }
+    }
+    setFixedLeftStatus(_fixedLeftStatus)
+    setFixedRightStatus(_fixedRightStatus)
+  }
+  const getIsLeftOrRightFixed = () => {
+    for (let i = 0; i < prop.columns.length; i++) {
+      if (prop.columns[i].fixed === 'left') {
+        setIsLeftFixed(true)
+      } else if (prop.columns[i].fixed === 'right') {
+        setIsRightFixed(true)
+      }
+    }
+  }
   useEffect(() => {
     const arr: boolean[] = []
     reveseSelectArr(arr, false)
     getVisibleExpand()
+    getIsLeftOrRightFixed()
     setInitData(prop.dataSource)
     setSelectArr(arr)
-    return () => {setIsOnChange(false)}
+    scrollDom.current!.addEventListener('scroll', listenerScroll, false)
+    return () => {
+      setIsOnChange(false)
+      scrollDom.current!.removeEventListener('scroll', listenerScroll)
+    }
   }, [])
   useEffect(() => {
     let _a: '0' | '1' | '2' = '0'
@@ -124,7 +166,9 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
     setAllSelect(_a)
   }, [selectArr])
   return (
-    <div className={sc({'': true, 'bordered': prop.bordered!, 'fixed-header': prop.scroll && prop.scroll.y ? true : false})}>
+    <div className={sc({'': true, 'bordered': prop.bordered!, 'fixed-header': prop.scroll && prop.scroll.y ? true : false})}
+      ref={tableWrapper}
+    >
       {
         prop.scroll && prop.scroll.y ?
           <div>
@@ -179,8 +223,10 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
             </table>
           </div> : null
       }
-      <div style={{maxHeight: prop.scroll && prop.scroll.y ? `${prop.scroll.y}px` : 'auto', overflowY: prop.scroll && prop.scroll.y ? 'scroll' : 'unset'}}>
-        <table>
+      <div style={{maxHeight: prop.scroll && prop.scroll.y ? `${prop.scroll.y}px` : 'auto', overflowY: prop.scroll && prop.scroll.y ? 'scroll' : 'unset',
+        overflowX: prop.scroll && prop.scroll.x ? `scroll` : 'unset'
+      }} ref={scrollDom}>
+        <table style={{width: prop.scroll && prop.scroll.x ? `${prop.scroll.x}px` : '100%'}}>
           <thead className={sc('thead')}>
           {prop.scroll && prop.scroll.y ? null
             :
@@ -293,6 +339,96 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
           </tbody>
         </table>
       </div>
+      {isLeftFixed ?
+        <div className={sc({'fixed-left': true, 'active': fixedLeftStatus})}>
+          <div className={sc('body-outer')}>
+            <div className={sc('body-inner')}>
+              <table className={sc('fixed')}>
+                <thead className={sc('thead')}>
+                  <tr>
+                    {prop.columns.map((col: ColumnProp<any>, index: number) =>
+                      col.fixed === 'left' ?
+                        <th className={sc('row-cell-break-word')} key={index}>
+                          <span className={sc('header-column')}>
+                            <div>
+                              <span className={sc('column-title')}>
+                                {col.title}
+                              </span>
+                            </div>
+                          </span>
+                        </th> : null
+                    )}
+                  </tr>
+                </thead>
+                <tbody className={sc('tbody')}>
+                {prop.dataSource.map((row: any, index: number) =>
+                  <tr className={sc('row')} key={index}>
+                    {prop.columns.map((col: ColumnProp<any>, index1: number) =>
+                      col.fixed === 'left' ?
+                        <td key={index1}>
+                          {
+                            row[col.dataIndex!] && col.render ?
+                              col.render(row[col.dataIndex!], row) :
+                              !row[col.dataIndex!] && col.render ?
+                                col.render!('', row) :
+                                row[col.dataIndex!]
+                          }
+                        </td>
+                        : null
+                    )}
+                  </tr>
+                )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div> : null
+      }
+      {isRightFixed ?
+        <div className={sc({'fixed-right': true, 'active': fixedRightStatus})}>
+          <div className={sc('body-outer')}>
+            <div className={sc('body-inner')}>
+              <table className={sc('fixed')}>
+                <thead className={sc('thead')}>
+                <tr>
+                  {prop.columns.map((col: ColumnProp<any>, index: number) =>
+                    col.fixed === 'right' ?
+                      <th className={sc('row-cell-break-word')} key={index}>
+                          <span className={sc('header-column')}>
+                            <div>
+                              <span className={sc('column-title')}>
+                                {col.title}
+                              </span>
+                            </div>
+                          </span>
+                      </th> : null
+                  )}
+                </tr>
+                </thead>
+                <tbody className={sc('tbody')}>
+                {prop.dataSource.map((row: any, index: number) =>
+                  <tr className={sc('row')} key={index}>
+                    {prop.columns.map((col: ColumnProp<any>, index1: number) =>
+                      col.fixed === 'right' ?
+                        <td key={index1}>
+                          {
+                            row[col.dataIndex!] && col.render ?
+                              col.render(row[col.dataIndex!], row) :
+                              !row[col.dataIndex!] && col.render ?
+                                col.render!('', row) :
+                                row[col.dataIndex!]
+                          }
+                        </td>
+                        : null
+                    )}
+                  </tr>
+                )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div> : null
+      }
     </div>
   )
 }
