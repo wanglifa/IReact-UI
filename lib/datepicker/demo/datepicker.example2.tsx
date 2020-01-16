@@ -1,5 +1,5 @@
 import * as React from "react";
-import DatePicker from "../datepicker";
+import { DatePicker } from "ireact-ui";
 const onChange = (date: string) => {
   console.log(date)
 }

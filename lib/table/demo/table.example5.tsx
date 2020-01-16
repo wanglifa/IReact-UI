@@ -1,5 +1,6 @@
 import * as React from "react";
-import Table from "../table";
+import {Table} from "ireact-ui";
+
 const dataSource = [
   {
     key: '1',
@@ -75,7 +76,7 @@ const columns = [
 const TableExample: React.FunctionComponent = () => {
   return (
     <Table columns={columns} dataSource={dataSource}
-      scroll={{y: 240}}
+           scroll={{y: 240}}
     />
   )
 }

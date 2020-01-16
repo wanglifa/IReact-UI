@@ -1,7 +1,7 @@
 import * as React from "react";
-import Menu from "../menu";
-const {SubMenu}  = Menu
-import Icon from "../../icon/icon";
+import { Menu } from "ireact-ui";
+const { SubMenu }  = Menu
+import { Icon } from "ireact-ui";
 const onClick = (val: any) => {
   console.log(val)
 }

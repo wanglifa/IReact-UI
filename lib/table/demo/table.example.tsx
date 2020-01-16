@@ -1,5 +1,6 @@
 import * as React from "react";
-import Table from "../table";
+import {Table} from "ireact-ui";
+
 const dataSource = [
   {
     key: '1',

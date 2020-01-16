@@ -1,5 +1,6 @@
 import * as React from "react";
-import Table from "../table";
+import {Table} from "ireact-ui";
+
 const dataSource = [
   {
     key: '1',
@@ -83,7 +84,7 @@ const onChange = (val: any) => {
 const TableExample: React.FunctionComponent = () => {
   return (
     <Table columns={columns} dataSource={dataSource}
-      onChange={onChange}
+           onChange={onChange}
     />
   )
 }
