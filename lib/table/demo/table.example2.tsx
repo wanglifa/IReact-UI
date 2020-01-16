@@ -82,7 +82,7 @@ const onChange = (val: any) => {
 }
 const TableExample: React.FunctionComponent = () => {
   return (
-    <Table columns={columns} dataSource={dataSource} rowSelection
+    <Table columns={columns} dataSource={dataSource}
       onChange={onChange}
     />
   )

@@ -3,8 +3,10 @@ import './table.scss'
 import {scopedClassMaker} from '../helpers/classes';
 import {Fragment, useEffect, useRef, useState} from "react";
 import Icon from "../icon/icon";
+
 const scopedClass = scopedClassMaker('ireact-table')
 const sc = scopedClass
+
 interface TableProp {
   columns: Array<ColumnProp<any>>;
   dataSource: any[];
@@ -13,10 +15,12 @@ interface TableProp {
   bordered?: boolean;
   scroll?: ScrollProp; // 高度或宽度超出显示滚动条
 }
+
 interface ScrollProp {
   x?: number;
   y?: number;
 }
+
 interface ColumnProp<T> {
   title?: string;
   dataIndex?: string;
@@ -25,8 +29,9 @@ interface ColumnProp<T> {
   sort?: boolean;
   sorter?: (rowA: any, rowB: any) => any;
   width?: number;
-  fixed?: 'left' | 'right';
+  fixed?: 'left' | 'right' | string;
 }
+
 const Table: React.FunctionComponent<TableProp> = (prop) => {
   const [allSelect, setAllSelect] = useState<string>('0') // 0未选中 1半选 2全选
   const [selectArr, setSelectArr] = useState<boolean[]>([])
@@ -35,7 +40,7 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
   const [sortStatus, setSortStatus] = useState<string>('0') // 0未开启排序 1升序 2降序
   const [isOnChange, setIsOnChange] = useState<boolean>(false)
   const [defaultSortIndex, setDefaultSortIndex] = useState<number>(-1)
-  const reveseSelectArr =  (arr: boolean[], status: boolean) => {
+  const reveseSelectArr = (arr: boolean[], status: boolean) => {
     prop.dataSource.map((row: any) => {
       arr.push(status)
     })
@@ -166,8 +171,12 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
     setAllSelect(_a)
   }, [selectArr])
   return (
-    <div className={sc({'': true, 'bordered': prop.bordered!, 'fixed-header': prop.scroll && prop.scroll.y ? true : false})}
-      ref={tableWrapper}
+    <div className={sc({
+      '': true,
+      'bordered': prop.bordered!,
+      'fixed-header': prop.scroll && prop.scroll.y ? true : false
+    })}
+         ref={tableWrapper}
     >
       {
         prop.scroll && prop.scroll.y ?
@@ -189,8 +198,10 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
                       <span className={sc('column-title')}>
                         <div className={sc('selection')}>
                           <label className={sc('checkbox-wrappper')}>
-                            <span className={sc({'checkbox': true, 'checkbox-indeterminate': allSelect === '1',
-                              'checkbox-checked': allSelect === '2'})}>
+                            <span className={sc({
+                              'checkbox': true, 'checkbox-indeterminate': allSelect === '1',
+                              'checkbox-checked': allSelect === '2'
+                            })}>
                               <input type="checkbox" className={sc('checkbox-input')}/>
                               <span className={sc('checkbox-inner')}></span>
                             </span>
@@ -210,8 +221,10 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
                       {
                         col.sort ?
                           <span className={sc('sort-icon')} onClick={() => onClickSort(col.key!, index)}>
-                        <Icon name={"sortTop"} style={{fill: defaultSortIndex === index && sortStatus === '1' ? '#34c3ff' : '#bfbfbf'}}/>
-                        <Icon name={"sortBottom"} style={{fill: defaultSortIndex === index && sortStatus === '2' ? '#34c3ff' : '#bfbfbf'}}/>
+                        <Icon name={"sortTop"}
+                              style={{fill: defaultSortIndex === index && sortStatus === '1' ? '#34c3ff' : '#bfbfbf'}}/>
+                        <Icon name={"sortBottom"}
+                              style={{fill: defaultSortIndex === index && sortStatus === '2' ? '#34c3ff' : '#bfbfbf'}}/>
                       </span>
                           : null
                       }
@@ -223,7 +236,9 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
             </table>
           </div> : null
       }
-      <div style={{maxHeight: prop.scroll && prop.scroll.y ? `${prop.scroll.y}px` : 'auto', overflowY: prop.scroll && prop.scroll.y ? 'scroll' : 'unset',
+      <div style={{
+        maxHeight: prop.scroll && prop.scroll.y ? `${prop.scroll.y}px` : 'auto',
+        overflowY: prop.scroll && prop.scroll.y ? 'scroll' : 'unset',
         overflowX: prop.scroll && prop.scroll.x ? `scroll` : 'unset'
       }} ref={scrollDom}>
         <table style={{width: prop.scroll && prop.scroll.x ? `${prop.scroll.x}px` : '100%'}}>
@@ -244,8 +259,10 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
                       <span className={sc('column-title')}>
                         <div className={sc('selection')}>
                           <label className={sc('checkbox-wrappper')}>
-                            <span className={sc({'checkbox': true, 'checkbox-indeterminate': allSelect === '1',
-                              'checkbox-checked': allSelect === '2'})}>
+                            <span className={sc({
+                              'checkbox': true, 'checkbox-indeterminate': allSelect === '1',
+                              'checkbox-checked': allSelect === '2'
+                            })}>
                               <input type="checkbox" className={sc('checkbox-input')}/>
                               <span className={sc('checkbox-inner')}></span>
                             </span>
@@ -265,8 +282,10 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
                     {
                       col.sort ?
                         <span className={sc('sort-icon')} onClick={() => onClickSort(col.key!, index)}>
-                        <Icon name={"sortTop"} style={{fill: defaultSortIndex === index && sortStatus === '1' ? '#34c3ff' : '#bfbfbf'}}/>
-                        <Icon name={"sortBottom"} style={{fill: defaultSortIndex === index && sortStatus === '2' ? '#34c3ff' : '#bfbfbf'}}/>
+                        <Icon name={"sortTop"}
+                              style={{fill: defaultSortIndex === index && sortStatus === '1' ? '#34c3ff' : '#bfbfbf'}}/>
+                        <Icon name={"sortBottom"}
+                              style={{fill: defaultSortIndex === index && sortStatus === '2' ? '#34c3ff' : '#bfbfbf'}}/>
                       </span>
                         : null
                     }
@@ -283,7 +302,8 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
                 {
                   row.description && visibleExpand ?
                     <td className={sc('row-expand-icon-cell')} onClick={() => onClickExpand(row.key)}>
-                      <div className={sc({'row-expand-icon': true, 'row-collapsed': expandLists.includes(row.key) === false,
+                      <div className={sc({
+                        'row-expand-icon': true, 'row-collapsed': expandLists.includes(row.key) === false,
                         'row-expanded': expandLists.includes(row.key) === true
                       })}></div>
                     </td>
@@ -325,8 +345,10 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
                 )}
               </tr>
               {row.description ?
-                <tr className={sc({'expanded-row': true,
-                  'default-expanded-row': true, 'expanded-display': expandLists.includes(row.key)})}>
+                <tr className={sc({
+                  'expanded-row': true,
+                  'default-expanded-row': true, 'expanded-display': expandLists.includes(row.key)
+                })}>
                   <td></td>
                   <td colSpan={prop.columns.length}>
                     <p>{row.description}</p>
@@ -345,10 +367,34 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
             <div className={sc('body-inner')}>
               <table className={sc('fixed')}>
                 <thead className={sc('thead')}>
-                  <tr>
-                    {prop.columns.map((col: ColumnProp<any>, index: number) =>
-                      col.fixed === 'left' ?
-                        <th className={sc('row-cell-break-word')} key={index} style={{width: `${col.width}px`}}>
+                <tr>
+                  {
+                    prop.rowSelection ?
+                      <th className={sc('selection-column')}>
+                  <span className={sc('header-column')} onClick={() => onClickSelected(1, 'aaa')}>
+                    <div>
+                      <span className={sc('column-title')}>
+                        <div className={sc('selection')}>
+                          <label className={sc('checkbox-wrappper')}>
+                            <span className={sc({
+                              'checkbox': true, 'checkbox-indeterminate': allSelect === '1',
+                              'checkbox-checked': allSelect === '2'
+                            })}>
+                              <input type="checkbox" className={sc('checkbox-input')}/>
+                              <span className={sc('checkbox-inner')}></span>
+                            </span>
+                          </label>
+                        </div>
+                      </span>
+                      <span className={sc('column-sorter')}></span>
+                    </div>
+                  </span>
+                      </th>
+                      : null
+                  }
+                  {prop.columns.map((col: ColumnProp<any>, index: number) =>
+                    col.fixed === 'left' ?
+                      <th className={sc('row-cell-break-word')} key={index} style={{width: `${col.width}px`}}>
                           <span className={sc('header-column')}>
                             <div>
                               <span className={sc('column-title')}>
@@ -356,13 +402,33 @@ const Table: React.FunctionComponent<TableProp> = (prop) => {
                               </span>
                             </div>
                           </span>
-                        </th> : null
-                    )}
-                  </tr>
+                      </th> : null
+                  )}
+                </tr>
                 </thead>
                 <tbody className={sc('tbody')}>
                 {prop.dataSource.map((row: any, index: number) =>
                   <tr className={sc('row')} key={index}>
+                    {
+                      prop.rowSelection ?
+                        <td className={sc('selection-column')}>
+                  <span className={sc('header-column')} onClick={() => onClickSelected(2, row, index)}>
+                    <div>
+                      <span className={sc('column-title')}>
+                        <div className={sc('selection')}>
+                          <label className={sc('checkbox-wrappper')}>
+                            <span className={sc({'checkbox': true, 'checkbox-checked': selectArr[index] === true})}>
+                              <input type="checkbox" className={sc('checkbox-input')}/>
+                              <span className={sc('checkbox-inner')}></span>
+                            </span>
+                          </label>
+                        </div>
+                      </span>
+                    </div>
+                  </span>
+                        </td>
+                        : null
+                    }
                     {prop.columns.map((col: ColumnProp<any>, index1: number) =>
                       col.fixed === 'left' ?
                         <td key={index1}>
