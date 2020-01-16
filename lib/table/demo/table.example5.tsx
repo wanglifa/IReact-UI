@@ -72,13 +72,10 @@ const columns = [
     )
   }
 ];
-const onChange = (val: any) => {
-  console.log(val)
-}
 const TableExample: React.FunctionComponent = () => {
   return (
     <Table columns={columns} dataSource={dataSource}
-      onChange={onChange} scroll={{y: 240}}
+      scroll={{y: 240}}
     />
   )
 }

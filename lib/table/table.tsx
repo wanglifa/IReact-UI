@@ -27,7 +27,6 @@ interface ColumnProp<T> {
   key?: string;
   render?: (text: any, row?: T, index?: number) => React.ReactNode;
   sort?: boolean;
-  sorter?: (rowA: any, rowB: any) => any;
   width?: number;
   fixed?: 'left' | 'right' | string;
 }

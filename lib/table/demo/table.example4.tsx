@@ -51,14 +51,9 @@ const columns = [
     )
   }
 ];
-const onChange = (val: any) => {
-  console.log(val)
-}
 const TableExample: React.FunctionComponent = () => {
   return (
-    <Table columns={columns} dataSource={dataSource} bordered
-      onChange={onChange}
-    />
+    <Table columns={columns} dataSource={dataSource} bordered/>
   )
 }
 export default TableExample;
