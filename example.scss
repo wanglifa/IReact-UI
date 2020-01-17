@@ -16,6 +16,9 @@ $padding: 16px;
 $main-color: #34c3ff;
 $border-color: #eee;
 $font-one: #999;
+a.link {
+  color: $main-color;
+}
 body {
   font-size: 16px;
 }
@@ -63,8 +66,16 @@ section {
   }
 }
 .site-header {
-  padding: 12px 0;
+  padding: 12px 28px 12px 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  .rightIcon {
+    margin-left: auto;
+    .ireact-icon {
+      width: 1.4em;
+    }
+  }
   .logo {
     padding: 0 $padding;
     display: flex;
@@ -92,8 +103,11 @@ section {
   }
   ul {
     min-width: 16em;
-    padding-left: 1em;
+    padding-left: 20px;
     > li {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.65);
       margin-top: 6px;
       a {
         color: rgba(0, 0, 0, 0.65);
@@ -173,4 +187,61 @@ section {
   opacity: 1;
   -webkit-transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
   transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+}
+.start .bg-code {
+  background: #282828;
+  margin: 16px 0;
+  padding: 24px;
+  color: #fff;
+  p{
+    line-height: 1.8;
+  }
+}
+.first li div {
+  padding: 8px 12px;
+}
+.site-aside .nav-two {
+  padding-left: 32px;
+  li{
+    div {
+      color: rgba(0, 0, 0, 0.35);
+      font-size: 12px;
+      line-height: 20px;
+      font-weight: 600;
+      cursor: default;
+      padding: 4px 0;
+      height: 40px;
+    }
+    a {
+      font-weight: normal;
+    }
+  }
+}
+.color-example {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 20px 0;
+  > .color-cube {
+    width: 30%;
+    height: 100px;
+    flex-shrink: 0;
+    color: rgba(255, 255, 255, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    border-radius: 4px;
+    padding-left: 20px;
+    > .title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    > .detail {
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
 }

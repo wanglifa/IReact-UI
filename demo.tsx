@@ -8,8 +8,9 @@ import Icon from "./lib/icon/icon";
 import './demo.scss';
 interface Props {
   code: string;
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
+  visibleTitle?: boolean;
 }
 const Demo: React.FunctionComponent<Props> = (props) => {
   const [codeVisible, setCodeVisible] = useState(false)
@@ -29,23 +30,34 @@ const Demo: React.FunctionComponent<Props> = (props) => {
   return (
     <div>
       <div className="example">
-        <div className="container">
-          {props.children}
-        </div>
-        <div className={sc({'box': true, 'active': codeVisible})}>
-          <div className="code-title">{props.title}</div>
-          <div className="code-description">
-            {props.description}
-            <span className="icon-wrapper" onClick={() => setCodeVisible(!codeVisible)}>
+        {
+          !props.visibleTitle ?
+            <React.Fragment>
+              <div className="container">
+                {props.children}
+              </div>
+              <div className={sc({'box': true, 'active': codeVisible})}>
+                <div className="code-title">{props.title}</div>
+                <div className="code-description">
+                  {props.description}
+                  <span className="icon-wrapper" onClick={() => setCodeVisible(!codeVisible)}>
               <Icon name="code" size="mini"/>
             </span>
-          </div>
-          <div className="code-example">
-            {codeVisible && code}
-          </div>
-        </div>
+                </div>
+                <div className="code-example">
+                  {codeVisible && code}
+                </div>
+              </div>
+            </React.Fragment> :
+            <div className="code-example">
+              {code}
+            </div>
+        }
       </div>
     </div>
   )
+}
+Demo.defaultProps = {
+  visibleTitle: false
 }
 export default Demo

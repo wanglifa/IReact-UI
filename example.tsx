@@ -15,6 +15,10 @@ import MenuDemo from "./lib/menu/demo/menu.demo";
 import DatePickerDemo from "./lib/datepicker/demo/datepicker.demo";
 import InputDemo from "./lib/input/demo/input.demo";
 import TableDemo from "./lib/table/demo/table.demo";
+import Icon from "./lib/icon/icon";
+import Introduction from "./webComponent/introduction";
+import Start from "./webComponent/start";
+import Color from "./webComponent/color";
 const logo = require('./logo.png')
 
 ReactDOM.render(
@@ -25,50 +29,63 @@ ReactDOM.render(
           <img src={logo.default} width="26" alt=""/>
           <span>IReact-UI</span>
         </div>
+        <a href="https://github.com/wanglifa/IReact-UI" className={"rightIcon"}>
+          <Icon name={"github"}/>
+        </a>
       </Header>
       <Layout>
         <Aside className="site-aside">
-          <h2>组件</h2>
-          <ul>
+          <ul className={"first"}>
             <li>
-              <NavLink to="/icon">Icon 图标</NavLink>
+              <NavLink to={"/introduction"}>Ireact-UI</NavLink>
             </li>
             <li>
+              <NavLink to={"/start"}>开始使用</NavLink>
+            </li>
+            <li>
+              <NavLink to={"/color"}>色彩搭配</NavLink>
+            </li>
+            <li>
+              <div>Components</div>
+            </li>
+          </ul>
+          <ul className={"nav-two"}>
+            <li>
+              <div>通用</div>
+              <NavLink to="/icon">Icon 图标</NavLink>
               <NavLink to="/button">Button 按钮</NavLink>
             </li>
             <li>
-              <NavLink to="/input">Input 输入框</NavLink>
-            </li>
-            <li>
-              <NavLink to="/dialog">Dialog 对话框</NavLink>
-            </li>
-            <li>
+              <div>布局</div>
               <NavLink to="/layout">Layout 布局</NavLink>
             </li>
             <li>
-              <NavLink to="/form">Form 表单</NavLink>
-            </li>
-            <li>
-              <NavLink to="/collapse">Collapse 折叠面板</NavLink>
-            </li>
-            <li>
-              <NavLink to="/cascader">Cascader 级联选择器</NavLink>
-            </li>
-            <li>
-              <NavLink to="/tree">Tree 树形组件</NavLink>
-            </li>
-            <li>
-              <NavLink to="/datepicker">DatePicker 日期选择框</NavLink>
-            </li>
-            <li>
+              <div>导航</div>
               <NavLink to="/menu">Menu 导航菜单</NavLink>
             </li>
             <li>
+              <div>数据录入</div>
+              <NavLink to="/input">Input 输入框</NavLink>
+              <NavLink to="/form">Form 表单</NavLink>
+              <NavLink to="/cascader">Cascader 级联选择器</NavLink>
+              <NavLink to="/datepicker">DatePicker 日期选择框</NavLink>
+            </li>
+            <li>
+              <div>数据展示</div>
+              <NavLink to="/collapse">Collapse 折叠面板</NavLink>
+              <NavLink to="/tree">Tree 树形组件</NavLink>
               <NavLink to="/table">Table 表格</NavLink>
+            </li>
+            <li>
+              <div>信息反馈</div>
+              <NavLink to="/dialog">Dialog 对话框</NavLink>
             </li>
           </ul>
         </Aside>
         <Content className="site-main">
+          <Route path="/introduction" component={Introduction}/>
+          <Route path="/start" component={Start}/>
+          <Route path="/color" component={Color}/>
           <Route path="/icon" component={IconDemo}/>
           <Route path="/button" component={ButtonDemo}/>
           <Route path="/input" component={InputDemo}/>
@@ -84,7 +101,7 @@ ReactDOM.render(
         </Content>
       </Layout>
       <Footer className="site-footer">
-        &copy; 王立发
+        &copy; <a href="https://github.com/wanglifa/" target={"_blank"}>王立发</a>
       </Footer>
     </Layout>
   </Router>
