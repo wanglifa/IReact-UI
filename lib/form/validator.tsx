@@ -13,13 +13,13 @@ type FormRules = Array<FormRule>
 function isEmpty(value: any) {
   return !(value === undefined || value === null || value === '');
 }
-function flat(arr: Array<any>): Array<any> {
+function flat<T>(arr: Array<T | T[]>) {
   const result = []
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] instanceof Array) {
-      result.push(...arr[i])
+      result.push(...arr[i] as T[])
     } else {
-      result.push(arr[i])
+      result.push(arr[i] as T)
     }
   }
   return result
@@ -74,13 +74,17 @@ const Validator = (formValue: FormValue, rules: FormRules, callback: (errors: Fo
   ))
   const newPromise = flattenErrors.map(([key, promiseOrString]) => (
     promiseOrString instanceof Promise ? promiseOrString : Promise.reject(promiseOrString))
-    .then(() => {
+    .then<[string, undefined], [string, string]>(() => {
       return [key, undefined]
     }, (reason: string) => {
       return [key, reason]
     }))
+  function isError(item: [string, undefined] | [string, string]): item is [string, string] {
+    return typeof item[1] === 'string'
+  }
   Promise.all(newPromise).then((results: Array<[string, string]>) => {
-    callback(zip(results.filter(item => item[1])))
+    // results = [['username', undefined], ['password', 'too long']]
+    callback(zip(results.filter<[string, string]>(isError)))
   })
 }
 export default Validator;
