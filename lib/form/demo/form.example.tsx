@@ -1,7 +1,21 @@
 import * as React from 'react'
-import {FormValue, Form, Button, Validator} from 'ireact-ui'
+import { Button } from 'ireact-ui'
+import {FormValue} from '../form'
+import Form from "../form";
+import Validator from '../validator'
 import {Fragment, useState} from "react";
 
+const usernames = ['frank', 'jack', 'frankfrank', 'alice', 'bob'];
+const checkUserName = (username: string, succeed: () => void, fail: () => void) => {
+  setTimeout(() => {
+    console.log('我现在知道用户名是否存在');
+    if (usernames.indexOf(username) >= 0) {
+      fail();
+    } else {
+      succeed();
+    }
+  }, 2000);
+};
 const FormExample:React.FunctionComponent = () => {
   const [formData, setFormData] = useState<FormValue>({
     username: '',
@@ -12,12 +26,17 @@ const FormExample:React.FunctionComponent = () => {
     { name: 'password', label: '密码', input: { type: 'password'} },
   ])
   const [errors, setErrors] = useState({})
+  const validator = (username: string) => {
+    return new Promise<string>((resolve, reject) => {
+      checkUserName(username, resolve, () => reject('unique'))
+    })
+  }
   const onSubmit = () => {
     const rules = [
-      {key: 'username', required: true},
-      {key: 'username', pattern: /[A-za-z0-9]/},
-      {key: 'password', required: true},
-      {key: 'password', minLength: 8, maxLength: 16},
+      {key: 'username', validator},
+      {key: 'username', validator},
+      {key: 'password', validator},
+      {key: 'password', validator}
     ]
     Validator(formData, rules, (errors) => {
       setErrors(errors)

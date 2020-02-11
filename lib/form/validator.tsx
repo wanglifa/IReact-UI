@@ -1,20 +1,13 @@
 import {FormValue} from "./form";
-interface Validator {
-  name: string,
-  validate: (username: string) => Promise<void>
-}
 interface FormRule {
   key: string;
   required?: boolean;
   minLength?: number;
   maxLength?: number;
   pattern?: RegExp;
-  validator?: Validator
+  validator?: (value: string) => Promise<string>
 }
-interface OneError {
-  message: string;
-  promise?: Promise<void>;
-}
+type OneError = string | Promise<string>
 type FormRules = Array<FormRule>
 
 function isEmpty(value: any) {
@@ -31,13 +24,23 @@ function flat(arr: Array<any>): Array<any> {
   }
   return result
 }
-function fromEntries(array: Array<[string, string[]]>): object {
-  const result: {[key: string]: string[]} = {}
-  for (let i = 0; i < array.length; i++) {
-    result[array[i][0]] = array[i][1]
-  }
+function zip(kvList: Array<[string, string]>) {
+  const result = {}
+  kvList.map(([key, value]) => {
+    if (!result[key]) {
+      result[key] = []
+    }
+    result[key].push(value)
+  })
   return result
 }
+// function fromEntries(array: Array<[string, string[]]>): object {
+//   const result: {[key: string]: string[]} = {}
+//   for (let i = 0; i < array.length; i++) {
+//     result[array[i][0]] = array[i][1]
+//   }
+//   return result
+// }
 const Validator = (formValue: FormValue, rules: FormRules, callback: (errors: FormValue) => void): void => {
   const errors: FormValue = {}
   const addError = (key: string, error: OneError) : void => {
@@ -50,37 +53,34 @@ const Validator = (formValue: FormValue, rules: FormRules, callback: (errors: Fo
     const value = formValue[rule.key]
     if (rule.validator) {
       // 自定义的校验器
-      const promise = rule.validator.validate(value)
-      addError(rule.key, {message: rule.validator!.name, promise})
+      const promise = rule.validator(value)
+      addError(rule.key, promise)
     }
     if (rule.required && !isEmpty(value)) {
-      addError(rule.key, {message: 'required'})
+      addError(rule.key, 'required')
     }
     if (rule.minLength && isEmpty(value) && value.length < rule.minLength) {
-      addError(rule.key, {message: 'minLength'})
+      addError(rule.key, 'minLength')
     }
     if (rule.maxLength && isEmpty(value) && value.length > rule.maxLength) {
-      addError(rule.key, {message: 'maxLength'})
+      addError(rule.key, 'maxLength')
     }
     if (rule.pattern && !(rule.pattern.test(value))) {
-      addError(rule.key, {message: 'pattern'})
+      addError(rule.key,  'pattern')
     }
   })
-  const promiseList = flat(Object.values(errors))
-    .filter(item => item.promise)
-    .map(item => item.promise)
-  Promise.all(promiseList).then(() => {
-    const newErrors = fromEntries(Object.keys(errors).map(key =>
-      [key, errors[key].map((item: OneError) => item.message)]
-    ))
-    callback(newErrors)
-  }).catch(() => {
-    const newErrors = fromEntries(Object.keys(errors).map(key =>
-      [key, errors[key].filter((item: OneError) => !item.promise)
-        .map((item1: any) => item1.message)
-      ]
-    ))
-    callback(newErrors)
+  const flattenErrors = flat(Object.keys(errors).map(key =>
+    errors[key].map((promiseOrString: OneError) => [key, promiseOrString])
+  ))
+  const newPromise = flattenErrors.map(([key, promiseOrString]) => (
+    promiseOrString instanceof Promise ? promiseOrString : Promise.reject(promiseOrString))
+    .then(() => {
+      return [key, undefined]
+    }, (reason: string) => {
+      return [key, reason]
+    }))
+  Promise.all(newPromise).then((results: Array<[string, string]>) => {
+    callback(zip(results.filter(item => item[1])))
   })
 }
 export default Validator;
