@@ -19,6 +19,7 @@ import Icon from "./lib/icon/icon";
 import Introduction from "./webComponent/introduction";
 import Start from "./webComponent/start";
 import Color from "./webComponent/color";
+import ScrollDemo from "./lib/scroll/demo/scroll.demo";
 const logo = require('./logo.png')
 
 ReactDOM.render(
@@ -58,6 +59,7 @@ ReactDOM.render(
             <li>
               <div>布局</div>
               <NavLink to="/layout">Layout 布局</NavLink>
+              <NavLink to="/scroll">Scroll 滚动条</NavLink>
             </li>
             <li>
               <div>导航</div>
@@ -98,6 +100,7 @@ ReactDOM.render(
           <Route path="/datepicker" component={DatePickerDemo}/>
           <Route path="/menu" component={MenuDemo}/>
           <Route path="/table" component={TableDemo}/>
+          <Route path="/scroll" component={ScrollDemo}/>
         </Content>
       </Layout>
       <Footer className="site-footer">
