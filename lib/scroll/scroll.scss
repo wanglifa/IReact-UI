@@ -1,0 +1,15 @@
+.ireact-scroll {
+  border: 1px solid red;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  &-inner {
+    border: 1px solid blue;
+    position: absolute;
+    overflow: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: -15px;
+  }
+}
