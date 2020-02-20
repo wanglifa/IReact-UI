@@ -3,6 +3,7 @@ import {HTMLAttributes, useEffect, useRef, useState} from "react";
 import './scroll.scss'
 import scrollbarWidth from "./scrollbar-width";
 import {UIEventHandler} from "react";
+import {MouseEventHandler} from "react";
 interface Prop extends HTMLAttributes<HTMLElement>{
 
 }
@@ -11,6 +12,10 @@ const Scroll: React.FunctionComponent<Prop> = (props) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const [barHeight, setBarHeight] = useState(0)
   const [barTop, setBarTop] = useState(0)
+  const isScrollingRef = useRef(false)
+  const startPositionRef = useRef(0) // 每次开始拖动时当前的位置
+  const startBarTopRef = useRef(0) // 每次开始拖动的时候滚动条距顶部的位置
+  const maxHeightRef = useRef(0)
   const onScroll: UIEventHandler = (e) => {
     const {current} = containerRef
     const scrollHeight = current!.scrollHeight
@@ -18,10 +23,42 @@ const Scroll: React.FunctionComponent<Prop> = (props) => {
     const scrollTop = current!.scrollTop
     setBarTop(scrollTop * viewHeight / scrollHeight)
   }
+  const onMouseDown: MouseEventHandler = (e) => {
+    e.stopPropagation()
+    isScrollingRef.current = true
+    startPositionRef.current = e.screenY
+    startBarTopRef.current = barTop
+  }
+  const onMouseMove = (e: MouseEvent) => {
+    if (isScrollingRef.current) {
+      const deltay = e.screenY - startPositionRef.current
+      const tranlateY = startBarTopRef.current + deltay
+      if (tranlateY < 0) {
+        return
+      } else if (tranlateY > maxHeightRef.current) {
+        return
+      }
+      setBarTop(startBarTopRef.current + deltay)
+    }
+  }
+  const onMouseUp = (e: MouseEvent) => {
+    isScrollingRef.current = false
+  }
+  useEffect(() => {
+    const {current} = containerRef
+    const viewHeight = current!.getBoundingClientRect().height
+    maxHeightRef.current = viewHeight - barHeight
+  }, [barHeight])
   useEffect(() => {
     const scrollHeight = containerRef.current!.scrollHeight
     const viewHeight = containerRef.current!.getBoundingClientRect().height
     setBarHeight(viewHeight * viewHeight / scrollHeight)
+    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mouseup', onMouseUp)
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('mouseup', onMouseUp)
+    }
   }, [])
   return (
     <div {...rest} className={"ireact-scroll"}>
@@ -31,7 +68,9 @@ const Scroll: React.FunctionComponent<Prop> = (props) => {
         {children}
       </div>
       <div className="ireact-scroll-track">
-        <div className="ireact-scroll-bar" style={{height: barHeight, transform: `translateY(${barTop}px)`}}></div>
+        <div className="ireact-scroll-bar" style={{height: barHeight, transform: `translateY(${barTop}px)`}}
+             onMouseDown={onMouseDown}
+        ></div>
       </div>
     </div>
   )
