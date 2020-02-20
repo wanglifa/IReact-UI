@@ -38,11 +38,17 @@ const Scroll: React.FunctionComponent<Prop> = (props) => {
       } else if (tranlateY > maxHeightRef.current) {
         return
       }
-      setBarTop(startBarTopRef.current + deltay)
+      setBarTop(tranlateY)
+      const scrollHeight = containerRef.current!.scrollHeight
+      const viewHeight = containerRef.current!.getBoundingClientRect().height
+      containerRef.current!.scrollTop = tranlateY * scrollHeight / viewHeight
     }
   }
   const onMouseUp = (e: MouseEvent) => {
     isScrollingRef.current = false
+  }
+  const onSelectStart = (e: Event) => {
+    if (isScrollingRef.current) { e.preventDefault() }
   }
   useEffect(() => {
     const {current} = containerRef
@@ -53,11 +59,13 @@ const Scroll: React.FunctionComponent<Prop> = (props) => {
     const scrollHeight = containerRef.current!.scrollHeight
     const viewHeight = containerRef.current!.getBoundingClientRect().height
     setBarHeight(viewHeight * viewHeight / scrollHeight)
-    window.addEventListener('mousemove', onMouseMove)
-    window.addEventListener('mouseup', onMouseUp)
+    document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('mouseup', onMouseUp)
+    document.addEventListener('selectstart', onSelectStart)
     return () => {
-      window.removeEventListener('mousemove', onMouseMove)
-      window.removeEventListener('mouseup', onMouseUp)
+      document.removeEventListener('mousemove', onMouseMove)
+      document.removeEventListener('mouseup', onMouseUp)
+      document.removeEventListener('selectstart', onSelectStart)
     }
   }, [])
   return (
