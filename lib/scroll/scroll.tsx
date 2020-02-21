@@ -4,20 +4,32 @@ import './scroll.scss'
 import scrollbarWidth from "./scrollbar-width";
 import {UIEventHandler} from "react";
 import {MouseEventHandler} from "react";
+import {TouchEventHandler} from "react";
+import Icon from "../icon/icon";
 interface Prop extends HTMLAttributes<HTMLElement>{
-
+  onPull?: () => void;
 }
 const Scroll: React.FunctionComponent<Prop> = (props) => {
   const {children, ...rest} = props
   const containerRef = useRef<HTMLDivElement>(null)
   const [barHeight, setBarHeight] = useState(0)
   const [barTop, setBarTop] = useState(0)
+  const [translateY, _setTranslateY] = useState(0)
+  const setTranslateY = (y:number) => {
+    // 最小拖动或者最大拖动的距离限制
+    if (y < 0) { y = 0}
+    else if (y > 150) {y = 150}
+    _setTranslateY(y)
+  }
   const [barVisible, setBarVisible] = useState(false)
   const isScrollingRef = useRef(false)
   const startPositionRef = useRef(0) // 每次开始拖动时当前的位置
   const startBarTopRef = useRef(0) // 每次开始拖动的时候滚动条距顶部的位置
   const maxHeightRef = useRef(0)
   const timerIdRef = useRef<number | null>(null)
+  const lastYRef = useRef(0)
+  const moveCount = useRef(0)
+  const pullingRef = useRef(false)
   const onScroll: UIEventHandler = (e) => {
     setBarVisible(true)
     const {current} = containerRef
@@ -56,6 +68,28 @@ const Scroll: React.FunctionComponent<Prop> = (props) => {
   const onMouseUp = (e: MouseEvent) => {
     isScrollingRef.current = false
   }
+  const onTouchStart: TouchEventHandler = (e) => {
+    const scrollTop = containerRef.current!.scrollTop
+    if (scrollTop !== 0) {return}
+    pullingRef.current = true
+    moveCount.current = 0
+    lastYRef.current = e.touches[0].clientY
+  }
+  const onTouchMove: TouchEventHandler = (e) => {
+    moveCount.current += 1
+    const deltaY = e.touches[0].clientY - lastYRef.current
+    if (moveCount.current === 1 && deltaY < 0) {
+      pullingRef.current = false
+      return;
+    }
+    if(!pullingRef.current) {return}
+    setTranslateY(translateY + deltaY)
+    lastYRef.current = e.touches[0].clientY // 每次移动过程都把上一次的位置作为开始位置
+  }
+  const onTouchEnd: TouchEventHandler = (e) => {
+    setTranslateY(0) // 鼠标松开回到0的位置
+    props.onPull && props.onPull()
+  }
   const onSelectStart = (e: Event) => {
     if (isScrollingRef.current) { e.preventDefault() }
   }
@@ -79,8 +113,13 @@ const Scroll: React.FunctionComponent<Prop> = (props) => {
   }, [])
   return (
     <div {...rest} className={"ireact-scroll"}>
-      <div className="ireact-scroll-inner" style={{right: -scrollbarWidth()}}
+      <div className="ireact-scroll-inner" style={{right: -scrollbarWidth(),
+        transform: `translateY(${translateY}px)`
+      }}
         ref={containerRef} onScroll={onScroll}
+           onTouchStart={onTouchStart}
+           onTouchMove={onTouchMove}
+           onTouchEnd={onTouchEnd}
       >
         {children}
       </div>
@@ -92,6 +131,12 @@ const Scroll: React.FunctionComponent<Prop> = (props) => {
           ></div>
         </div>
       }
+      <div className="ireact-scroll-pulling" style={{height: translateY}}>
+        {translateY === 150 ?
+          <span className={"ireact-scroll-pulling-text"}>释放手指即可更新</span> :
+          <Icon name={"pulling"}/>
+        }
+      </div>
     </div>
   )
 }

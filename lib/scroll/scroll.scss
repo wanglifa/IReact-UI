@@ -32,4 +32,18 @@
     width: 6px;
     border-radius: 3px;
   }
+  &-pulling {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .ireact-icon {
+      height: 1em;
+      width: 1em;
+      fill: #ccc;
+    }
+    &-text {
+      font-size: 12px;
+    }
+  }
 }
