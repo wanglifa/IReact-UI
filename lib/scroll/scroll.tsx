@@ -12,16 +12,25 @@ const Scroll: React.FunctionComponent<Prop> = (props) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const [barHeight, setBarHeight] = useState(0)
   const [barTop, setBarTop] = useState(0)
+  const [barVisible, setBarVisible] = useState(false)
   const isScrollingRef = useRef(false)
   const startPositionRef = useRef(0) // 每次开始拖动时当前的位置
   const startBarTopRef = useRef(0) // 每次开始拖动的时候滚动条距顶部的位置
   const maxHeightRef = useRef(0)
+  const timerIdRef = useRef<number | null>(null)
   const onScroll: UIEventHandler = (e) => {
+    setBarVisible(true)
     const {current} = containerRef
     const scrollHeight = current!.scrollHeight
     const viewHeight = current!.getBoundingClientRect().height
     const scrollTop = current!.scrollTop
     setBarTop(scrollTop * viewHeight / scrollHeight)
+    if (timerIdRef.current) {
+      window.clearTimeout(timerIdRef.current)
+    }
+    timerIdRef.current = window.setTimeout(() => {
+      setBarVisible(false)
+    }, 300)
   }
   const onMouseDown: MouseEventHandler = (e) => {
     e.stopPropagation()
@@ -75,11 +84,14 @@ const Scroll: React.FunctionComponent<Prop> = (props) => {
       >
         {children}
       </div>
-      <div className="ireact-scroll-track">
-        <div className="ireact-scroll-bar" style={{height: barHeight, transform: `translateY(${barTop}px)`}}
-             onMouseDown={onMouseDown}
-        ></div>
-      </div>
+      {
+        barVisible &&
+        <div className="ireact-scroll-track">
+          <div className="ireact-scroll-bar" style={{height: barHeight, transform: `translateY(${barTop}px)`}}
+               onMouseDown={onMouseDown}
+          ></div>
+        </div>
+      }
     </div>
   )
 }
