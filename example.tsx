@@ -20,6 +20,7 @@ import Introduction from "./webComponent/introduction";
 import Start from "./webComponent/start";
 import Color from "./webComponent/color";
 import ScrollDemo from "./lib/scroll/demo/scroll.demo";
+import CitySelectDemo from "./lib/citySelect/demo/citySelect.demo";
 const logo = require('./logo.png')
 
 ReactDOM.render(
@@ -77,6 +78,7 @@ ReactDOM.render(
               <NavLink to="/collapse">Collapse 折叠面板</NavLink>
               <NavLink to="/tree">Tree 树形组件</NavLink>
               <NavLink to="/table">Table 表格</NavLink>
+              <NavLink to="/citySelect">CitySelect 选择城市</NavLink>
             </li>
             <li>
               <div>信息反馈</div>
@@ -101,6 +103,7 @@ ReactDOM.render(
           <Route path="/menu" component={MenuDemo}/>
           <Route path="/table" component={TableDemo}/>
           <Route path="/scroll" component={ScrollDemo}/>
+          <Route path="/citySelect" component={CitySelectDemo}/>
         </Content>
       </Layout>
       <Footer className="site-footer">
