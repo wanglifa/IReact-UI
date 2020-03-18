@@ -9,20 +9,21 @@ interface Prop {
   sourceData: SourceData[]
 }
 const NewTree: React.FC<Prop> = (props) => {
-  const DeepTree = (arr: SourceData[]) => {
-    return arr.map((item => {
-      if (item.children) {
-        DeepTree(item.children)
-      } else {
-        return (
-          <div>{item.text}</div>
-        )
-      }
-    })
+  const DeepTree = (data: SourceData) => {
+    return (
+      <div key={data.value}>
+        <div>{data.text}</div>
+        {data.children?.map(item =>
+          DeepTree(item)
+        )}
+      </div>
+    )
   }
   return (
     <div>
-      {DeepTree(props.sourceData)}
+      {props.sourceData?.map(item =>
+        DeepTree(item)
+      )}
     </div>
   )
 }
