@@ -21,6 +21,8 @@ import Start from "./webComponent/start";
 import Color from "./webComponent/color";
 import ScrollDemo from "./lib/scroll/demo/scroll.demo";
 import CitySelectDemo from "./lib/citySelect/demo/citySelect.demo";
+import PaginationDemo from "./lib/pagination/demo/pagination.demo";
+import NewTreeExample from "./lib/newTree/newTree.example";
 const logo = require('./logo.png')
 
 ReactDOM.render(
@@ -65,6 +67,7 @@ ReactDOM.render(
             <li>
               <div>导航</div>
               <NavLink to="/menu">Menu 导航菜单</NavLink>
+              <NavLink to="/pagination">Pagination 分页</NavLink>
             </li>
             <li>
               <div>数据录入</div>
@@ -77,6 +80,7 @@ ReactDOM.render(
               <div>数据展示</div>
               <NavLink to="/collapse">Collapse 折叠面板</NavLink>
               <NavLink to="/tree">Tree 树形组件</NavLink>
+              <NavLink to="/newTree">新的Tree</NavLink>
               <NavLink to="/table">Table 表格</NavLink>
               <NavLink to="/citySelect">CitySelect 选择城市</NavLink>
             </li>
@@ -95,6 +99,7 @@ ReactDOM.render(
           <Route path="/input" component={InputDemo}/>
           <Route path="/dialog" component={DialogDemo}/>
           <Route path="/layout" component={LayoutDemo}/>
+          <Route path="/newTree" component={NewTreeExample}/>
           <Route path="/form" component={FormDemo}/>
           <Route path="/collapse" component={CollapseDemo}/>
           <Route path="/cascader" component={CascaderDemo}/>
@@ -104,6 +109,7 @@ ReactDOM.render(
           <Route path="/table" component={TableDemo}/>
           <Route path="/scroll" component={ScrollDemo}/>
           <Route path="/citySelect" component={CitySelectDemo}/>
+          <Route path="/pagination" component={PaginationDemo}/>
         </Content>
       </Layout>
       <Footer className="site-footer">
