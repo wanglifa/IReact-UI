@@ -27,11 +27,11 @@ const sourceData = [
 ]
 
 const NewTreeExample: React.FC = () => {
-  const [selectedValues, setSelectedValues] = useState(['1.1', '1.2'])
+  // const [selectedValues, setSelectedValues] = useState(['1.1', '1.2'])
+  const [selectedValue, setSelectValue] = useState('1.1')
   // const [selectValue, setSelectValue] = useState('1.1')
   return (
-    <NewTree sourceData={sourceData} onChange={(selected) => setSelectedValues(selected)} selected={selectedValues}
-      multiple={true}
+    <NewTree sourceData={sourceData} onChange={(value: string) => setSelectValue(value)} selected={selectedValue}
     />
   )
 }

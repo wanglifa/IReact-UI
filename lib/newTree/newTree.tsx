@@ -26,6 +26,9 @@ const NewTree: React.FC<Prop> = (props) => {
         } else {
           props.onChange(props.selected.filter(value => value !== data.value))
         }
+      } else {
+        console.log(props.selected, 'cccc')
+        props.onChange(data.value)
       }
     }
     return (
