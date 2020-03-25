@@ -1,5 +1,6 @@
 import * as React from "react";
 import NewTree from "./newTree";
+import {useState} from "react";
 const sourceData = [
   {
     text: '焦女士1',
@@ -24,9 +25,14 @@ const sourceData = [
     ]
   }
 ]
+
 const NewTreeExample: React.FC = () => {
+  const [selectedValues, setSelectedValues] = useState(['1.1', '1.2'])
+  // const [selectValue, setSelectValue] = useState('1.1')
   return (
-    <NewTree sourceData={sourceData}/>
+    <NewTree sourceData={sourceData} onChange={(selected) => setSelectedValues(selected)} selected={selectedValues}
+      multiple={true}
+    />
   )
 }
 export default NewTreeExample;

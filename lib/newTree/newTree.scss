@@ -1,0 +1,12 @@
+.ireact-new-tree {
+  &-label-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    .ireact-icon {
+      position: absolute;
+      width: .6em;
+      left: -.8em;
+    }
+  }
+}
