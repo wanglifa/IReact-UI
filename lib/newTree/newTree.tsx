@@ -2,7 +2,7 @@ import * as React from "react";
 import {scopedClassMaker} from '../helpers/classes';
 import './newTree.scss'
 import Icon from "../icon/icon";
-import {ChangeEventHandler} from "react";
+import {ChangeEventHandler, useState} from "react";
 export interface SourceDataItem {
   text: string;
   value: string;
@@ -31,18 +31,29 @@ const NewTree: React.FC<Prop> = (props) => {
         props.onChange(data.value)
       }
     }
+    const [expanded, setExpanded] = useState(false)
+    const expand = () => {
+      setExpanded(true)
+    }
+    const collapse = () => {
+      setExpanded(false)
+    }
     return (
       <div key={data.value} className={sc('')} style={{paddingLeft: level === 1 ? 0 : '1em'}}>
         <div className={sc('label-wrapper')}>
-          {data.children && data.children.length > 0 && <Icon name="rightArrow"/>}
+          {data.children && data.children.length > 0 && (expanded ?
+            <Icon name="smallBottom" onClick={collapse}/>
+            : <Icon name={"rightArrow"} onClick={expand}/>)}
           <input type="checkbox" checked={checked}
             onChange={onChange}
           />
           {data.text}
         </div>
-        {data.children?.map(item =>
-          renderItem(item, level+1)
-        )}
+        <div className={sc({children: true, collapsed: !expanded})}>
+          {data.children?.map(item =>
+            renderItem(item, level+1)
+          )}
+        </div>
       </div>
     )
   }

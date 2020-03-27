@@ -9,4 +9,8 @@
       left: -.8em;
     }
   }
+  &-collapsed {
+    height: 0;
+    overflow: hidden;
+  }
 }
