@@ -3,6 +3,7 @@ import {ChangeEventHandler} from "react";
 import {useState} from "react";
 import Icon from "../icon/icon";
 import {scopedClassMaker} from '../helpers/classes';
+import useUpdate from "../hooks/useUpdate";
 const sc = scopedClassMaker('ireact-new-tree')
 
 interface Props {
@@ -23,8 +24,11 @@ const TreeItem: React.FC<Props> = (props) => {
         treeProps.onChange(treeProps.selected.filter(value => value !== data.value))
       }
     } else {
-      console.log(treeProps.selected, 'cccc')
-      treeProps.onChange(data.value)
+      if (e.target.checked) {
+        treeProps.onChange(data.value)
+      } else {
+        treeProps.onChange('')
+      }
     }
   }
   const [expanded, setExpanded] = useState(false)
@@ -34,6 +38,10 @@ const TreeItem: React.FC<Props> = (props) => {
   const collapse = () => {
     setExpanded(false)
   }
+
+  useUpdate(expanded, () => {
+    console.log('expanded的值' + expanded)
+  })
   return (
     <div key={data.value} className={sc('')} style={{paddingLeft: level === 1 ? 0 : '1em'}}>
       <div className={sc('label-wrapper')}>
