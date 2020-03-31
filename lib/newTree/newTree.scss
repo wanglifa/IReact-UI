@@ -9,8 +9,11 @@
       left: -.8em;
     }
   }
-  &-collapsed {
-    height: 0;
+  &-children {
     overflow: hidden;
+    transition: height 1s;
+    &-gone {
+      height: 0;
+    }
   }
 }
