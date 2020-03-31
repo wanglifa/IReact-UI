@@ -9,7 +9,11 @@ const sourceData = [
       {
         text: '焦女士1.1', value: '1.1',
         children: [
-          { text: '焦女士1.1.1', value: '1.1.1' },
+          { text: '焦女士1.1.1', value: '1.1.1' , children: [
+              {text: '焦女士1.1.1.1', value: '1.1.1.1', children: [
+                  {text: '焦女士1.1.1.1.1', value: '1.1.1.1.1'}
+                ]}
+            ]},
           { text: '焦女士1.1.2', value: '1.1.2' }
         ]
       },

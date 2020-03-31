@@ -10,6 +10,7 @@ interface Props {
   data: SourceDataItem;
   level: number;
   treeProps: TreeProps;
+  onItemChange: (str: string[]) => void;
 }
 interface RecursiveArray<T> extends Array<T | RecursiveArray<T>>{
 
@@ -32,9 +33,9 @@ const TreeItem: React.FC<Props> = (props) => {
     console.log(childrenValues, 'aaa')
     if (treeProps.multiple) {
       if (e.target.checked) {
-        treeProps.onChange([...treeProps.selected, data.value, ...childrenValues])
+        props.onItemChange([...treeProps.selected, data.value, ...childrenValues])
       } else {
-        treeProps.onChange(treeProps.selected.filter(value => value !== data.value && childrenValues.indexOf(value) === -1))
+        props.onItemChange(treeProps.selected.filter(value => value !== data.value && childrenValues.indexOf(value) === -1))
       }
     } else {
       if (e.target.checked) {
@@ -44,6 +45,36 @@ const TreeItem: React.FC<Props> = (props) => {
       }
     }
   }
+  // 根据包含当前元素的子元素和不包含当前元素的子元素查找相同元素
+  function intersect<T>(array1: T[], array2: T[]): T[] {
+    const result: T[] = []
+    for (let i = 0; i < array1.length; i++) {
+      if (array2.indexOf(array1[i]) >= 0) {
+        result.push(array1[i])
+      }
+    }
+    return result
+  }
+  const onItemChange = (values: string[]) => {
+    const childrenValues = collectChildrenValues(data)
+    const common = intersect(values, childrenValues)
+    if (common.length !== 0) {
+      props.onItemChange(Array.from(new Set(values.concat(data.value))))
+      if (common.length === childrenValues.length) {
+        // 全选
+        inputRef.current!.indeterminate = false
+      } else {
+        // 半选
+        inputRef.current!.indeterminate = true
+      }
+    } else {
+      // 全不选
+      props.onItemChange(values.filter(v => v !== data.value))
+      inputRef.current!.indeterminate = false
+    }
+  }
+  const inputRef = useRef<HTMLInputElement>(null)
+  const divRef = useRef<HTMLDivElement>(null)
   const [expanded, setExpanded] = useState(true)
   const expand = () => {
     setExpanded(true)
@@ -51,7 +82,6 @@ const TreeItem: React.FC<Props> = (props) => {
   const collapse = () => {
     setExpanded(false)
   }
-  const divRef = useRef<HTMLDivElement>(null)
   useUpdate(expanded, () => {
     if (expanded) {
       if (!divRef.current) return;
@@ -89,13 +119,15 @@ const TreeItem: React.FC<Props> = (props) => {
           <Icon name="smallBottom" onClick={collapse}/>
           : <Icon name={"rightArrow"} onClick={expand}/>)}
         <input type="checkbox" checked={checked}
-               onChange={onChange}
+               onChange={onChange} ref={inputRef}
         />
         {data.text}
       </div>
       <div className={sc({children: true, collapsed: !expanded})} ref={divRef}>
         {data.children?.map(item =>
-          <TreeItem treeProps={treeProps} data={item} level={level+1} key={item.value}/>
+          <TreeItem treeProps={treeProps} data={item} level={level+1} key={item.value}
+            onItemChange={onItemChange}
+          />
         )}
       </div>
     </div>
