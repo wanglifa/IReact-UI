@@ -30,7 +30,6 @@ const TreeItem: React.FC<Props> = (props) => {
   }
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const childrenValues = collectChildrenValues(data)
-    console.log(childrenValues, 'aaa')
     if (treeProps.multiple) {
       if (e.target.checked) {
         props.onItemChange([...treeProps.selected, data.value, ...childrenValues])
@@ -57,6 +56,8 @@ const TreeItem: React.FC<Props> = (props) => {
   }
   const onItemChange = (values: string[]) => {
     const childrenValues = collectChildrenValues(data)
+    console.log(childrenValues, 'childre')
+    console.log(values, 'values')
     const common = intersect(values, childrenValues)
     if (common.length !== 0) {
       props.onItemChange(Array.from(new Set(values.concat(data.value))))
